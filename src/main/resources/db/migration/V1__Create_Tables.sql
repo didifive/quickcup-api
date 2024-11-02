@@ -65,3 +65,4 @@ CREATE TABLE FuncionamentoEspecial (
     dataFim DATE,
     horaInicio TIME,
     horaFim TIME
+);
