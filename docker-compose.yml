@@ -1,0 +1,12 @@
+version: '3'
+services:
+  postgres:
+    image: postgres:latest
+    env_file:
+      - .env
+    environment:
+      POSTGRES_DB: quickcup_db
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    ports:
+      - "5432:5432"

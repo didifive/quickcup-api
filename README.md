@@ -22,5 +22,5 @@ API Backend for QuickCup Coffee Shop
 - PostgreSQL
 - Flyway
 - Docker
-- Docker Compose
+- Docker Compose 3
 - IntelliJ IDEA
