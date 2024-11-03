@@ -6,6 +6,7 @@ import br.dev.zancanela.quickcup_api.entity.Pedido;
 import br.dev.zancanela.quickcup_api.exception.DataIntegrityViolationException;
 import br.dev.zancanela.quickcup_api.exception.EntityNotFoundException;
 import br.dev.zancanela.quickcup_api.repository.ClienteRepository;
+import br.dev.zancanela.quickcup_api.repository.PedidoRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,15 +17,15 @@ public class ClienteService {
 
     private final ClienteRepository repository;
     private final EnderecoService enderecoService;
-    private final PedidoService pedidoService;
+    private final PedidoRepository pedidoRepository;
 
     public ClienteService(
             ClienteRepository repository,
             EnderecoService enderecoService,
-            PedidoService pedidoService) {
+            PedidoRepository pedidoRepository) {
         this.repository = repository;
         this.enderecoService = enderecoService;
-        this.pedidoService = pedidoService;
+        this.pedidoRepository = pedidoRepository;
     }
 
     @Transactional
@@ -63,7 +64,7 @@ public class ClienteService {
     public void delete(Long id) {
         Cliente cliente = getById(id);
 
-        List<Pedido> pedidos = pedidoService.getAllByClienteId(id);
+        List<Pedido> pedidos = pedidoRepository.findAllByClienteId(id);
         if (!pedidos.isEmpty()) {
             throw new DataIntegrityViolationException("Cliente possui pedidos");
         }

@@ -20,6 +20,12 @@ public class Pedido extends BasicEntity {
     @Column(name = "status")
     private PedidoStatus status;
 
+    @Column(name = "valor_original")
+    private BigDecimal valorOriginal;
+
+    @Column(name = "valor_desconto")
+    private BigDecimal valorDesconto;
+
     @Column(name = "total")
     private BigDecimal total;
 
@@ -27,7 +33,7 @@ public class Pedido extends BasicEntity {
     private Instant dataHora;
 
     @OneToMany(mappedBy = "pedido"
-            , fetch=FetchType.LAZY
+            , fetch=FetchType.EAGER
             , cascade = { CascadeType.ALL }
             , orphanRemoval = true)
     private List<ItemPedido> itens;
@@ -47,6 +53,22 @@ public class Pedido extends BasicEntity {
 
     public void setStatus(PedidoStatus status) {
         this.status = status;
+    }
+
+    public BigDecimal getValorOriginal() {
+        return valorOriginal;
+    }
+
+    public void setValorOriginal(BigDecimal valorOriginal) {
+        this.valorOriginal = valorOriginal;
+    }
+
+    public BigDecimal getValorDesconto() {
+        return valorDesconto;
+    }
+
+    public void setValorDesconto(BigDecimal valorDesconto) {
+        this.valorDesconto = valorDesconto;
     }
 
     public BigDecimal getTotal() {

@@ -35,25 +35,72 @@ public class PedidoService {
     public Pedido create(Pedido novoPedido) {
         Cliente cliente = clienteService.getById(novoPedido.getCliente().getId());
 
-        BigDecimal total = new BigDecimal(0);
+        BigDecimal divergenciaAceitavel = BigDecimal.valueOf(0.01);
+        BigDecimal totalOriginal = new BigDecimal(0);
+        BigDecimal totalDesconto = new BigDecimal(0);
+        BigDecimal total = novoPedido.getTotal();
 
         for (ItemPedido item : novoPedido.getItens()) {
-            Produto produto = produtoService.getById(item.getProduto().getId());
-            if (produto.isDisabled()) {
-                throw new DataIntegrityViolationException("Produto ["+ produto.getNome() +"] desativado");
-            }
-            BigDecimal totalItem = item.getProduto().getPreco()
+            this.validaProdutoEValores(item);
+
+            BigDecimal totalOriginalItem = item.getValorUnitarioOriginal()
                     .multiply(new BigDecimal(item.getQuantidade()));
-            total = total.add(totalItem);
+
+            BigDecimal totalDescontoItem = item.getValorUnitarioDesconto()
+                    .multiply(new BigDecimal(item.getQuantidade()));
+
+            totalOriginal = totalOriginal.add(totalOriginalItem);
+            totalDesconto = totalDesconto.add(totalDescontoItem);
 
         }
 
-        novoPedido.setDataHora(Instant.now());
+        BigDecimal divergenciaTotal = totalOriginal.subtract(totalDesconto).abs().subtract(total);
+
+        if (divergenciaTotal.compareTo(divergenciaAceitavel) > 0) {
+            throw new DataIntegrityViolationException(
+                    "O valor total do pedido esta divergente com valor original e desconto" +
+                            " mesmo considerando divergencia aceitável de: "
+                            + divergenciaAceitavel);
+        }
+
         novoPedido.setCliente(cliente);
         novoPedido.setStatus(PedidoStatus.NOVO);
-        novoPedido.setTotal(total);
+        novoPedido.setValorOriginal(totalOriginal);
+        novoPedido.setValorDesconto(totalDesconto);
+        novoPedido.setDataHora(Instant.now());
 
         return repository.save(novoPedido);
+    }
+
+    private void validaProdutoEValores(ItemPedido item) {
+        Produto produto = produtoService.getById(item.getProduto().getId());
+
+        if (produto.isDisabled()) {
+            throw new DataIntegrityViolationException("Produto [" + produto.getNome() + "] desativado");
+        }
+
+        BigDecimal precoProduto = produto.getPreco();
+        BigDecimal valorUnitarioOriginal = item.getValorUnitarioOriginal();
+        BigDecimal valorUnitarioDesconto = item.getValorUnitarioDesconto();
+        BigDecimal valorUnitarioPedido = item.getValorUnitario();
+
+        if (!precoProduto.equals(valorUnitarioOriginal)) {
+            throw new DataIntegrityViolationException(
+                    "O valor unitário original do produto [" + produto.getNome() +
+                            "] está divergente entre pedido e cadastro do produto");
+        }
+
+        if (valorUnitarioDesconto.compareTo(valorUnitarioOriginal) > 0) {
+            throw new DataIntegrityViolationException(
+                    "O valor unitário desconto do produto [" + produto.getNome() +
+                            "] é maior que o valor unitário original");
+        }
+
+        if (!valorUnitarioOriginal.subtract(valorUnitarioDesconto).equals(valorUnitarioPedido)) {
+            throw new DataIntegrityViolationException(
+                    "O valor unitário do produto [" + produto.getNome() +
+                            "] está divergente com valor original menos o desconto");
+        }
     }
 
     public Pedido getById(Long id) {
@@ -66,7 +113,7 @@ public class PedidoService {
     }
 
     public List<Pedido> getAllByClienteId(Long clienteId) {
-        return repository.findAllByCliendId(clienteId);
+        return repository.findAllByClienteId(clienteId);
     }
 
     @Transactional

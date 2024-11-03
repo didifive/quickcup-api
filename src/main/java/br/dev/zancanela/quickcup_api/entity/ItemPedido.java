@@ -23,8 +23,14 @@ public class ItemPedido {
     @Column(name = "quantidade")
     private Integer quantidade;
 
-    @Column(name = "valor")
-    private BigDecimal valor;
+    @Column(name = "valor_unitario_original")
+    private BigDecimal valorUnitarioOriginal;
+
+    @Column(name = "valor_unitario_desconto")
+    private BigDecimal valorUnitarioDesconto;
+
+    @Column(name = "valor_unitario")
+    private BigDecimal valorUnitario;
 
     public ItemPedidoId getId() {
         return id;
@@ -58,11 +64,27 @@ public class ItemPedido {
         this.quantidade = quantidade;
     }
 
-    public BigDecimal getValor() {
-        return valor;
+    public BigDecimal getValorUnitarioOriginal() {
+        return valorUnitarioOriginal;
     }
 
-    public void setValor(BigDecimal valor) {
-        this.valor = valor;
+    public void setValorUnitarioOriginal(BigDecimal valorUnitarioOriginal) {
+        this.valorUnitarioOriginal = valorUnitarioOriginal;
+    }
+
+    public BigDecimal getValorUnitarioDesconto() {
+        return valorUnitarioDesconto;
+    }
+
+    public void setValorUnitarioDesconto(BigDecimal valorUnitarioDesconto) {
+        this.valorUnitarioDesconto = valorUnitarioDesconto;
+    }
+
+    public BigDecimal getValorUnitario() {
+        return valorUnitario;
+    }
+
+    public void setValorUnitario(BigDecimal valorUnitario) {
+        this.valorUnitario = valorUnitario;
     }
 }

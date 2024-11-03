@@ -13,7 +13,7 @@ public interface FuncionamentoEspecialRepository extends JpaRepository<Funcionam
     @Query("SELECT fe " +
             "FROM FuncionamentoEspecial fe " +
             "WHERE fe.dataInicio <= CURRENT_TIMESTAMP " +
-            "   AND fe.dataFim >= CURRENT_TIMESTAMP" +
+            "AND fe.dataFim >= CURRENT_TIMESTAMP " +
             "ORDER BY fe.dataInicio DESC LIMIT 1")
     Optional<FuncionamentoEspecial> findFuncionamentoEspecialAtivo();
 }
