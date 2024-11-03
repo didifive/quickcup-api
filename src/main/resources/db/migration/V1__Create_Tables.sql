@@ -22,6 +22,7 @@ CREATE TABLE Produto (
     id BIGINT PRIMARY KEY,
     codigo VARCHAR(255),
     nome VARCHAR(255),
+    preco DECIMAL(10, 2),
     grupo_id BIGINT,
     FOREIGN KEY (grupo_id) REFERENCES Grupo(id)
 );
@@ -47,8 +48,8 @@ CREATE TABLE Promocao (
     id BIGINT PRIMARY KEY,
     produto_id BIGINT,
     desconto DECIMAL,
-    inicio TIMESTAMP,
-    fim TIMESTAMP,
+    inicio DATE TIME,
+    fim DATE TIME,
     FOREIGN KEY (produto_id) REFERENCES Produto(id)
 );
 
