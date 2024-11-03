@@ -1,6 +1,7 @@
 package br.dev.zancanela.quickcup_api.entity;
 
 import br.dev.zancanela.quickcup_api.entity.abstracts.BasicEntity;
+import br.dev.zancanela.quickcup_api.entity.enums.DiaSemana;
 import jakarta.persistence.*;
 
 import java.sql.Time;
@@ -9,8 +10,9 @@ import java.sql.Time;
 @Table(name = "Funcionamento")
 public class Funcionamento extends BasicEntity {
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "diaSemana")
-    private String diaSemana;
+    private DiaSemana diaSemana;
 
     @Column(name = "horaInicio")
     private Time horaInicio;
@@ -18,11 +20,11 @@ public class Funcionamento extends BasicEntity {
     @Column(name = "horaFim")
     private Time horaFim;
 
-    public String getDiaSemana() {
+    public DiaSemana getDiaSemana() {
         return diaSemana;
     }
 
-    public void setDiaSemana(String diaSemana) {
+    public void setDiaSemana(DiaSemana diaSemana) {
         this.diaSemana = diaSemana;
     }
 

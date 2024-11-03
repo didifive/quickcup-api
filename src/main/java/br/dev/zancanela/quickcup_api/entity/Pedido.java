@@ -1,6 +1,7 @@
 package br.dev.zancanela.quickcup_api.entity;
 
 import br.dev.zancanela.quickcup_api.entity.abstracts.BasicEntity;
+import br.dev.zancanela.quickcup_api.entity.enums.PedidoStatus;
 import jakarta.persistence.*;
 
 @Entity
@@ -11,8 +12,9 @@ public class Pedido extends BasicEntity {
     @JoinColumn(name = "cliente_id")
     private Cliente cliente;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "status")
-    private String status;
+    private PedidoStatus status;
 
 
     public Cliente getCliente() {
@@ -23,11 +25,11 @@ public class Pedido extends BasicEntity {
         this.cliente = cliente;
     }
 
-    public String getStatus() {
+    public PedidoStatus getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(PedidoStatus status) {
         this.status = status;
     }
 }

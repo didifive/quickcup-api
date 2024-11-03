@@ -1,28 +1,37 @@
 CREATE TABLE Cliente (
     id BIGINT PRIMARY KEY,
-    nome VARCHAR(255),
+    nome VARCHAR(255) NOT NULL,
     email VARCHAR(255),
-    telefone VARCHAR(255),
-    cep VARCHAR(255),
-    logradouro VARCHAR(255),
-    numero INTEGER,
+    telefone VARCHAR(255) NOT NULL,
+    UNIQUE (telefone)
+);
+
+CREATE TABLE Endereco (
+    id BIGINT PRIMARY KEY,
+    cliente_id BIGINT,
+    nome VARCHAR(255),
+    cep VARCHAR(255) NOT NULL,
+    logradouro VARCHAR(255) NOT NULL,
+    numero INTEGER NOT NULL,
     complemento VARCHAR(255),
     bairro VARCHAR(255),
-    cidade VARCHAR(255),
-    estado VARCHAR(255),
-    UNIQUE (telefone)
+    cidade VARCHAR(255) NOT NULL,
+    estado VARCHAR(255) NOT NULL,
+    longitude DECIMAL(10, 8) NOT NULL,
+    latitude DECIMAL(10, 8) NOT NULL,
+    FOREIGN KEY (cliente_id) REFERENCES Cliente(id)
 );
 
 CREATE TABLE Grupo (
     id BIGINT PRIMARY KEY,
-    nome VARCHAR(255)
+    nome VARCHAR(255) NOT NULL
 );
 
 CREATE TABLE Produto (
     id BIGINT PRIMARY KEY,
     codigo VARCHAR(255),
-    nome VARCHAR(255),
-    preco DECIMAL(10, 2),
+    nome VARCHAR(255) NOT NULL,
+    preco DECIMAL(10, 2) NOT NULL,
     grupo_id BIGINT,
     FOREIGN KEY (grupo_id) REFERENCES Grupo(id)
 );
@@ -30,7 +39,7 @@ CREATE TABLE Produto (
 CREATE TABLE Pedido (
     id BIGINT PRIMARY KEY,
     cliente_id BIGINT,
-    status VARCHAR(255),
+    status VARCHAR(255) NOT NULL,
     FOREIGN KEY (cliente_id) REFERENCES Cliente(id)
 );
 
@@ -55,7 +64,7 @@ CREATE TABLE Promocao (
 
 CREATE TABLE Funcionamento (
     id BIGINT PRIMARY KEY,
-    diaSemana VARCHAR(255),
+    diaSemana ENUM('DOMINGO', 'SEGUNDA', 'TERCA', 'QUARTA', 'QUINTA', 'SEXTA', 'SABADO'),
     horaInicio TIME,
     horaFim TIME
 );
