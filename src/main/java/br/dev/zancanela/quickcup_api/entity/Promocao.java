@@ -4,7 +4,7 @@ import br.dev.zancanela.quickcup_api.entity.abstracts.BasicEntity;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import java.time.Instant;
 
 @Entity
 @Table(name = "Promocao")
@@ -18,10 +18,10 @@ public class Promocao extends BasicEntity {
     private BigDecimal desconto;
 
     @Column(name = "inicio")
-    private LocalDateTime inicio;
+    private Instant inicio;
 
     @Column(name = "fim")
-    private LocalDateTime fim;
+    private Instant fim;
 
     public Produto getProduto() {
         return produto;
@@ -39,19 +39,19 @@ public class Promocao extends BasicEntity {
         this.desconto = desconto;
     }
 
-    public LocalDateTime getInicio() {
+    public Instant getInicio() {
         return inicio;
     }
 
-    public void setInicio(LocalDateTime inicio) {
+    public void setInicio(Instant inicio) {
         this.inicio = inicio;
     }
 
-    public LocalDateTime getFim() {
+    public Instant getFim() {
         return fim;
     }
 
-    public void setFim(LocalDateTime fim) {
+    public void setFim(Instant fim) {
         this.fim = fim;
     }
 }

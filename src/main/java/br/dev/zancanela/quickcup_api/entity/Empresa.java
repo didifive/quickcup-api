@@ -1,16 +1,24 @@
 package br.dev.zancanela.quickcup_api.entity;
 
-import br.dev.zancanela.quickcup_api.entity.abstracts.BasicEntity;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
 
 @Entity
-@Table(name = "Endereco")
-public class Endereco extends BasicEntity {
+@Table(name = "Empresa")
+public class Empresa {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Short id;
 
-    @Column
+    @Column(name = "nome")
     private String nome;
+
+    @Column(name = "email")
+    private String email;
+
+    @Column(name = "telefone")
+    private String telefone;
 
     @Column(name = "cep")
     private String cep;
@@ -39,10 +47,13 @@ public class Endereco extends BasicEntity {
     @Column(name = "latitude")
     private BigDecimal latitude;
 
-    @ManyToOne
-    @JoinColumn(name = "cliente_id")
-    private Cliente cliente;
+    public Short getId() {
+        return id;
+    }
 
+    public void setId(Short id) {
+        this.id = id;
+    }
 
     public String getNome() {
         return nome;
@@ -50,6 +61,22 @@ public class Endereco extends BasicEntity {
 
     public void setNome(String nome) {
         this.nome = nome;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getTelefone() {
+        return telefone;
+    }
+
+    public void setTelefone(String telefone) {
+        this.telefone = telefone;
     }
 
     public String getCep() {
@@ -122,13 +149,5 @@ public class Endereco extends BasicEntity {
 
     public void setLatitude(BigDecimal latitude) {
         this.latitude = latitude;
-    }
-
-    public Cliente getCliente() {
-        return cliente;
-    }
-
-    public void setCliente(Cliente cliente) {
-        this.cliente = cliente;
     }
 }

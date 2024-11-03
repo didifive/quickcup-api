@@ -11,13 +11,13 @@ import java.sql.Time;
 public class Funcionamento extends BasicEntity {
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "diaSemana")
+    @Column(name = "dia_semana")
     private DiaSemana diaSemana;
 
-    @Column(name = "horaInicio")
+    @Column(name = "hora_inicio")
     private Time horaInicio;
 
-    @Column(name = "horaFim")
+    @Column(name = "hora_fim")
     private Time horaFim;
 
     public DiaSemana getDiaSemana() {

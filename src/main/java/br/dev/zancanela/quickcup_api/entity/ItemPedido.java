@@ -6,7 +6,7 @@ import jakarta.persistence.*;
 import java.math.BigDecimal;
 
 @Entity
-@Table(name = "ItemPedido")
+@Table(name = "Item_Pedido")
 public class ItemPedido {
 
     @EmbeddedId

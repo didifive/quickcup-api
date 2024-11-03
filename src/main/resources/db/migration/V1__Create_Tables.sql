@@ -1,3 +1,19 @@
+CREATE TABLE Empresa (
+    id SMALLINT PRIMARY KEY,
+    nome VARCHAR(255) NOT NULL,
+    email VARCHAR(255),
+    telefone VARCHAR(255) NOT NULL,
+    cep VARCHAR(255) NOT NULL,
+    logradouro VARCHAR(255) NOT NULL,
+    numero INTEGER NOT NULL,
+    complemento VARCHAR(255),
+    bairro VARCHAR(255),
+    cidade VARCHAR(255) NOT NULL,
+    estado VARCHAR(255) NOT NULL,
+    longitude DECIMAL(10, 8) NOT NULL,
+    latitude DECIMAL(10, 8) NOT NULL
+);
+
 CREATE TABLE Cliente (
     id BIGINT PRIMARY KEY,
     nome VARCHAR(255) NOT NULL,
@@ -24,7 +40,9 @@ CREATE TABLE Endereco (
 
 CREATE TABLE Grupo (
     id BIGINT PRIMARY KEY,
-    nome VARCHAR(255) NOT NULL
+    nome VARCHAR(255) NOT NULL,
+    descricao VARCHAR(255),
+    UNIQUE (nome)
 );
 
 CREATE TABLE Produto (
@@ -39,11 +57,12 @@ CREATE TABLE Produto (
 CREATE TABLE Pedido (
     id BIGINT PRIMARY KEY,
     cliente_id BIGINT,
-    status VARCHAR(255) NOT NULL,
+    status VARCHAR(10) CHECK (status IN ('NOVO', 'CONFIRMADO', 'CANCELADO', 'EM_PREPARO', 'EM_ENTREGA', 'FINALIZADO')),
+    total DECIMAL(10, 2),
     FOREIGN KEY (cliente_id) REFERENCES Cliente(id)
 );
 
-CREATE TABLE ItemPedido (
+CREATE TABLE Item_Pedido (
     pedido_id BIGINT,
     produto_id BIGINT,
     quantidade INTEGER,
@@ -57,22 +76,22 @@ CREATE TABLE Promocao (
     id BIGINT PRIMARY KEY,
     produto_id BIGINT,
     desconto DECIMAL,
-    inicio DATE TIME,
-    fim DATE TIME,
+    inicio TIMESTAMP,
+    fim TIMESTAMP,
     FOREIGN KEY (produto_id) REFERENCES Produto(id)
 );
 
 CREATE TABLE Funcionamento (
     id BIGINT PRIMARY KEY,
-    diaSemana ENUM('DOMINGO', 'SEGUNDA', 'TERCA', 'QUARTA', 'QUINTA', 'SEXTA', 'SABADO'),
-    horaInicio TIME,
-    horaFim TIME
+    dia_semana VARCHAR(7) CHECK (dia_semana IN ('DOMINGO', 'SEGUNDA', 'TERCA', 'QUARTA', 'QUINTA', 'SEXTA', 'SABADO')),
+    hora_inicio TIME,
+    hora_fim TIME,
+    UNIQUE (dia_semana)
 );
 
-CREATE TABLE FuncionamentoEspecial (
+CREATE TABLE Funcionamento_Especial (
     id BIGINT PRIMARY KEY,
-    dataInicio DATE,
-    dataFim DATE,
-    horaInicio TIME,
-    horaFim TIME
+    nome VARCHAR(255),
+    data_inicio TIMESTAMP,
+    data_fim TIMESTAMP
 );

@@ -3,54 +3,34 @@ package br.dev.zancanela.quickcup_api.entity;
 import br.dev.zancanela.quickcup_api.entity.abstracts.BasicEntity;
 import jakarta.persistence.*;
 
-import java.time.LocalDate;
-import java.time.LocalTime;
+import java.time.Instant;
 
 @Entity
-@Table(name = "FuncionamentoEspecial")
+@Table(name = "Funcionamento_Especial")
 public class FuncionamentoEspecial extends BasicEntity {
 
-    @Column(name = "dataInicio")
-    private LocalDate dataInicio;
+    @Column(name="nome")
+    private String nome;
 
-    @Column(name = "dataFim")
-    private LocalDate dataFim;
+    @Column(name = "data_inicio")
+    private Instant dataInicio;
 
-    @Column(name = "horaInicio")
-    private LocalTime horaInicio;
+    @Column(name = "data_fim")
+    private Instant dataFim;
 
-    @Column(name = "horaFim")
-    private LocalTime horaFim;
-
-    public LocalDate getDataInicio() {
+    public Instant getDataInicio() {
         return dataInicio;
     }
 
-    public void setDataInicio(LocalDate dataInicio) {
+    public void setDataInicio(Instant dataInicio) {
         this.dataInicio = dataInicio;
     }
 
-    public LocalDate getDataFim() {
+    public Instant getDataFim() {
         return dataFim;
     }
 
-    public void setDataFim(LocalDate dataFim) {
+    public void setDataFim(Instant dataFim) {
         this.dataFim = dataFim;
-    }
-
-    public LocalTime getHoraInicio() {
-        return horaInicio;
-    }
-
-    public void setHoraInicio(LocalTime horaInicio) {
-        this.horaInicio = horaInicio;
-    }
-
-    public LocalTime getHoraFim() {
-        return horaFim;
-    }
-
-    public void setHoraFim(LocalTime horaFim) {
-        this.horaFim = horaFim;
     }
 }
