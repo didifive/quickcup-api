@@ -15,8 +15,17 @@ public class Produto extends BasicEntity {
     @Column(name = "nome")
     private String nome;
 
+    @Column(name = "descricao")
+    private String descricao;
+
+    @Column(name = "imagem")
+    private String imagem;
+
     @Column(name = "preco")
     private BigDecimal preco;
+
+    @Column(name = "enabled")
+    private Boolean enabled;
 
     @ManyToOne
     @JoinColumn(name = "grupo_id")
@@ -38,12 +47,36 @@ public class Produto extends BasicEntity {
         this.nome = nome;
     }
 
+    public String getDescricao() {
+        return descricao;
+    }
+
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
+    }
+
+    public String getImagem() {
+        return imagem;
+    }
+
+    public void setImagem(String imagem) {
+        this.imagem = imagem;
+    }
+
     public BigDecimal getPreco() {
         return preco;
     }
 
     public void setPreco(BigDecimal preco) {
         this.preco = preco;
+    }
+
+    public Boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(Boolean enabled) {
+        this.enabled = enabled;
     }
 
     public Grupo getGrupo() {

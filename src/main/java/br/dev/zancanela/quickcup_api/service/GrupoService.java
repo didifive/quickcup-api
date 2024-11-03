@@ -5,6 +5,9 @@ import br.dev.zancanela.quickcup_api.exception.DataIntegrityViolationException;
 import br.dev.zancanela.quickcup_api.exception.EntityNotFoundException;
 import br.dev.zancanela.quickcup_api.repository.GrupoRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
 public class GrupoService {
@@ -15,10 +18,11 @@ public class GrupoService {
         this.repository = repository;
     }
 
-    public Grupo create(Grupo grupo) {
-        validarNomeGrupo(null, grupo.getNome());
+    @Transactional
+    public Grupo create(Grupo novoGrupo) {
+        validarNomeGrupo(null, novoGrupo.getNome());
 
-        return repository.save(grupo);
+        return repository.save(novoGrupo);
     }
 
     public Grupo getById(Long id) {
@@ -26,6 +30,7 @@ public class GrupoService {
                 .orElseThrow(() -> new EntityNotFoundException("Grupo não encontrado"));
     }
 
+    @Transactional
     public Grupo update(Long id, Grupo novoGrupo) {
         Grupo existente = this.getById(id);
 
@@ -36,6 +41,8 @@ public class GrupoService {
 
         return repository.save(existente);
     }
+
+    public List<Grupo> getAll() { return repository.findAll(); }
 
     private void validarNomeGrupo(String existente, String novoNome) {
         if (novoNome.equals(existente)) {

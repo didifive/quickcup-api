@@ -49,7 +49,10 @@ CREATE TABLE Produto (
     id BIGINT PRIMARY KEY,
     codigo VARCHAR(255),
     nome VARCHAR(255) NOT NULL,
+    descricao VARCHAR(255),
+    imagem VARCHAR(255),
     preco DECIMAL(10, 2) NOT NULL,
+    enabled BOOLEAN NOT NULL DEFAULT TRUE,
     grupo_id BIGINT,
     FOREIGN KEY (grupo_id) REFERENCES Grupo(id)
 );
