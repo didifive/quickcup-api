@@ -1,7 +1,9 @@
 package br.dev.zancanela.quickcup_api.service;
 
 import br.dev.zancanela.quickcup_api.entity.Grupo;
+import br.dev.zancanela.quickcup_api.entity.ItemPedido;
 import br.dev.zancanela.quickcup_api.entity.Produto;
+import br.dev.zancanela.quickcup_api.exception.DataIntegrityViolationException;
 import br.dev.zancanela.quickcup_api.exception.EntityNotFoundException;
 import br.dev.zancanela.quickcup_api.repository.ProdutoRepository;
 import org.springframework.stereotype.Service;
@@ -15,12 +17,15 @@ public class ProdutoService {
     private final ProdutoRepository repository;
 
     private final GrupoService grupoService;
+    private final ItemPedidoService itemPedidoService;
 
     public ProdutoService(
             ProdutoRepository repository,
-            GrupoService grupoService) {
+            GrupoService grupoService,
+            ItemPedidoService itemPedidoService) {
         this.repository = repository;
         this.grupoService = grupoService;
+        this.itemPedidoService = itemPedidoService;
     }
 
     @Transactional
@@ -60,8 +65,31 @@ public class ProdutoService {
     }
 
     @Transactional
+    public Produto enableProduto(Long id) {
+        Produto produto = this.getById(id);
+
+        produto.setEnabled(true);
+
+        return repository.save(produto);
+    }
+
+    @Transactional
+    public Produto disableProduto(Long id) {
+        Produto produto = this.getById(id);
+
+        produto.setEnabled(false);
+
+        return repository.save(produto);
+    }
+
+    @Transactional
     public void delete(Long id) {
         Produto existente = this.getById(id);
+
+        List<ItemPedido> itensPedidos = itemPedidoService.getAllByProdutoId(id);
+        if (!itensPedidos.isEmpty()) {
+            throw new DataIntegrityViolationException("Este produto possui pedidos e não pode ser apagado");
+        }
 
         repository.delete(existente);
     }

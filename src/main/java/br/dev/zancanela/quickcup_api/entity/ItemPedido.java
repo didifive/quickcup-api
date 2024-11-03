@@ -13,11 +13,11 @@ public class ItemPedido {
     private ItemPedidoId id;
 
     @ManyToOne
-    @JoinColumn(name = "pedido_id", insertable = false, updatable = false)
+    @MapsId("pedidoId")
     private Pedido pedido;
 
     @ManyToOne
-    @JoinColumn(name = "produto_id", insertable = false, updatable = false)
+    @MapsId("produtoId")
     private Produto produto;
 
     @Column(name = "quantidade")

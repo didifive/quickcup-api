@@ -5,6 +5,8 @@ import br.dev.zancanela.quickcup_api.entity.enums.PedidoStatus;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
+import java.time.Instant;
+import java.util.List;
 
 @Entity
 @Table(name = "Pedido")
@@ -20,6 +22,15 @@ public class Pedido extends BasicEntity {
 
     @Column(name = "total")
     private BigDecimal total;
+
+    @Column(name="data_hora")
+    private Instant dataHora;
+
+    @OneToMany(mappedBy = "pedido"
+            , fetch=FetchType.LAZY
+            , cascade = { CascadeType.ALL }
+            , orphanRemoval = true)
+    private List<ItemPedido> itens;
 
 
     public Cliente getCliente() {
@@ -44,5 +55,21 @@ public class Pedido extends BasicEntity {
 
     public void setTotal(BigDecimal total) {
         this.total = total;
+    }
+
+    public List<ItemPedido> getItens() {
+        return itens;
+    }
+
+    public void setItens(List<ItemPedido> itens) {
+        this.itens = itens;
+    }
+
+    public Instant getDataHora() {
+        return dataHora;
+    }
+
+    public void setDataHora(Instant dataHora) {
+        this.dataHora = dataHora;
     }
 }

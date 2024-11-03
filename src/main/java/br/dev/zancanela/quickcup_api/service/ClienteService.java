@@ -2,6 +2,8 @@ package br.dev.zancanela.quickcup_api.service;
 
 import br.dev.zancanela.quickcup_api.entity.Cliente;
 import br.dev.zancanela.quickcup_api.entity.Endereco;
+import br.dev.zancanela.quickcup_api.entity.Pedido;
+import br.dev.zancanela.quickcup_api.exception.DataIntegrityViolationException;
 import br.dev.zancanela.quickcup_api.exception.EntityNotFoundException;
 import br.dev.zancanela.quickcup_api.repository.ClienteRepository;
 import org.springframework.stereotype.Service;
@@ -14,12 +16,15 @@ public class ClienteService {
 
     private final ClienteRepository repository;
     private final EnderecoService enderecoService;
+    private final PedidoService pedidoService;
 
     public ClienteService(
             ClienteRepository repository,
-            EnderecoService enderecoService) {
+            EnderecoService enderecoService,
+            PedidoService pedidoService) {
         this.repository = repository;
         this.enderecoService = enderecoService;
+        this.pedidoService = pedidoService;
     }
 
     @Transactional
@@ -57,6 +62,11 @@ public class ClienteService {
     @Transactional
     public void delete(Long id) {
         Cliente cliente = getById(id);
+
+        List<Pedido> pedidos = pedidoService.getAllByClienteId(id);
+        if (!pedidos.isEmpty()) {
+            throw new DataIntegrityViolationException("Cliente possui pedidos");
+        }
 
         List<Endereco> enderecos = enderecoService.findByClienteId(id);
 

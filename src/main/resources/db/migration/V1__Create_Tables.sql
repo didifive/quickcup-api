@@ -62,6 +62,7 @@ CREATE TABLE Pedido (
     cliente_id BIGINT,
     status VARCHAR(10) CHECK (status IN ('NOVO', 'CONFIRMADO', 'CANCELADO', 'EM_PREPARO', 'EM_ENTREGA', 'FINALIZADO')),
     total DECIMAL(10, 2),
+    data_hora TIMESTAMP,
     FOREIGN KEY (cliente_id) REFERENCES Cliente(id)
 );
 
@@ -97,5 +98,5 @@ CREATE TABLE Funcionamento_Especial (
     nome VARCHAR(255),
     data_inicio TIMESTAMP,
     data_fim TIMESTAMP,
-    tipo VARCHAR(7) CHECK (tipo IN ('ABERTO', 'FECHADO')),
+    tipo VARCHAR(7) CHECK (tipo IN ('ABERTO', 'FECHADO'))
 );

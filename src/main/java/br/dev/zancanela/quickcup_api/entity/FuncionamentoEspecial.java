@@ -19,6 +19,7 @@ public class FuncionamentoEspecial extends BasicEntity {
     @Column(name = "data_fim")
     private Instant dataFim;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "tipo")
     private FunctiomentoEspecialTipo tipo;
 

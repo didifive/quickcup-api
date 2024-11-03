@@ -25,7 +25,7 @@ public class Produto extends BasicEntity {
     private BigDecimal preco;
 
     @Column(name = "enabled")
-    private Boolean enabled;
+    private boolean enabled;
 
     @ManyToOne
     @JoinColumn(name = "grupo_id")
@@ -71,8 +71,12 @@ public class Produto extends BasicEntity {
         this.preco = preco;
     }
 
-    public Boolean isEnabled() {
+    public boolean isEnabled() {
         return enabled;
+    }
+
+    public boolean isDisabled() {
+        return !isEnabled();
     }
 
     public void setEnabled(Boolean enabled) {
