@@ -96,5 +96,6 @@ CREATE TABLE Funcionamento_Especial (
     id BIGINT PRIMARY KEY,
     nome VARCHAR(255),
     data_inicio TIMESTAMP,
-    data_fim TIMESTAMP
+    data_fim TIMESTAMP,
+    tipo VARCHAR(7) CHECK (tipo IN ('ABERTO', 'FECHADO')),
 );
