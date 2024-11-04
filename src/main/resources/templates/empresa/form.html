@@ -11,41 +11,61 @@
         <div class="container">
             <div class="row">
                 <div class="col">
-                    <h1>Cadastro Empresa</h1>
-                    <h2 th:text="'# ' + ${empresa.nome}"></h2>
-                    <p>E-mail: <span th:text="${empresa.email}"></span></p>
-                    <p>Telefone: <span th:text="${empresa.telefone}"></span></p>
-                    <p class="me">Endereço:</p>
-                    <div class="row" style="border-style: solid;">
-                        <div class="col text-center">
-                            <p>CEP: <span th:text="${empresa.cep}"></span></p>
-                            <div class="row">
-                                <div class="col d-flex flex-row justify-content-around">
-                                    <p>Logradouro: <span th:text="${empresa.logradouro}"></span></p>
-                                    <p>Número: <span th:text="${empresa.numero}"></span></p>
-                                    <p>Complemento: <span th:text="${empresa.complemento == null ? 'N/A' : empresa.complemento}"></span></p>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col d-flex flex-row justify-content-around">
-                                    <p>Bairro: <span th:text="${empresa.bairro == null ? 'N/A' : empresa.bairro}"></p>
-                                    <p>Cidade: <span th:text="${empresa.cidade}"></span></p>
-                                    <p>Estado: <span th:text="${empresa.estado}"></span></p>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col d-flex flex-row justify-content-around">
-                                    <p>Longitude: <span th:text="${empresa.longitude}"></span></p>
-                                    <p>Latitude: <span th:text="${empresa.latitude}"></span></p>
-                                </div>
-                            </div>
+                    <form method="post"
+                          th:object="${empresaRequest}"
+                          th:action="@{/empresa/cadastro}"
+                          enctype="multipart/form-data">
+                        <input class="form-control" type="hidden" th:field="*{id}">
+                        <div class="form-group mb-3">
+                            <label class="form-label fw-semibold" for="nome">Nome*:</label>
+                            <input id="nome" class="form-control" type="text" th:field="*{nome}" required>
                         </div>
-                    </div>
-                    <button class="btn btn-primary my-3"
-                            th:href="@{/empresa/cadastro(id=${empresa.id})}"
-                            type="button">
-                        Alterar
-                    </button>
+                        <div class="form-group mb-3">
+                            <label class="form-label fw-semibold" for="email">E-mail*:</label>
+                            <input id="email" class="form-control" type="email" th:field="*{email}" required>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label class="form-label fw-semibold" for="telefone">Telefone*:</label>
+                            <input id="telefone" class="form-control" type="text" th:field="*{telefone}" required>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label class="form-label fw-semibold" for="cep">CEP*:</label>
+                            <input id="cep" class="form-control" type="text" th:field="*{cep}" required>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label class="form-label fw-semibold" for="logradouro">Logradouro*:</label>
+                            <input id="logradouro" class="form-control" type="text" th:field="*{logradouro}" required>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label class="form-label fw-semibold" for="numero">Número*:</label>
+                            <input id="numero" class="form-control" type="number" th:field="*{numero}" required>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label class="form-label" for="complemento">Complemento:</label>
+                            <input id="complemento" class="form-control" type="text" th:field="*{complemento}">
+                        </div>
+                        <div class="form-group mb-3">
+                            <label class="form-label" for="bairro">Bairro:</label>
+                            <input id="bairro" class="form-control" type="text" th:field="*{bairro}">
+                        </div>
+                        <div class="form-group mb-3">
+                            <label class="form-label fw-semibold" for="cidade">Cidade*:</label>
+                            <input id="cidade" class="form-control" type="text" th:field="*{cidade}" required>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label class="form-label fw-semibold" for="estado">Estado*:</label>
+                            <input id="estado" class="form-control" type="text" th:field="*{estado}" required>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label class="form-label fw-semibold" for="longitude">Longitude*:</label>
+                            <input id="longitude" class="form-control" type="text" th:field="*{longitude}" required>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label class="form-label fw-semibold" for="latitude">Latitude*:</label>
+                            <input id="latitude" class="form-control" type="text" th:field="*{latitude}" required>
+                        </div>
+                        <input class="btn btn-primary my-3" type="submit">
+                    </form>
                 </div>
             </div>
         </div>
