@@ -58,9 +58,6 @@ public class EmpresaController {
         if(bindingResult.hasErrors()) {
             mv.setViewName("empresa/form.html");
             mv.addObject("empresaRequest", empresaRequest);
-            mv.addObject("mensagem-erro",
-                    String.format("Por favor, corrija os erros e tente novamente: %n %s",
-                            bindingResult));
             return mv;
         }
 
@@ -73,7 +70,7 @@ public class EmpresaController {
                 , empresa);
 
         redirectAttributes.addFlashAttribute(
-                "mensagem-sucesso"
+                "mensagemSucesso"
                 , "Empresa atualizada com sucesso.");
 
         mv.setViewName("redirect:/empresa");

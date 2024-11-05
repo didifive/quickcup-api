@@ -1,6 +1,8 @@
 package br.dev.zancanela.quickcup_api.dto.request;
 
 import br.dev.zancanela.quickcup_api.entity.Empresa;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 
@@ -19,6 +21,8 @@ public record EmpresaRequest(
         @NotEmpty(message = "O logradouro deve ser preenchido!")
         String logradouro,
         @NotNull(message = "O número deve ser preenchido!")
+        @Min(value = 0, message = "O número deve ser igual ou maior que 0")
+        @Max(value = Integer.MAX_VALUE, message = "O número deve ser igual ou menor que " + Integer.MAX_VALUE)
         Integer numero,
         String complemento,
         String bairro,
@@ -26,9 +30,9 @@ public record EmpresaRequest(
         String cidade,
         @NotEmpty(message = "O estado deve ser preenchido!")
         String estado,
-        @NotEmpty(message = "O longitude deve ser preenchido!")
+        @NotNull(message = "O longitude deve ser preenchido!")
         BigDecimal longitude,
-        @NotEmpty(message = "O latitude deve ser preenchido!")
+        @NotNull(message = "O latitude deve ser preenchido!")
         BigDecimal latitude
 ) {
 

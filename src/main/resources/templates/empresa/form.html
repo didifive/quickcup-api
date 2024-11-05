@@ -11,6 +11,7 @@
         <div class="container">
             <div class="row">
                 <div class="col">
+                    <h2 class="mb-3">Alterar dados da empresa:</h2>
                     <form method="post"
                           th:object="${empresaRequest}"
                           th:action="@{/empresa/cadastro}"
@@ -19,52 +20,80 @@
                         <div class="form-group mb-3">
                             <label class="form-label fw-semibold" for="nome">Nome*:</label>
                             <input id="nome" class="form-control" type="text" th:field="*{nome}" required>
+                            <div class="text-danger" th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}"></div>
                         </div>
                         <div class="form-group mb-3">
                             <label class="form-label fw-semibold" for="email">E-mail*:</label>
                             <input id="email" class="form-control" type="email" th:field="*{email}" required>
+                            <div class="text-danger" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>
                         </div>
                         <div class="form-group mb-3">
                             <label class="form-label fw-semibold" for="telefone">Telefone*:</label>
                             <input id="telefone" class="form-control" type="text" th:field="*{telefone}" required>
+                            <div class="text-danger" th:if="${#fields.hasErrors('telefone')}" th:errors="*{telefone}"></div>
                         </div>
                         <div class="form-group mb-3">
                             <label class="form-label fw-semibold" for="cep">CEP*:</label>
-                            <input id="cep" class="form-control" type="text" th:field="*{cep}" required>
+                            <input
+                                    id="cep"
+                                    class="form-control"
+                                    type="text"
+                                    size="10"
+                                    th:field="*{cep}" required>
+                            <div class="text-danger" th:if="${#fields.hasErrors('cep')}" th:errors="*{cep}"></div>
                         </div>
                         <div class="form-group mb-3">
                             <label class="form-label fw-semibold" for="logradouro">Logradouro*:</label>
                             <input id="logradouro" class="form-control" type="text" th:field="*{logradouro}" required>
+                            <div class="text-danger" th:if="${#fields.hasErrors('logradouro')}" th:errors="*{logradouro}"></div>
                         </div>
                         <div class="form-group mb-3">
                             <label class="form-label fw-semibold" for="numero">Número*:</label>
-                            <input id="numero" class="form-control" type="number" th:field="*{numero}" required>
+                            <input id="numero"
+                                   class="form-control"
+                                   type="number"
+                                   step="1"
+                                   min="0"
+                                   max="2147483647"
+                                   th:field="*{numero}" required>
+                            <div class="text-danger" th:if="${#fields.hasErrors('numero')}" th:errors="*{numero}"></div>
                         </div>
                         <div class="form-group mb-3">
                             <label class="form-label" for="complemento">Complemento:</label>
                             <input id="complemento" class="form-control" type="text" th:field="*{complemento}">
+                            <div class="text-danger" th:if="${#fields.hasErrors('complemento')}" th:errors="*{complemento}"></div>
                         </div>
                         <div class="form-group mb-3">
                             <label class="form-label" for="bairro">Bairro:</label>
                             <input id="bairro" class="form-control" type="text" th:field="*{bairro}">
+                            <div class="text-danger" th:if="${#fields.hasErrors('bairro')}" th:errors="*{bairro}"></div>
                         </div>
                         <div class="form-group mb-3">
                             <label class="form-label fw-semibold" for="cidade">Cidade*:</label>
                             <input id="cidade" class="form-control" type="text" th:field="*{cidade}" required>
+                            <div class="text-danger" th:if="${#fields.hasErrors('cidade')}" th:errors="*{cidade}"></div>
                         </div>
                         <div class="form-group mb-3">
                             <label class="form-label fw-semibold" for="estado">Estado*:</label>
                             <input id="estado" class="form-control" type="text" th:field="*{estado}" required>
+                            <div class="text-danger" th:if="${#fields.hasErrors('estado')}" th:errors="*{estado}"></div>
                         </div>
                         <div class="form-group mb-3">
                             <label class="form-label fw-semibold" for="longitude">Longitude*:</label>
                             <input id="longitude" class="form-control" type="text" th:field="*{longitude}" required>
+                            <div class="text-danger" th:if="${#fields.hasErrors('longitude')}" th:errors="*{longitude}"></div>
                         </div>
                         <div class="form-group mb-3">
                             <label class="form-label fw-semibold" for="latitude">Latitude*:</label>
                             <input id="latitude" class="form-control" type="text" th:field="*{latitude}" required>
+                            <div class="text-danger" th:if="${#fields.hasErrors('latitude')}" th:errors="*{latitude}"></div>
                         </div>
                         <input class="btn btn-primary my-3" type="submit">
+                        <a class="btn btn-secondary ms-3 my-3"
+                           th:href="@{/empresa}"
+                           type="button">
+                            Voltar
+                        </a>
                     </form>
                 </div>
             </div>
