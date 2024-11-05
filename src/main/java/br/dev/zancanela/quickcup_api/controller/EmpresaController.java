@@ -13,9 +13,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import static br.dev.zancanela.quickcup_api.util.ApiConstants.*;
+
 @Controller
 @RequestMapping("/empresa")
 public class EmpresaController {
+
 
     private final EmpresaService empresaService;
 
@@ -26,9 +29,12 @@ public class EmpresaController {
     @GetMapping()
     public ModelAndView detalheEmpresa() {
 
-        ModelAndView mv = new ModelAndView("empresa/detalhe.html");
+        ModelAndView mv = new ModelAndView(VIEW_EMPRESA_DETALHE_HTML);
 
-        dadosEmpresa(mv);
+        Empresa empresa = empresaService.getEmpresa();
+
+        mv.addObject(MV_OBJECT_EMPRESA, empresa);
+        mv.addObject(MV_OBJECT_CURRENT_PAGE, EMPRESA);
 
         return mv;
 
@@ -37,11 +43,12 @@ public class EmpresaController {
     @GetMapping("/cadastro")
     public ModelAndView cadastroEmpresa(@RequestParam Short id) {
 
-        ModelAndView mv = new ModelAndView("empresa/form.html");
+        ModelAndView mv = new ModelAndView(VIEW_EMPRESA_FORM);
 
         Empresa empresa = empresaService.getById(id);
 
-        mv.addObject("empresaRequest", EmpresaRequest.fromEntity(empresa));
+        mv.addObject(MV_OBJECT_EMPRESA_REQUEST, EmpresaRequest.fromEntity(empresa));
+        mv.addObject(MV_OBJECT_CURRENT_PAGE, EMPRESA);
 
         return mv;
 
@@ -56,8 +63,9 @@ public class EmpresaController {
         ModelAndView mv = new ModelAndView();
 
         if(bindingResult.hasErrors()) {
-            mv.setViewName("empresa/form.html");
-            mv.addObject("empresaRequest", empresaRequest);
+            mv.setViewName(VIEW_EMPRESA_FORM);
+            mv.addObject(MV_OBJECT_EMPRESA_REQUEST, empresaRequest);
+            mv.addObject(MV_OBJECT_CURRENT_PAGE, EMPRESA);
             return mv;
         }
 
@@ -66,23 +74,21 @@ public class EmpresaController {
         empresa = empresaService.update(empresaRequest.toEntity());
 
         redirectAttributes.addFlashAttribute(
-                "empresa"
+                MV_OBJECT_EMPRESA
                 , empresa);
 
         redirectAttributes.addFlashAttribute(
-                "mensagemSucesso"
+                MV_OBJECT_MENSAGEM_SUCESSO
                 , "Empresa atualizada com sucesso.");
 
-        mv.setViewName("redirect:/empresa");
+        redirectAttributes.addFlashAttribute(
+                MV_OBJECT_CURRENT_PAGE
+                , EMPRESA);
+
+        mv.setViewName(VIEW_REDIRECT_EMPRESA);
 
         return mv;
 
-    }
-
-    private void dadosEmpresa(ModelAndView mv) {
-        Empresa empresa = empresaService.getEmpresa();
-
-        mv.addObject("empresa", empresa);
     }
 
 }

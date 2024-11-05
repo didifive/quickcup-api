@@ -17,11 +17,50 @@
             </button>
             <div class="collapse navbar-collapse" id="navcol-5">
                 <ul class="navbar-nav ms-auto">
-                    <li class="nav-item"><a class="nav-link active" th:href="@{/empresa}">Empresa</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">Funcionamento</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">Cadastros</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">Pedidos</a></li>
-                </ul><a class="btn btn-primary ms-md-2" role="button" href="#">Login</a><a class="btn btn-primary ms-md-2" role="button" href="#">Logoff</a>
+                    <li class="nav-item">
+                        <a
+                                class="nav-link"
+                                th:classappend="${currentPage == 'index' ? 'active':''}"
+                                th:href="@{/}">
+                            Início
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a
+                                class="nav-link"
+                                th:classappend="${currentPage == 'empresa' ? 'active':''}"
+                                th:href="@{/empresa}">
+                            Empresa
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a
+                                class="nav-link"
+                                href="#">
+                            Funcionamento
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a
+                                class="nav-link"
+                                href="#">
+                            Cadastros
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a
+                                class="nav-link"
+                                href="#">
+                            Pedidos
+                        </a>
+                    </li>
+                </ul>
+                <a class="btn btn-primary ms-md-2" role="button" href="#">
+                    Login
+                </a>
+                <a class="btn btn-primary ms-md-2" role="button" href="#">
+                    Logoff
+                </a>
             </div>
         </div>
     </nav>
