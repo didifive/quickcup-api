@@ -16,33 +16,43 @@
                         <div class="col-md-12 col-lg-5">
                             <h2 class="mt-3">Funcionamento Semanal</h2>
                             <div class="table-responsive">
-                                <table class="table">
+                                <table class="table table-striped">
                                     <thead>
                                     <tr>
                                         <th>Dia da Semana</th>
-                                        <th>Horário Início</th>
-                                        <th>Horário Fim</th>
+                                        <th>Abertura</th>
+                                        <th>Fechamento</th>
+                                        <th>Ações</th>
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <tr th:each="funcionamentoSemana : ${listaFuncionamentoSemana}">
-                                        <td th:text="${funcionamentoSemana.diaSemana}"></td>
-                                        <td th:text="${funcionamentoSemana.horaInicio}"></td>
-                                        <td th:text="${funcionamentoSemana.horaFim}"></td>
+                                    <tr th:each="funcionamentoSemanal : ${listaFuncionamentoSemanal}">
+                                        <td th:text="${funcionamentoSemanal.diaSemana}"></td>
+                                        <td th:text="${#dates.format(funcionamentoSemanal.horaInicio, 'HH:mm')}"></td>
+                                        <td th:text="${#dates.format(funcionamentoSemanal.horaFim, 'HH:mm')}"></td>
+                                        <td>
+                                            <a class="btn btn-primary btn-sm ms-2"
+                                               th:href="@{/funcionamento/cadastro-semanal(id=${funcionamentoSemanal.diaSemana})}">
+                                                Editar
+                                            </a>
+                                            <a type="button"
+                                               class="btn btn-secondary btn-sm ms-2"
+                                               data-bs-toggle="modal"
+                                               data-bs-target="#modalExcluir"
+                                               data-modal-object="Funcionamento Semanal"
+                                               th:data-modal-name="${funcionamentoSemanal.diaSemana}"
+                                               th:data-modal-link="@{/funcionamento/excluir-semanal(id=${funcionamentoSemanal.diaSemana})}"
+                                            > Excluir</a>
+                                        </td>
                                     </tr>
                                     </tbody>
                                 </table>
                             </div>
-                            <a class="btn btn-primary my-3"
-                               type="button"
-                               th:href="@{/cadastro-semanal}">
-                                Alterar funcionamento semanal
-                            </a>
                         </div>
                         <div class="col-md-12 col-lg-7">
                             <h2 class="mt-3">Funcionamento Especial</h2>
                             <div class="table-responsive">
-                                <table class="table">
+                                <table class="table table-striped">
                                     <thead>
                                         <tr>
                                             <th>Tipo</th>

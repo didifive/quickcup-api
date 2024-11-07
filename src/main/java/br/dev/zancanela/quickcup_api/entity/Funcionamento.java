@@ -24,6 +24,8 @@ public class Funcionamento {
         this.diaSemana = diaSemana;
     }
 
+    public Funcionamento() {}
+
     public DiaSemana getDiaSemana() {
         return diaSemana;
     }

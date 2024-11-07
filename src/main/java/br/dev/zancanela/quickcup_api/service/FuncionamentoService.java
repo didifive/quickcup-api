@@ -3,6 +3,7 @@ package br.dev.zancanela.quickcup_api.service;
 import br.dev.zancanela.quickcup_api.entity.Funcionamento;
 import br.dev.zancanela.quickcup_api.entity.FuncionamentoEspecial;
 import br.dev.zancanela.quickcup_api.entity.enums.DiaSemana;
+import br.dev.zancanela.quickcup_api.exception.DataIntegrityViolationException;
 import br.dev.zancanela.quickcup_api.repository.FuncionamentoRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -32,23 +33,20 @@ public class FuncionamentoService {
 
     @Transactional
     public Funcionamento create(Funcionamento novoFuncionamento) {
+        if(novoFuncionamento.getHoraInicio().compareTo(novoFuncionamento.getHoraFim()) >= 0) {
+            throw new DataIntegrityViolationException("O horário de abertura deve ser menor que o horário de fechamento");
+        }
+
+        if(novoFuncionamento.getHoraInicio() == null || novoFuncionamento.getHoraFim() == null) {
+            return novoFuncionamento;
+        }
+
         Funcionamento funcionamentoExistente = getById(novoFuncionamento.getDiaSemana());
 
         funcionamentoExistente.setHoraInicio(novoFuncionamento.getHoraInicio());
         funcionamentoExistente.setHoraFim(novoFuncionamento.getHoraFim());
 
         return repository.save(novoFuncionamento);
-    }
-
-    @Transactional
-    public Funcionamento update(DiaSemana id, Funcionamento novoFuncionamento) {
-        Funcionamento funcionamentoExistente = this.getById(id);
-
-        funcionamentoExistente.setDiaSemana(novoFuncionamento.getDiaSemana());
-        funcionamentoExistente.setHoraInicio(novoFuncionamento.getHoraInicio());
-        funcionamentoExistente.setHoraFim(novoFuncionamento.getHoraFim());
-
-        return repository.save(funcionamentoExistente);
     }
 
     public Funcionamento getById(DiaSemana id) {

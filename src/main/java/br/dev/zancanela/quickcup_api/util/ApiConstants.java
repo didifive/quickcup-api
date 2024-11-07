@@ -13,7 +13,9 @@ public class ApiConstants {
     public static final String MV_OBJECT_EMPRESA = EMPRESA;
     public static final String MV_OBJECT_EMPRESA_REQUEST = "empresaRequest";
 
-    public static final String MV_OBJECT_FUNCIONAMENTO_SEMANA_LISTA = "listaFuncionamentoSemana";
+    public static final String MV_OBJECT_FUNCIONAMENTO_SEMANAL_LISTA = "listaFuncionamentoSemanal";
+    public static final String MV_OBJECT_FUNCIONAMENTO_SEMANAL_REQUEST = "funcionamentoSemanalRequest";
+    public static final String MV_OBJECT_FUNCIONAMENTO_SEMANAL_REQUEST_LISTA = "listaFuncionamentoSemanalRequest";
     public static final String MV_OBJECT_FUNCIONAMENTO_ESPECIAL_REQUEST = "funcionamentoEspecialRequest";
     public static final String MV_OBJECT_FUNCIONAMENTO_ESPECIAL_LISTA = "listaFuncionamentoEspecial";
     public static final String MV_OBJECT_FUNCIONAMENTO_ESPECIAL_TIPO_LISTA = "listaTipoFuncionamentoEspecial";

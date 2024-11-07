@@ -24,6 +24,6 @@ API Backend for QuickCup Coffee Shop
 - Spring Data JPA
 - PostgreSQL
 - Flyway
-- Docker
-- Docker Compose 3
+- Thymeleaf
+- Docker e Docker Compose 3 para desenvolvimento local com postgres
 - IntelliJ IDEA

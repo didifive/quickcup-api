@@ -1,11 +1,14 @@
 package br.dev.zancanela.quickcup_api.controller;
 
 import br.dev.zancanela.quickcup_api.dto.admin.request.FuncionamentoEspecialRequest;
+import br.dev.zancanela.quickcup_api.dto.admin.request.FuncionamentoSemanalRequest;
 import br.dev.zancanela.quickcup_api.entity.Funcionamento;
 import br.dev.zancanela.quickcup_api.entity.FuncionamentoEspecial;
+import br.dev.zancanela.quickcup_api.entity.enums.DiaSemana;
 import br.dev.zancanela.quickcup_api.entity.enums.FuncionamentoEspecialTipo;
 import br.dev.zancanela.quickcup_api.exception.DataIntegrityViolationException;
 import br.dev.zancanela.quickcup_api.exception.EntityNotFoundException;
+import br.dev.zancanela.quickcup_api.exception.QuickCupException;
 import br.dev.zancanela.quickcup_api.service.FuncionamentoEspecialService;
 import br.dev.zancanela.quickcup_api.service.FuncionamentoService;
 import jakarta.validation.Valid;
@@ -45,7 +48,7 @@ public class FuncionamentoController {
 
         List<Funcionamento> listaFuncionamentoSemana = funcionamentoService.getAll();
         List<FuncionamentoEspecial> listaFuncionamentoEspecial = funcionamentoEspecialService.getAll();
-        mv.addObject(MV_OBJECT_FUNCIONAMENTO_SEMANA_LISTA, listaFuncionamentoSemana);
+        mv.addObject(MV_OBJECT_FUNCIONAMENTO_SEMANAL_LISTA, listaFuncionamentoSemana);
         mv.addObject(MV_OBJECT_FUNCIONAMENTO_ESPECIAL_LISTA, listaFuncionamentoEspecial);
         mv.addObject(MV_OBJECT_CURRENT_PAGE, FUNCIONAMENTO);
 
@@ -110,7 +113,7 @@ public class FuncionamentoController {
         List<Funcionamento> listaFuncionamentoSemana = funcionamentoService.getAll();
         List<FuncionamentoEspecial> listaFuncionamentoEspecial = funcionamentoEspecialService.getAll();
         redirectAttributes.addFlashAttribute(
-                MV_OBJECT_FUNCIONAMENTO_SEMANA_LISTA, listaFuncionamentoSemana);
+                MV_OBJECT_FUNCIONAMENTO_SEMANAL_LISTA, listaFuncionamentoSemana);
         redirectAttributes.addFlashAttribute(
                 MV_OBJECT_FUNCIONAMENTO_ESPECIAL_LISTA, listaFuncionamentoEspecial);
         redirectAttributes.addFlashAttribute(
@@ -143,7 +146,7 @@ public class FuncionamentoController {
         List<Funcionamento> listaFuncionamentoSemana = funcionamentoService.getAll();
         List<FuncionamentoEspecial> listaFuncionamentoEspecial = funcionamentoEspecialService.getAll();
         redirectAttributes.addFlashAttribute(
-                MV_OBJECT_FUNCIONAMENTO_SEMANA_LISTA, listaFuncionamentoSemana);
+                MV_OBJECT_FUNCIONAMENTO_SEMANAL_LISTA, listaFuncionamentoSemana);
         redirectAttributes.addFlashAttribute(
                 MV_OBJECT_FUNCIONAMENTO_ESPECIAL_LISTA, listaFuncionamentoEspecial);
         redirectAttributes.addFlashAttribute(
@@ -152,73 +155,93 @@ public class FuncionamentoController {
         return mv;
     }
 
-//    @GetMapping("/cadastro-semanal")
-//    public ModelAndView cadastroFuncionamentoSemanal() {
-//
-//        ModelAndView mv = new ModelAndView(VIEW_FUNCIONAMENTO_FORM_SEMANAL_HTML);
-//
-//        FuncionamentoEspecial funcionamentoEspecial = new FuncionamentoEspecial();
-//        if (id != null) {
-//            try {
-//                funcionamentoEspecial = funcionamentoEspecialService.getById(id);
-//            } catch (EntityNotFoundException e) {
-//                mv.addObject(MV_OBJECT_MENSAGEM_ERRO, e.getMessage());
-//            }
-//        }
-//
-//        List<FuncionamentoEspecialTipo> tiposFuncionamento = new ArrayList<>();
-//        tiposFuncionamento.add(FuncionamentoEspecialTipo.ABERTO);
-//        tiposFuncionamento.add(FuncionamentoEspecialTipo.FECHADO);
-//
-//        mv.addObject(MV_OBJECT_FUNCIONAMENTO_ESPECIAL_REQUEST, FuncionamentoEspecialRequest.fromEntity(funcionamentoEspecial));
-//        mv.addObject(MV_OBJECT_FUNCIONAMENTO_ESPECIAL_TIPO_LISTA, tiposFuncionamento);
-//        mv.addObject(MV_OBJECT_CURRENT_PAGE, FUNCIONAMENTO);
-//
-//        return mv;
-//    }
-//
-//    @PostMapping("/cadastro-semanal")
-//    public ModelAndView salvarFuncionamentoSemanal(
-//            @Valid FuncionamentoEspecialRequest funcionamentoEspecialRequest
-//            , BindingResult bindingResult
-//            , RedirectAttributes redirectAttributes) {
-//
-//        ModelAndView mv = new ModelAndView();
-//
-//        if (bindingResult.hasErrors()) {
-//            mv.setViewName(VIEW_FUNCIONAMENTO_FORM_ESPECIAL_HTML);
-//            mv.addObject(MV_OBJECT_FUNCIONAMENTO_ESPECIAL_REQUEST, funcionamentoEspecialRequest);
-//            mv.addObject(MV_OBJECT_CURRENT_PAGE, FUNCIONAMENTO);
-//            return mv;
-//        }
-//
-//        try {
-//            funcionamentoEspecialService.create(funcionamentoEspecialRequest.toEntity());
-//            String tipo = funcionamentoEspecialRequest.id() == null ? "cadastrado" : "atualizado";
-//            redirectAttributes.addFlashAttribute(
-//                    MV_OBJECT_MENSAGEM_SUCESSO
-//                    , "Funcionamento especial " +
-//                            tipo +
-//                            " com sucesso.");
-//        } catch (DataIntegrityViolationException e) {
-//            redirectAttributes.addFlashAttribute(
-//                    MV_OBJECT_MENSAGEM_ERRO,
-//                    e.getMessage());
-//        }
-//
-//        List<Funcionamento> listaFuncionamentoSemana = funcionamentoService.getAll();
-//        List<FuncionamentoEspecial> listaFuncionamentoEspecial = funcionamentoEspecialService.getAll();
-//        redirectAttributes.addFlashAttribute(
-//                MV_OBJECT_FUNCIONAMENTO_SEMANA_LISTA, listaFuncionamentoSemana);
-//        redirectAttributes.addFlashAttribute(
-//                MV_OBJECT_FUNCIONAMENTO_ESPECIAL_LISTA, listaFuncionamentoEspecial);
-//        redirectAttributes.addFlashAttribute(
-//                MV_OBJECT_CURRENT_PAGE, FUNCIONAMENTO);
-//
-//        mv.setViewName(VIEW_REDIRECT_FUNCIONAMENTO);
-//
-//        return mv;
-//
-//    }
+    @GetMapping("/cadastro-semanal")
+    public ModelAndView cadastroFuncionamentoSemanal(@RequestParam DiaSemana id) {
+
+        ModelAndView mv = new ModelAndView(VIEW_FUNCIONAMENTO_FORM_SEMANAL_HTML);
+
+        Funcionamento funcionamentosSemanal = funcionamentoService.getById(id);
+
+        mv.addObject(MV_OBJECT_FUNCIONAMENTO_SEMANAL_REQUEST,
+                FuncionamentoSemanalRequest.fromEntity(funcionamentosSemanal));
+        mv.addObject(MV_OBJECT_CURRENT_PAGE, FUNCIONAMENTO);
+
+        return mv;
+    }
+
+    @PostMapping("/cadastro-semanal")
+    public ModelAndView salvarFuncionamentoSemanal(
+            @Valid FuncionamentoSemanalRequest funcionamentoSemanalRequest
+            , BindingResult bindingResult
+            , RedirectAttributes redirectAttributes) {
+
+        ModelAndView mv = new ModelAndView();
+
+        if (bindingResult.hasErrors()) {
+            mv.setViewName(VIEW_FUNCIONAMENTO_FORM_SEMANAL_HTML);
+            mv.addObject(MV_OBJECT_FUNCIONAMENTO_SEMANAL_REQUEST, funcionamentoSemanalRequest);
+            mv.addObject(MV_OBJECT_CURRENT_PAGE, FUNCIONAMENTO);
+            return mv;
+        }
+
+        try {
+            funcionamentoService.create(funcionamentoSemanalRequest.toEntity());
+            redirectAttributes.addFlashAttribute(
+                    MV_OBJECT_MENSAGEM_SUCESSO
+                    , "Funcionamento semanal [" +
+                            funcionamentoSemanalRequest.diaSemana() +
+                            "] atualizado com sucesso.");
+        } catch (QuickCupException e) {
+            redirectAttributes.addFlashAttribute(
+                    MV_OBJECT_MENSAGEM_ERRO,
+                    e.getMessage());
+        }
+
+        List<Funcionamento> listaFuncionamentoSemana = funcionamentoService.getAll();
+        List<FuncionamentoEspecial> listaFuncionamentoEspecial = funcionamentoEspecialService.getAll();
+        redirectAttributes.addFlashAttribute(
+                MV_OBJECT_FUNCIONAMENTO_SEMANAL_LISTA, listaFuncionamentoSemana);
+        redirectAttributes.addFlashAttribute(
+                MV_OBJECT_FUNCIONAMENTO_ESPECIAL_LISTA, listaFuncionamentoEspecial);
+        redirectAttributes.addFlashAttribute(
+                MV_OBJECT_CURRENT_PAGE, FUNCIONAMENTO);
+
+        mv.setViewName(VIEW_REDIRECT_FUNCIONAMENTO);
+
+        return mv;
+
+    }
+
+    @GetMapping("/excluir-semanal")
+    public ModelAndView excluirFuncionamentoSemanal(
+            @RequestParam DiaSemana id
+            , RedirectAttributes redirectAttributes
+    ) {
+
+        ModelAndView mv = new ModelAndView(VIEW_REDIRECT_FUNCIONAMENTO);
+
+        try {
+            funcionamentoService.delete(id);
+            redirectAttributes.addFlashAttribute(
+                    MV_OBJECT_MENSAGEM_SUCESSO, "Funcionamento semanal [" +
+                            id +
+                            "] excluído com sucesso.");
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute(
+                    MV_OBJECT_MENSAGEM_ERRO
+                    , "Problema ao excluir: " + e.getMessage());
+        }
+
+        List<Funcionamento> listaFuncionamentoSemana = funcionamentoService.getAll();
+        List<FuncionamentoEspecial> listaFuncionamentoEspecial = funcionamentoEspecialService.getAll();
+        redirectAttributes.addFlashAttribute(
+                MV_OBJECT_FUNCIONAMENTO_SEMANAL_LISTA, listaFuncionamentoSemana);
+        redirectAttributes.addFlashAttribute(
+                MV_OBJECT_FUNCIONAMENTO_ESPECIAL_LISTA, listaFuncionamentoEspecial);
+        redirectAttributes.addFlashAttribute(
+                MV_OBJECT_CURRENT_PAGE, FUNCIONAMENTO);
+
+        return mv;
+    }
 
 }
