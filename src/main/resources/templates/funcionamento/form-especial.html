@@ -1,0 +1,66 @@
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout.html}"
+      lang="pt-BR">
+
+<meta charset="UTF-8">
+
+<div layout:fragment="content">
+    <main>
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    <h2 class="mb-3">
+                        <span th:text="${funcionamentoEspecialRequest.id == null ? 'Cadastrar novo' : 'Editar'}"></span>
+                        horário de funcionamento especial:
+                    </h2>
+                    <form method="post"
+                          th:object="${funcionamentoEspecialRequest}"
+                          th:action="@{/funcionamento/cadastro-especial}"
+                          enctype="multipart/form-data">
+                        <input class="form-control" type="hidden" th:field="*{id}">
+                        <div class="form-group mb-3">
+                            <label class="form-label fw-semibold" for="nome">Nome*:</label>
+                            <input id="nome" class="form-control" type="text" th:field="*{nome}" required>
+                            <div class="text-danger" th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}"></div>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label class="form-label fw-semibold" for="dataInicio">Data e hora <strong>início</strong>*:</label>
+                            <input id="dataInicio"
+                                   class="form-control"
+                                   type="datetime-local"
+                                   th:field="*{dataInicio}" required>
+                            <div class="text-danger" th:if="${#fields.hasErrors('dataInicio')}" th:errors="*{dataInicio}"></div>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label class="form-label fw-semibold" for="dataFim">Data e hora <strong>fim</strong>*:</label>
+                            <input id="dataFim"
+                                   class="form-control"
+                                   type="datetime-local"
+                                   th:field="*{dataFim}" required>
+                            <div class="text-danger" th:if="${#fields.hasErrors('dataFim')}" th:errors="*{dataFim}"></div>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label class="form-label fw-semibold" for="tipoFuncionamento">Tipo*:</label>
+                            <select id="tipoFuncionamento" class="form-select" th:field="*{tipo}">
+                                <option
+                                        th:each="tipoFuncionamento: ${listaTipoFuncionamentoEspecial}"
+                                        th:value="${tipoFuncionamento}"
+                                        th:text="${tipoFuncionamento}"></option>
+                            </select>
+                            <div class="text-danger" th:if="${#fields.hasErrors('tipo')}" th:errors="*{tipo}"></div>
+                        </div>
+                        <input class="btn btn-primary my-3" type="submit">
+                        <a class="btn btn-secondary ms-3 my-3"
+                           th:href="@{/funcionamento}"
+                           type="button">
+                            Voltar
+                        </a>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+
+</html>

@@ -1,4 +1,4 @@
-package br.dev.zancanela.quickcup_api.dto.request;
+package br.dev.zancanela.quickcup_api.dto.admin.request;
 
 import br.dev.zancanela.quickcup_api.entity.Empresa;
 import jakarta.validation.constraints.Max;

@@ -13,8 +13,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static br.dev.zancanela.quickcup_api.entity.enums.DiaSemana.*;
-import static br.dev.zancanela.quickcup_api.entity.enums.FunctiomentoEspecialTipo.ABERTO;
-import static br.dev.zancanela.quickcup_api.entity.enums.FunctiomentoEspecialTipo.FECHADO;
+import static br.dev.zancanela.quickcup_api.entity.enums.FuncionamentoEspecialTipo.ABERTO;
+import static br.dev.zancanela.quickcup_api.entity.enums.FuncionamentoEspecialTipo.FECHADO;
 
 @Service
 public class FuncionamentoService {

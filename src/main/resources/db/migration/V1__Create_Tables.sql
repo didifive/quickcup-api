@@ -15,7 +15,7 @@ CREATE TABLE Empresa (
 );
 
 CREATE TABLE Cliente (
-    id BIGINT PRIMARY KEY,
+    id BIGSERIAL PRIMARY KEY,
     nome VARCHAR(255) NOT NULL,
     email VARCHAR(255),
     telefone VARCHAR(255) NOT NULL,
@@ -23,7 +23,7 @@ CREATE TABLE Cliente (
 );
 
 CREATE TABLE Endereco (
-    id BIGINT PRIMARY KEY,
+    id BIGSERIAL PRIMARY KEY,
     cliente_id BIGINT,
     nome VARCHAR(255),
     cep VARCHAR(10) NOT NULL,
@@ -39,14 +39,14 @@ CREATE TABLE Endereco (
 );
 
 CREATE TABLE Grupo (
-    id BIGINT PRIMARY KEY,
+    id BIGSERIAL PRIMARY KEY,
     nome VARCHAR(255) NOT NULL,
     descricao VARCHAR(255),
     UNIQUE (nome)
 );
 
 CREATE TABLE Produto (
-    id BIGINT PRIMARY KEY,
+    id BIGSERIAL PRIMARY KEY,
     codigo VARCHAR(255),
     nome VARCHAR(255) NOT NULL,
     descricao VARCHAR(255),
@@ -58,7 +58,7 @@ CREATE TABLE Produto (
 );
 
 CREATE TABLE Pedido (
-    id BIGINT PRIMARY KEY,
+    id BIGSERIAL PRIMARY KEY,
     cliente_id BIGINT,
     status VARCHAR(10) CHECK (status IN ('NOVO', 'CONFIRMADO', 'CANCELADO', 'EM_PREPARO', 'EM_ENTREGA', 'FINALIZADO')),
     valor_original DECIMAL(10, 2) NOT NULL,
@@ -81,7 +81,7 @@ CREATE TABLE Item_Pedido (
 );
 
 CREATE TABLE Promocao (
-    id BIGINT PRIMARY KEY,
+    id BIGSERIAL PRIMARY KEY,
     produto_id BIGINT,
     desconto DECIMAL,
     inicio TIMESTAMP,
@@ -96,7 +96,7 @@ CREATE TABLE Funcionamento (
 );
 
 CREATE TABLE Funcionamento_Especial (
-    id BIGINT PRIMARY KEY,
+    id BIGSERIAL PRIMARY KEY,
     nome VARCHAR(255),
     data_inicio TIMESTAMP,
     data_fim TIMESTAMP,

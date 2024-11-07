@@ -1,6 +1,6 @@
 package br.dev.zancanela.quickcup_api.controller;
 
-import br.dev.zancanela.quickcup_api.dto.request.EmpresaRequest;
+import br.dev.zancanela.quickcup_api.dto.admin.request.EmpresaRequest;
 import br.dev.zancanela.quickcup_api.entity.Empresa;
 import br.dev.zancanela.quickcup_api.service.EmpresaService;
 import jakarta.validation.Valid;
@@ -55,7 +55,7 @@ public class EmpresaController {
     }
 
     @PostMapping("/cadastro")
-    public ModelAndView salvarUnidadeMedida(
+    public ModelAndView salvarEmpresa(
             @Valid EmpresaRequest empresaRequest
             , BindingResult bindingResult
             , RedirectAttributes redirectAttributes) {

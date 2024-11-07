@@ -7,7 +7,6 @@ import br.dev.zancanela.quickcup_api.repository.FuncionamentoEspecialRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class FuncionamentoEspecialService {
@@ -19,17 +18,27 @@ public class FuncionamentoEspecialService {
     }
 
     public FuncionamentoEspecial create(FuncionamentoEspecial novoFuncionamento) {
-        verificaSobreposicao(novoFuncionamento);
+        validaDatas(novoFuncionamento);
 
         return repository.save(novoFuncionamento);
     }
 
-    private void verificaSobreposicao(FuncionamentoEspecial novoFuncionamento) {
+    private void validaDatas(FuncionamentoEspecial novoFuncionamento) {
         List<FuncionamentoEspecial> listaFuncionamento = this.getAll();
 
+        if(novoFuncionamento.getDataInicio().equals(novoFuncionamento.getDataFim()) ||
+                novoFuncionamento.getDataInicio().isAfter(novoFuncionamento.getDataFim())) {
+            throw new DataIntegrityViolationException("Data e hora de início não pode ser igual ou maior que a data e hora fim");
+        }
+
         listaFuncionamento.forEach(f -> {
-            if (f.getDataInicio().isBefore(novoFuncionamento.getDataFim())
-                    || f.getDataFim().isAfter(novoFuncionamento.getDataInicio())) {
+            if (f.getId().equals(novoFuncionamento.getId())) {
+                return;
+            }
+            if (novoFuncionamento.getDataInicio().equals(f.getDataInicio())
+                    || novoFuncionamento.getDataFim().equals(f.getDataFim())
+                    || (novoFuncionamento.getDataInicio().isBefore(f.getDataFim())
+                            && novoFuncionamento.getDataFim().isAfter(f.getDataInicio()))) {
                 throw new DataIntegrityViolationException("Já existe um funcionamento especial que sobrepõe");
             }
         });
