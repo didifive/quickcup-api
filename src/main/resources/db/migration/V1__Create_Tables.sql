@@ -90,11 +90,9 @@ CREATE TABLE Promocao (
 );
 
 CREATE TABLE Funcionamento (
-    id BIGINT PRIMARY KEY,
-    dia_semana VARCHAR(7) CHECK (dia_semana IN ('DOMINGO', 'SEGUNDA', 'TERCA', 'QUARTA', 'QUINTA', 'SEXTA', 'SABADO')),
+    dia_semana VARCHAR(7) CHECK (dia_semana IN ('DOMINGO', 'SEGUNDA', 'TERCA', 'QUARTA', 'QUINTA', 'SEXTA', 'SABADO')) PRIMARY KEY,
     hora_inicio TIME,
-    hora_fim TIME,
-    UNIQUE (dia_semana)
+    hora_fim TIME
 );
 
 CREATE TABLE Funcionamento_Especial (

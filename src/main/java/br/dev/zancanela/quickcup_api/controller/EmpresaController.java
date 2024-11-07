@@ -43,7 +43,7 @@ public class EmpresaController {
     @GetMapping("/cadastro")
     public ModelAndView cadastroEmpresa(@RequestParam Short id) {
 
-        ModelAndView mv = new ModelAndView(VIEW_EMPRESA_FORM);
+        ModelAndView mv = new ModelAndView(VIEW_EMPRESA_FORM_HTML);
 
         Empresa empresa = empresaService.getById(id);
 
@@ -63,7 +63,7 @@ public class EmpresaController {
         ModelAndView mv = new ModelAndView();
 
         if(bindingResult.hasErrors()) {
-            mv.setViewName(VIEW_EMPRESA_FORM);
+            mv.setViewName(VIEW_EMPRESA_FORM_HTML);
             mv.addObject(MV_OBJECT_EMPRESA_REQUEST, empresaRequest);
             mv.addObject(MV_OBJECT_CURRENT_PAGE, EMPRESA);
             return mv;
