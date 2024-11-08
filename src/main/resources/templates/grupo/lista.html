@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout.html}"
+      lang="pt-BR">
+
+<meta charset="UTF-8">
+
+<div layout:fragment="content">
+    <main>
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    <h1>Grupos para produtos</h1>
+                    <a class="btn btn-primary my-3"
+                       type="button"
+                       th:href="@{/grupo/cadastro}">
+                        Cadastrar grupo
+                    </a>
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                            <tr>
+                                <th>Id</th>
+                                <th>Nome</th>
+                                <th>Descrição</th>
+                                <th>Ações</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="grupo : ${listaGrupos}">
+                                <td class="semibold" th:text="${'#' + grupo.id}"></td>
+                                <td class="semibold" th:text="${grupo.nome}"></td>
+                                <td th:text="${grupo.descricao}"></td>
+                                <td>
+                                    <a class="btn btn-primary btn-sm ms-2"
+                                       th:href="@{/grupo/cadastro(id=${grupo.id})}">
+                                        Editar
+                                    </a>
+                                    <button th:if="${not #lists.isEmpty(grupo.produtos)}"
+                                            type="button"
+                                            class="btn btn-secondary btn-sm ms-2"
+                                            href="#"
+                                            data-bs-toggle="popover"
+                                            data-bs-placement="top"
+                                            title="Não é possível excluir!"
+                                            th:data-bs-content="'O grupo '
+                                            + ${grupo.nome}
+                                            + ' está sendo utilizado por algum produto.'"
+                                                >
+                                        Excluir
+                                    </button>
+                                    <a th:if="${#lists.isEmpty(grupo.produtos)}"
+                                        type="button"
+                                       class="btn btn-secondary btn-sm ms-2"
+                                       data-bs-toggle="modal"
+                                       data-bs-target="#modalExcluir"
+                                       data-modal-object="Grupo"
+                                       th:data-modal-name="${grupo.nome}"
+                                       th:data-modal-link="@{/grupo/excluir(id=${grupo.id})}"
+                                    > Excluir</a>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+
+</html>

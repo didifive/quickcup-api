@@ -42,7 +42,19 @@ public class GrupoService {
         return repository.save(existente);
     }
 
-    public List<Grupo> getAll() { return repository.findAll(); }
+    public List<Grupo> getAll() {
+        return repository.findAll();
+    }
+
+    public void delete(Long id) {
+        Grupo existente = this.getById(id);
+
+        if (!existente.getProdutos().isEmpty()) {
+            throw new DataIntegrityViolationException("Grupo possui produtos cadastrados");
+        }
+
+        repository.deleteById(id);
+    }
 
     private void validarNomeGrupo(String existente, String novoNome) {
         if (novoNome.equals(existente)) {
@@ -53,8 +65,11 @@ public class GrupoService {
             throw new DataIntegrityViolationException("Nome do grupo não pode ser vazio");
         }
 
-        if (repository.findByNome(existente).isPresent()) {
-            throw new DataIntegrityViolationException("Já existe um grupo com esse nome");
+        if (repository.findByNome(novoNome).isPresent()) {
+            throw new DataIntegrityViolationException(
+                    "Já existe um grupo o nome [" +
+                            novoNome +
+                            "]");
         }
     }
 

@@ -23,6 +23,9 @@
     </developers>
     <properties>
         <java.version>21</java.version>
+        <flyway.version>10.21.0</flyway.version>
+        <thymeleaf-layout.version>3.3.0</thymeleaf-layout.version>
+        <spring-dotenv.version>4.0.0</spring-dotenv.version>
     </properties>
     <dependencies>
         <dependency>
@@ -44,21 +47,23 @@
         <dependency>
             <groupId>nz.net.ultraq.thymeleaf</groupId>
             <artifactId>thymeleaf-layout-dialect</artifactId>
-            <version>3.3.0</version>
+            <version>${thymeleaf-layout.version}</version>
         </dependency>
         <dependency>
             <groupId>org.flywaydb</groupId>
             <artifactId>flyway-core</artifactId>
+            <version>${flyway.version}</version>
         </dependency>
         <dependency>
             <groupId>org.flywaydb</groupId>
             <artifactId>flyway-database-postgresql</artifactId>
+            <version>${flyway.version}</version>
         </dependency>
 
         <dependency>
             <groupId>me.paulschwarz</groupId>
             <artifactId>spring-dotenv</artifactId>
-            <version>4.0.0</version>
+            <version>${spring-dotenv.version}</version>
         </dependency>
 
         <dependency>

@@ -4,6 +4,7 @@ public class ApiConstants {
 
     public static final String EMPRESA = "empresa";
     public static final String FUNCIONAMENTO = "funcionamento";
+    public static final String CADASTROS = "cadastros";
 
 
     public static final String MV_OBJECT_CURRENT_PAGE = "currentPage";
@@ -15,11 +16,12 @@ public class ApiConstants {
 
     public static final String MV_OBJECT_FUNCIONAMENTO_SEMANAL_LISTA = "listaFuncionamentoSemanal";
     public static final String MV_OBJECT_FUNCIONAMENTO_SEMANAL_REQUEST = "funcionamentoSemanalRequest";
-    public static final String MV_OBJECT_FUNCIONAMENTO_SEMANAL_REQUEST_LISTA = "listaFuncionamentoSemanalRequest";
     public static final String MV_OBJECT_FUNCIONAMENTO_ESPECIAL_REQUEST = "funcionamentoEspecialRequest";
     public static final String MV_OBJECT_FUNCIONAMENTO_ESPECIAL_LISTA = "listaFuncionamentoEspecial";
     public static final String MV_OBJECT_FUNCIONAMENTO_ESPECIAL_TIPO_LISTA = "listaTipoFuncionamentoEspecial";
 
+    public static final String MV_OBJECT_LISTA_GRUPOS = "listaGrupos";
+    public static final String MV_OBJECT_GRUPO_REQUEST = "grupoRequest";
 
     public static final String VIEW_INDEX = "/index.html";
 
@@ -31,6 +33,10 @@ public class ApiConstants {
     public static final String VIEW_FUNCIONAMENTO_LISTA_HTML = "funcionamento/lista.html";
     public static final String VIEW_FUNCIONAMENTO_FORM_SEMANAL_HTML = "funcionamento/form-semanal.html";
     public static final String VIEW_FUNCIONAMENTO_FORM_ESPECIAL_HTML = "funcionamento/form-especial.html";
+
+    public static final String VIEW_REDIRECT_GRUPO = "redirect:/grupo";
+    public static final String VIEW_GRUPO_LISTA_HTML = "grupo/lista.html";
+    public static final String VIEW_GRUPO_FORM_HTML = "grupo/form.html";
 
 
     private ApiConstants() {
