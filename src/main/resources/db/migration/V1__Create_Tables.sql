@@ -51,7 +51,8 @@ CREATE TABLE Produto (
     nome VARCHAR(255) NOT NULL,
     descricao VARCHAR(255),
     imagem VARCHAR(255),
-    preco DECIMAL(10, 2) NOT NULL,
+    valor_original DECIMAL(10, 2) NOT NULL,
+    valor_desconto DECIMAL(10, 2) NOT NULL,
     enabled BOOLEAN NOT NULL DEFAULT TRUE,
     grupo_id BIGINT,
     FOREIGN KEY (grupo_id) REFERENCES Grupo(id)
@@ -77,15 +78,6 @@ CREATE TABLE Item_Pedido (
     valor_unitario DECIMAL(10, 2) NOT NULL,
     PRIMARY KEY (pedido_id, produto_id),
     FOREIGN KEY (pedido_id) REFERENCES Pedido(id),
-    FOREIGN KEY (produto_id) REFERENCES Produto(id)
-);
-
-CREATE TABLE Promocao (
-    id BIGSERIAL PRIMARY KEY,
-    produto_id BIGINT,
-    desconto DECIMAL,
-    inicio TIMESTAMP,
-    fim TIMESTAMP,
     FOREIGN KEY (produto_id) REFERENCES Produto(id)
 );
 

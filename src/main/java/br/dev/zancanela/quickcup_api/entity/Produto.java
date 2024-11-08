@@ -21,8 +21,11 @@ public class Produto extends BasicEntity {
     @Column(name = "imagem")
     private String imagem;
 
-    @Column(name = "preco")
-    private BigDecimal preco;
+    @Column(name = "valor_original")
+    private BigDecimal valorOriginal;
+
+    @Column(name = "valor_desconto")
+    private BigDecimal valorDesconto;
 
     @Column(name = "enabled")
     private boolean enabled;
@@ -63,12 +66,20 @@ public class Produto extends BasicEntity {
         this.imagem = imagem;
     }
 
-    public BigDecimal getPreco() {
-        return preco;
+    public BigDecimal getValorOriginal() {
+        return valorOriginal;
     }
 
-    public void setPreco(BigDecimal preco) {
-        this.preco = preco;
+    public void setValorOriginal(BigDecimal valorOriginal) {
+        this.valorOriginal = valorOriginal;
+    }
+
+    public BigDecimal getValorDesconto() {
+        return valorDesconto;
+    }
+
+    public void setValorDesconto(BigDecimal valorDesconto) {
+        this.valorDesconto = valorDesconto;
     }
 
     public boolean isEnabled() {

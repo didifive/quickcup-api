@@ -32,6 +32,10 @@ public class ProdutoService {
     public Produto create(Produto novoProduto) {
         Grupo grupo = grupoService.getById(novoProduto.getGrupo().getId());
 
+        if (novoProduto.getValorDesconto().compareTo(novoProduto.getValorOriginal()) > 0) {
+            throw new DataIntegrityViolationException("O valor de desconto deve ser menor que o valor original");
+        }
+
         novoProduto.setGrupo(grupo);
 
         return repository.save(novoProduto);
@@ -42,10 +46,21 @@ public class ProdutoService {
                 .orElseThrow(() -> new EntityNotFoundException("Produto não encontrado"));
     }
 
-    public List<Produto> getAllEnabled() { return repository.findAll(); }
+    public Produto getByIdAndEnabled(Long id) {
+        return repository.findByIdAndEnabledTrue(id)
+                .orElseThrow(() -> new EntityNotFoundException("Produto ativo não encontrado"));
+    }
+
+    public List<Produto> getAll() { return repository.findAll(); }
+
+    public List<Produto> getAllEnabled() { return repository.findAllByEnabledTrue(); }
 
     public List<Produto> getAllByGrupoId(Long id) {
         return repository.findAllByGrupoId(id);
+    }
+
+    public List<Produto> getAllByGrupoIdAndEnabled(Long id) {
+        return repository.findAllByGrupoIdAndEnabledTrue(id);
     }
 
     @Transactional
@@ -56,7 +71,8 @@ public class ProdutoService {
 
         existente.setNome(novoProduto.getNome());
         existente.setDescricao(novoProduto.getDescricao());
-        existente.setPreco(novoProduto.getPreco());
+        existente.setValorOriginal(novoProduto.getValorOriginal());
+        existente.setValorDesconto(novoProduto.getValorDesconto());
         existente.setCodigo(novoProduto.getCodigo());
         existente.setEnabled(novoProduto.isEnabled());
         existente.setGrupo(grupo);

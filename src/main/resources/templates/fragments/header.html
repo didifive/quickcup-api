@@ -18,24 +18,21 @@
             <div class="collapse navbar-collapse" id="navcol-5">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
-                        <a
-                                class="nav-link"
+                        <a class="nav-link"
                                 th:classappend="${currentPage == 'index' ? 'active':''}"
                                 th:href="@{/}">
                             Início
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a
-                                class="nav-link"
+                        <a class="nav-link"
                                 th:classappend="${#strings.startsWith(currentPage,'empresa') ? 'active':''}"
                                 th:href="@{/empresa}">
                             Empresa
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a
-                                class="nav-link"
+                        <a class="nav-link"
                                 th:classappend="${#strings.startsWith(currentPage,'funcionamento') ? 'active':''}"
                                 th:href="@{/funcionamento}">
                             Funcionamento
@@ -52,21 +49,62 @@
                            aria-expanded="false">
                             Cadastros
                         </a>
+                        <ul class="dropdown-menu dropdown-menu-dark"
+                            aria-labelledby="navbarDropdownCadastros" style="background-color: #283622;">
+                            <li class="nav-item dropend">
+                                <a class="nav-link dropdown-toggle" href="#"
+                                   id="navbarDropdownCadastrosGrupo"
+                                   role="button"
+                                   data-bs-toggle="dropdown"
+                                   aria-expanded="false"> Grupo de Produtos
+                                </a>
+                                <ul class="dropdown-menu"
+                                    aria-labelledby="navbarDropdownCadastrosGrupo"
+                                    style="background-color: #4c482e;">
+                                    <li><h5 class="dropdown-header">Grupo de Produtos</h5></li>
+                                    <li><a class="dropdown-item" th:href="@{/grupo}">Listar</a></li>
+                                    <li><a class="dropdown-item" th:href="@{/grupoa/cadastro}">Cadastrar</a></li>
+                                </ul>
+                            </li>
+                            <li class="nav-item dropend">
+                                <a class="nav-link dropdown-toggle" href="#"
+                                   id="navbarDropdownCadastrosProduto"
+                                   role="button"
+                                   data-bs-toggle="dropdown"
+                                   aria-expanded="false"> Produtos
+                                </a>
+                                <ul class="dropdown-menu"
+                                    aria-labelledby="navbarDropdownCadastrosProduto"
+                                    style="background-color: #4c482e;">
+                                    <li><h5 class="dropdown-header">Produtos</h5></li>
+                                    <li><a class="dropdown-item" th:href="@{/produto}">Listar</a></li>
+                                    <li><a class="dropdown-item" th:href="@{/produto/cadastro}">Cadastrar</a></li>
+                                </ul>
+                            </li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li class="nav-item dropend">
+                                <a class="nav-link dropdown-toggle" href="#"
+                                   id="navbarDropdownCadastrosCliente"
+                                   role="button"
+                                   data-bs-toggle="dropdown"
+                                   aria-expanded="false"> Clientes
+                                </a>
+                                <ul class="dropdown-menu"
+                                    aria-labelledby="navbarDropdownCadastrosCliente"
+                                    style="background-color: #4c482e;">
+                                    <li><h5 class="dropdown-header">Clientes</h5></li>
+                                    <li><a class="dropdown-item" th:href="@{/cliente}">Listar</a></li>
+                                </ul>
+                            </li>
+                        </ul>
                     </li>
                     <li class="nav-item">
-                        <a
-                                class="nav-link"
-                                href="#">
+                        <a class="nav-link"
+                           th:href="@{/pedido}">
                             Pedidos
                         </a>
                     </li>
                 </ul>
-                <a class="btn btn-primary ms-md-2" role="button" href="#">
-                    Login
-                </a>
-                <a class="btn btn-primary ms-md-2" role="button" href="#">
-                    Logoff
-                </a>
             </div>
         </div>
     </nav>
