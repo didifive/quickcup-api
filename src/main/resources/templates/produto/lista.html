@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout.html}"
+      lang="pt-BR">
+
+<meta charset="UTF-8">
+
+<div layout:fragment="content">
+    <main>
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    <h1>Produtos</h1>
+                    <a class="btn btn-primary my-3"
+                       type="button"
+                       th:href="@{/produto/cadastro}">
+                        Cadastrar produto
+                    </a>
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                            <tr>
+                                <th>Id/Status</th>
+                                <th>Nome</th>
+                                <th>Descrição</th>
+                                <th>Preço</th>
+                                <th>Grupo</th>
+                                <th>Ações</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="produto : ${listaProdutos}"
+                                class="align-middle">
+                                <td>
+                                    <span th:text="${'#' + produto.id}"></span>
+                                    <br>
+                                    <span th:if="${produto.enabled}"
+                                          class="badge bg-success">Habilitado</span>
+                                    <span th:if="${!produto.enabled}"
+                                          class="badge bg-danger">Desabilitado</span>
+                                </td>
+                                <td th:text="${produto.nome}"></td>
+                                <td>
+                                    <span th:if="${!#strings.isEmpty(produto.imagem)}">
+                                        <img
+                                                th:src="${produto.imagem}"
+                                                th:alt="${produto.nome}"
+                                                width="100px"
+                                                height="100px">
+                                        <br>
+                                    </span>
+                                    <span th:if="${!#strings.isEmpty(produto.codigo)}">
+                                        <span th:text="'Código: ' + ${produto.codigo}"></span>
+                                        <br>
+                                    </span>
+                                    <span th:text="${produto.descricao}"></span>
+                                </td>
+                                <td th:if="${produto.valorDesconto>0}"
+                                        th:with="final=${produto.valorOriginal-produto.valorDesconto}">
+                                    <span th:text="${#numbers.formatDecimal(produto.valorOriginal,1,2)}"
+                                          style="color: #6c757d;
+                                          font-size: 0.8em;
+                                          text-decoration: line-through;"></span>
+                                    <br>
+                                    <span th:text="${#numbers.formatDecimal(final,1,2)}"></span>
+                                </td>
+                                <td th:if="${produto.valorDesconto==0}">
+                                    <span th:text="${#numbers.formatDecimal(produto.valorOriginal,1,2)}"></span>
+                                </td>
+                                <td th:text="${'#' +produto.grupo.id + ' - ' + produto.grupo.nome}"></td>
+                                <td>
+                                    <a class="btn btn-primary btn-sm ms-2"
+                                       th:href="@{/produto/cadastro(id=${produto.id})}">
+                                        Editar
+                                    </a>
+                                    <a type="button"
+                                       class="btn btn-secondary btn-sm ms-2"
+                                       data-bs-toggle="modal"
+                                       data-bs-target="#modalExcluir"
+                                       data-modal-object="Produto"
+                                       th:data-modal-name="${produto.nome}"
+                                       th:data-modal-link="@{/produto/excluir(id=${produto.id})}"
+                                    > Excluir</a>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+
+</html>

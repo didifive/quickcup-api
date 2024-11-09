@@ -29,13 +29,12 @@ public class Pedido extends BasicEntity {
     @Column(name = "total")
     private BigDecimal total;
 
-    @Column(name="data_hora")
+    @Column(name = "data_hora")
     private Instant dataHora;
 
     @OneToMany(mappedBy = "pedido"
-            , fetch=FetchType.EAGER
-            , cascade = { CascadeType.ALL }
-            , orphanRemoval = true)
+            , fetch = FetchType.EAGER
+            , cascade = {CascadeType.PERSIST})
     private List<ItemPedido> itens;
 
 

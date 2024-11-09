@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout.html}"
+      lang="pt-BR">
+
+<meta charset="UTF-8">
+
+<div layout:fragment="content">
+    <main>
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    <h2 class="mb-3">
+                        <span th:text="${produtoRequest.id == null ? 'Cadastrar novo' : 'Editar'}"></span>
+                        produto<span th:text="${produtoRequest.id == null ? '' : ' ' + produtoRequest.id}"></span>:
+                    </h2>
+                    <form method="post"
+                          th:object="${produtoRequest}"
+                          th:action="@{/produto/cadastro}"
+                          enctype="multipart/form-data">
+                        <input class="form-control" type="hidden" th:field="*{id}">
+                        <div class="form-group mb-3">
+                            <input class="form-check-input" type="checkbox" th:field="*{enabled}"></input>
+                            <label class="form-check-label">Produto Ativo</label>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label class="form-label fw-semibold" for="nome">Nome*:</label>
+                            <input id="nome" class="form-control" type="text" th:field="*{nome}" required>
+                            <div class="text-danger" th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}"></div>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label class="form-label fw-semibold" for="codigo">Código:</label>
+                            <input id="codigo" class="form-control" type="text" th:field="*{codigo}">
+                            <div class="text-danger" th:if="${#fields.hasErrors('codigo')}" th:errors="*{codigo}"></div>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label class="form-label fw-semibold" for="descricao">Descrição:</label>
+                            <input id="descricao" class="form-control" type="text" th:field="*{descricao}">
+                            <div class="text-danger" th:if="${#fields.hasErrors('descricao')}"
+                                 th:errors="*{descricao}"></div>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label class="form-label fw-semibold" for="imagem">Imagem:</label>
+                            <input id="imagem" class="form-control" type="text" th:field="*{imagem}">
+                            <img th:if="${produtoRequest.imagem != null}"
+                                 th:src="${produtoRequest.imagem}" style="width: 100px; height: 100px;"
+                                 th:alt="${produtoRequest.imagem}">
+                            <div class="text-danger" th:if="${#fields.hasErrors('imagem')}" th:errors="*{imagem}"></div>
+                        </div>
+                        <div class="d-flex flex-row">
+                            <div class="form-group mb-3 col-md-12 col-lg-3">
+                                <label class="form-label fw-semibold" for="valorOriginal">Valor Original em R$*:</label>
+                                <input id="valorOriginal"
+                                       class="form-control"
+                                       step="0.01"
+                                       min="0.00"
+                                       type="number"
+                                       th:field="*{valorOriginal}" required>
+                                <div class="text-danger" th:if="${#fields.hasErrors('valorOriginal')}"
+                                     th:errors="*{valorOriginal}"></div>
+                            </div>
+                            <div class="form-group ms-2 mb-3 col-md-12 col-lg-3">
+                                <label class="form-label fw-semibold" for="valorDesconto">Valor Desconto em R$*:</label>
+                                <input id="valorDesconto"
+                                       class="form-control"
+                                       step="0.01"
+                                       min="0.00"
+                                       type="number"
+                                       th:field="*{valorDesconto}" required>
+                                <div class="text-danger" th:if="${#fields.hasErrors('valorDesconto')}"
+                                     th:errors="*{valorDesconto}"></div>
+                            </div>
+                            <div class="form-group ms-2 mb-3 col-md-12 col-lg-3">
+                                <label class="form-label fw-semibold" for="valorFinal">Valor Final em R$:</label>
+                                <input id="valorFinal"
+                                       class="form-control"
+                                       step="0.01"
+                                       min="0.00"
+                                       type="number"
+                                       value="0.00"
+                                       disabled>
+                            </div>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label class="form-label fw-semibold" for="idGrupo">Grupo*:</label>
+                            <select id="idGrupo"
+                                    class="form-select" th:field="*{idGrupo}">
+                                <option th:each="grupo: ${listaGrupos}"
+                                        th:value="${grupo.id}"
+                                        th:text="${'#' + grupo.id + ' - ' +grupo.nome}"></option>
+                            </select>
+                        </div>
+                        <input class="btn btn-primary my-3" type="submit">
+                        <a class="btn btn-secondary ms-3 my-3"
+                           th:href="@{/produto}"
+                           type="button">
+                            Voltar
+                        </a>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </main>
+    <script>
+        $(document).ready(function() {
+            function updateValorFinal() {
+                const valorOriginal = parseFloat($('#valorOriginal').val()) || 0;
+                const valorDesconto = parseFloat($('#valorDesconto').val()) || 0;
+                const valorFinal = valorOriginal - valorDesconto;
+                $('#valorFinal').val(valorFinal.toFixed(2));
+            }
+            $('#valorOriginal, #valorDesconto').on('input', updateValorFinal);
+            updateValorFinal();
+        });
+    </script>
+</div>
+</html>

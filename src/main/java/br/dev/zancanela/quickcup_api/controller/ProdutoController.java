@@ -1,10 +1,12 @@
 package br.dev.zancanela.quickcup_api.controller;
 
-import br.dev.zancanela.quickcup_api.dto.admin.request.GrupoRequest;
+import br.dev.zancanela.quickcup_api.dto.admin.request.ProdutoRequest;
 import br.dev.zancanela.quickcup_api.entity.Grupo;
+import br.dev.zancanela.quickcup_api.entity.Produto;
 import br.dev.zancanela.quickcup_api.exception.EntityNotFoundException;
 import br.dev.zancanela.quickcup_api.exception.QuickCupException;
 import br.dev.zancanela.quickcup_api.service.GrupoService;
+import br.dev.zancanela.quickcup_api.service.ProdutoService;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -20,45 +22,57 @@ import java.util.List;
 import static br.dev.zancanela.quickcup_api.util.ApiConstants.*;
 
 @Controller
-@RequestMapping("/grupo")
-public class GrupoController {
+@RequestMapping("/produto")
+public class ProdutoController {
 
 
+    private final ProdutoService produtoService;
     private final GrupoService grupoService;
 
-    public GrupoController(GrupoService grupoService) {
+    public ProdutoController(
+            ProdutoService produtoService,
+            GrupoService grupoService) {
+        this.produtoService = produtoService;
         this.grupoService = grupoService;
     }
 
     @GetMapping()
-    public ModelAndView listaGrupos() {
+    public ModelAndView listaProdutos() {
 
-        ModelAndView mv = new ModelAndView(VIEW_GRUPO_LISTA_HTML);
-
-        List<Grupo> listaGrupos = grupoService.getAll();
-
-        mv.addObject(MV_OBJECT_LISTA_GRUPOS, listaGrupos);
-        mv.addObject(MV_OBJECT_CURRENT_PAGE, CADASTROS);
-
-        return mv;
+        return getListaProdutos();
 
     }
 
+    private ModelAndView getListaProdutos() {
+        ModelAndView mv = new ModelAndView(VIEW_PRODUTO_LISTA_HTML);
+
+        List<Produto> listaProdutos = produtoService.getAll();
+
+        mv.addObject(MV_OBJECT_LISTA_PRODUTOS, listaProdutos);
+
+        mv.addObject(MV_OBJECT_CURRENT_PAGE, CADASTROS);
+
+        return mv;
+    }
+
     @GetMapping("/cadastro")
-    public ModelAndView cadastroGrupo(@RequestParam(required = false) Long id) {
+    public ModelAndView cadastroProduto(@RequestParam(required = false) Long id) {
 
-        ModelAndView mv = new ModelAndView(VIEW_GRUPO_FORM_HTML);
+        ModelAndView mv = new ModelAndView(VIEW_PRODUTO_FORM_HTML);
 
-        Grupo grupo = new Grupo();
+        Produto produto = new Produto();
         if (id != null) {
             try {
-                grupo = grupoService.getById(id);
+                produto = produtoService.getById(id);
             } catch (EntityNotFoundException e) {
                 mv.addObject(MV_OBJECT_MENSAGEM_ERRO, e.getMessage());
             }
         }
 
-        mv.addObject(MV_OBJECT_GRUPO_REQUEST, GrupoRequest.fromEntity(grupo));
+        List<Grupo> listaGrupos = grupoService.getAll();
+
+        mv.addObject(MV_OBJECT_PRODUTO_REQUEST, ProdutoRequest.fromEntity(produto));
+        mv.addObject(MV_OBJECT_LISTA_GRUPOS, listaGrupos);
         mv.addObject(MV_OBJECT_CURRENT_PAGE, CADASTROS);
 
         return mv;
@@ -66,76 +80,69 @@ public class GrupoController {
     }
 
     @PostMapping("/cadastro")
-    public ModelAndView salvarGrupo(
-            @Valid GrupoRequest grupoRequest
+    public ModelAndView salvarProduto(
+            @Valid ProdutoRequest produtoRequest
             , BindingResult bindingResult
             , RedirectAttributes redirectAttributes) {
 
         ModelAndView mv = new ModelAndView();
 
         if (bindingResult.hasErrors()) {
-            mv.setViewName(VIEW_GRUPO_FORM_HTML);
-            mv.addObject(MV_OBJECT_GRUPO_REQUEST, grupoRequest);
+            mv.setViewName(VIEW_PRODUTO_FORM_HTML);
+            mv.addObject(MV_OBJECT_PRODUTO_REQUEST, produtoRequest);
             mv.addObject(MV_OBJECT_CURRENT_PAGE, CADASTROS);
             return mv;
         }
 
-        Grupo grupo;
+        Produto produto;
 
         try {
-            if (grupoRequest.id() == null) {
-                grupo = grupoService.create(grupoRequest.toEntity());
+            if (produtoRequest.id() == null) {
+                produto = produtoService.create(produtoRequest.toEntity());
             } else {
-                grupo = grupoService.update(grupoRequest.id(), grupoRequest.toEntity());
+                produto = produtoService.update(produtoRequest.id(), produtoRequest.toEntity());
             }
         } catch (QuickCupException e) {
-            mv.setViewName(VIEW_GRUPO_LISTA_HTML);
-
-            List<Grupo> listaGrupos = grupoService.getAll();
-
-            mv.addObject(MV_OBJECT_MENSAGEM_ERRO, e.getMessage());
-            mv.addObject(MV_OBJECT_LISTA_GRUPOS, listaGrupos);
-            mv.addObject(MV_OBJECT_CURRENT_PAGE, CADASTROS);
-            return mv;
+            return getListaProdutos();
         }
 
         redirectAttributes.addFlashAttribute(
-                MV_OBJECT_GRUPO_REQUEST,
-                GrupoRequest.fromEntity(grupo));
+                MV_OBJECT_PRODUTO_REQUEST,
+                ProdutoRequest.fromEntity(produto));
 
         redirectAttributes.addFlashAttribute(
                 MV_OBJECT_MENSAGEM_SUCESSO
-                , "Grupo criado ou atualizado com sucesso.");
+                , "Produto criado ou atualizado com sucesso.");
 
         redirectAttributes.addFlashAttribute(
                 MV_OBJECT_CURRENT_PAGE
                 , CADASTROS);
 
-        mv.setViewName(VIEW_REDIRECT_GRUPO + "/cadastro?id=" + grupo.getId());
+        mv.setViewName(VIEW_REDIRECT_PRODUTO + "/cadastro?id=" + produto.getId());
 
         return mv;
 
     }
 
     @GetMapping("/excluir")
-    public ModelAndView excluirGrupo(
+    public ModelAndView excluirProduto(
             @RequestParam Long id,
             RedirectAttributes redirectAttributes) {
 
-        ModelAndView mv = new ModelAndView(VIEW_REDIRECT_GRUPO);
+        ModelAndView mv = new ModelAndView(VIEW_REDIRECT_PRODUTO);
 
         try {
-            grupoService.delete(id);
+            produtoService.delete(id);
             redirectAttributes.addFlashAttribute(
-                    MV_OBJECT_MENSAGEM_SUCESSO, "Grupo excluído com sucesso.");
+                    MV_OBJECT_MENSAGEM_SUCESSO, "Produto excluído com sucesso.");
         } catch (QuickCupException e) {
             redirectAttributes.addFlashAttribute(
                     MV_OBJECT_MENSAGEM_ERRO
-                    , "Problema ao excluir: " + e.getMessage());
+                    , "Problema ao excluir produto: " + e.getMessage());
         }
 
-        List<Grupo> listaGrupos = grupoService.getAll();
-        mv.addObject(MV_OBJECT_LISTA_GRUPOS, listaGrupos);
+        List<Produto> listaProdutos = produtoService.getAll();
+        mv.addObject(MV_OBJECT_LISTA_PRODUTOS, listaProdutos);
 
         return mv;
 

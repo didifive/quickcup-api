@@ -18,6 +18,13 @@ public class Grupo extends BasicEntity {
     @OneToMany(mappedBy = "grupo", fetch = FetchType.EAGER)
     private List<Produto> produtos;
 
+    public Grupo() {
+    }
+
+    public Grupo(Long id) {
+        super.setId(id);
+    }
+
     public String getNome() {
         return nome;
     }

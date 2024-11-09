@@ -30,7 +30,7 @@ public class Produto extends BasicEntity {
     @Column(name = "enabled")
     private boolean enabled;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "grupo_id")
     private Grupo grupo;
 

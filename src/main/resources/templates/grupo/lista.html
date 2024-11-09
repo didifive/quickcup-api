@@ -39,7 +39,7 @@
                                     </a>
                                     <button th:if="${not #lists.isEmpty(grupo.produtos)}"
                                             type="button"
-                                            class="btn btn-secondary btn-sm ms-2"
+                                            class="btn btn-secondary btn-disabled btn-sm ms-2"
                                             href="#"
                                             data-bs-toggle="popover"
                                             data-bs-placement="top"
@@ -68,6 +68,17 @@
             </div>
         </div>
     </main>
+    <script>
+        function updateValorFinal() {
+           const valorOriginal = parseFloat(document.getElementById('valorOriginal').value) || 0;
+           const valorDesconto = parseFloat(document.getElementById('valorDesconto').value) || 0;
+           const valorFinal = valorOriginal - valorDesconto;
+           document.getElementById('valorFinal').value = valorFinal.toFixed(2);
+        }
+        document.addEventListener('DOMContentLoaded', function () {
+           updateValorFinal();
+        });
+    </script>
 </div>
 
 </html>

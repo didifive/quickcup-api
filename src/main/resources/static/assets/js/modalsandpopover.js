@@ -1,5 +1,5 @@
 /**
- * Script para Modal e PopOver Bootstrap 5.0.2
+ * Script para Modal e PopOver Bootstrap 5.3.3
  */
 
 /**

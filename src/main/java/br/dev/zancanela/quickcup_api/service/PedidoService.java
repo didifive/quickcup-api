@@ -38,6 +38,11 @@ public class PedidoService {
     public Pedido create(Pedido novoPedido) {
         Cliente cliente = clienteService.getById(novoPedido.getCliente().getId());
 
+        if (novoPedido.getId() != null) {
+            throw new DataIntegrityViolationException(
+                    "Não foi possivel criar um novo pedido com o id informado");
+        }
+
         BigDecimal totalOriginal = new BigDecimal(0);
         BigDecimal totalDesconto = new BigDecimal(0);
         BigDecimal total = novoPedido.getTotal();

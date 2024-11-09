@@ -13,11 +13,10 @@
     <div class="m-auto w-50 justify-content-center align-content-center text-center">
         <img width="50%x" alt="ATR Logo" th:src="@{/assets/img/quickcup-logo.png}">
         <h2>Lamentamos, mas ocorreu um erro.</h2>
-        <a th:href="@{/}" type="button" class="mt-1 btn btn-primary btn-lg">QUICKCUP</a>
-
+        <a th:href="@{/}" type="button" class="my-1 btn btn-dark btn-lg" style="background-color: #283622">Voltar!</a>
         <div class="mt-3">
-            <p th:text="'Erro: ' + ${status} + ' - ' + ${timestamp}">404</p>
-            <p th:utext="${error}">Error java.lang.NullPointerException</p>
+            <p th:text="'Erro: ' + ${status} + ' - ' + ${error}"></p>
+            <p th:text="${timestamp}"></p>
         </div>
     </div>
 </div>
