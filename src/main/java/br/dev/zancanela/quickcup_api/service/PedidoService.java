@@ -15,8 +15,6 @@ import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.List;
 
-import static br.dev.zancanela.quickcup_api.entity.enums.PedidoStatus.NOVO;
-
 @Service
 public class PedidoService {
 
@@ -36,35 +34,31 @@ public class PedidoService {
     @Transactional
     public Pedido create(Pedido novoPedido) {
         Cliente cliente = clienteService.getById(novoPedido.getCliente().getId());
-
         if (novoPedido.getId() != null) {
             throw new DataIntegrityViolationException(
-                    "Não foi possivel criar um novo pedido com o id informado");
+                    "Não foi possível criar um novo pedido com o id informado");
         }
-
-        BigDecimal totalOriginalCalculado = new BigDecimal(0);
-        BigDecimal totalDescontoCalculado = new BigDecimal(0);
-
+        BigDecimal totalOriginalCalculado = BigDecimal.ZERO;
+        BigDecimal totalDescontoCalculado = BigDecimal.ZERO;
         for (ItemPedido item : novoPedido.getItens()) {
             this.validaProdutoEValoresItem(item);
-
             BigDecimal totalOriginalItem = item.getValorUnitarioOriginal()
                     .multiply(new BigDecimal(item.getQuantidade()));
-
             BigDecimal totalDescontoItem = item.getValorUnitarioDesconto()
                     .multiply(new BigDecimal(item.getQuantidade()));
-
             totalOriginalCalculado = totalOriginalCalculado.add(totalOriginalItem);
             totalDescontoCalculado = totalDescontoCalculado.add(totalDescontoItem);
-
+            item.setPedido(novoPedido);
         }
 
         if (!novoPedido.getValorOriginal().equals(totalOriginalCalculado)) {
-            throw new DataIntegrityViolationException("O valor original informado para o pedido esta divergente com o valor calculado");
+            throw new DataIntegrityViolationException(
+                    "O valor original informado para o pedido está divergente com o valor calculado");
         }
 
         if (!novoPedido.getValorDesconto().equals(totalDescontoCalculado)) {
-            throw new DataIntegrityViolationException("O valor desconto informado para o pedido esta divergente com o valor calculado");
+            throw new DataIntegrityViolationException(
+                    "O valor desconto informado para o pedido está divergente com o valor calculado");
         }
 
         BigDecimal divergenciaTotal = totalOriginalCalculado
@@ -72,13 +66,13 @@ public class PedidoService {
                 .subtract(novoPedido.getValorEntrega())
                 .subtract(novoPedido.getTotal());
 
-        if (divergenciaTotal.equals(BigDecimal.ZERO)) {
+        if (!divergenciaTotal.equals(BigDecimal.ZERO)) {
             throw new DataIntegrityViolationException(
-                    "O valor total do pedido esta divergente com valor original, de desconto e entrega");
+                    "O valor total do pedido está divergente com valor original, de desconto e entrega");
         }
 
         novoPedido.setCliente(cliente);
-        novoPedido.setStatus(NOVO);
+        novoPedido.setStatus(PedidoStatus.NOVO);
         novoPedido.setDataHoraPedido(Instant.now());
 
         return repository.save(novoPedido);
@@ -114,6 +108,8 @@ public class PedidoService {
                     "O valor unitário do produto [" + produto.getNome() +
                             "] está divergente com valor original menos o desconto");
         }
+
+        item.setProduto(produto);
     }
 
     public Pedido getById(Long id) {

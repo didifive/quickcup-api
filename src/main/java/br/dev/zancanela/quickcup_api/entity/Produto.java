@@ -34,6 +34,12 @@ public class Produto extends BasicEntity {
     @JoinColumn(name = "grupo_id")
     private Grupo grupo;
 
+    public Produto() {}
+
+    public Produto(Long id) {
+        super.setId(id);
+    }
+
     public String getCodigo() {
         return codigo;
     }

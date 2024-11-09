@@ -1,7 +1,6 @@
 package br.dev.zancanela.quickcup_api.service;
 
 import br.dev.zancanela.quickcup_api.entity.Cliente;
-import br.dev.zancanela.quickcup_api.entity.Endereco;
 import br.dev.zancanela.quickcup_api.entity.Pedido;
 import br.dev.zancanela.quickcup_api.exception.DataIntegrityViolationException;
 import br.dev.zancanela.quickcup_api.exception.EntityNotFoundException;
@@ -16,22 +15,23 @@ import java.util.List;
 public class ClienteService {
 
     private final ClienteRepository repository;
-    private final EnderecoService enderecoService;
     private final PedidoRepository pedidoRepository;
 
     public ClienteService(
             ClienteRepository repository,
-            EnderecoService enderecoService,
             PedidoRepository pedidoRepository) {
         this.repository = repository;
-        this.enderecoService = enderecoService;
         this.pedidoRepository = pedidoRepository;
     }
 
     @Transactional
     public Cliente create(Cliente novoCliente) {
-        Cliente cliente = repository.findByTelefone(novoCliente.getTelefone())
-                .orElse(new Cliente());
+        Cliente cliente;
+        try {
+            cliente = getByTelefone(novoCliente.getTelefone());
+        } catch (EntityNotFoundException e) {
+            cliente = new Cliente();
+        }
 
         cliente.setNome(novoCliente.getNome());
         cliente.setEmail(novoCliente.getEmail());
@@ -42,6 +42,11 @@ public class ClienteService {
 
     public Cliente getById(Long id) {
         return repository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Cliente não encontrado"));
+    }
+
+    public Cliente getByTelefone(String telefone) {
+        return repository.findByTelefone(telefone)
                 .orElseThrow(() -> new EntityNotFoundException("Cliente não encontrado"));
     }
 
@@ -68,10 +73,6 @@ public class ClienteService {
         if (!pedidos.isEmpty()) {
             throw new DataIntegrityViolationException("Cliente possui pedidos");
         }
-
-        List<Endereco> enderecos = enderecoService.findByClienteId(id);
-
-        enderecos.forEach(e -> enderecoService.delete(e.getId()));
 
         repository.delete(cliente);
     }

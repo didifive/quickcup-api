@@ -1,5 +1,6 @@
 package br.dev.zancanela.quickcup_api.controller.api;
 
+import br.dev.zancanela.quickcup_api.controller.api.docs.EmpresaRestControllerDocs;
 import br.dev.zancanela.quickcup_api.dto.api.response.EmpresaResponse;
 import br.dev.zancanela.quickcup_api.service.EmpresaService;
 import org.springframework.http.ResponseEntity;
@@ -9,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/v1/empresa")
-public class EmpresaRestController {
+public class EmpresaRestController implements EmpresaRestControllerDocs {
 
     private final EmpresaService empresaService;
 

@@ -12,13 +12,21 @@ import java.util.List;
 public class EnderecoService {
 
     private final EnderecoRepository repository;
+    private final ClienteService clienteService;
 
-    public EnderecoService(EnderecoRepository repository) {
+    public EnderecoService(
+            EnderecoRepository repository,
+            ClienteService clienteService) {
         this.repository = repository;
+        this.clienteService = clienteService;
     }
 
     @Transactional
     public Endereco create(Endereco novoEndereco) {
+        novoEndereco.setCliente(
+                clienteService.getById(novoEndereco.getCliente().getId())
+        );
+
         return repository.save(novoEndereco);
     }
 
@@ -27,13 +35,17 @@ public class EnderecoService {
                 .orElseThrow(() -> new EntityNotFoundException("Endereço não encontrado"));
     }
 
-    public List<Endereco> findByClienteId(Long id) {
-        return repository.findByClienteId(id);
+    public List<Endereco> getAllByClienteId(Long id) {
+        return repository.findAllByClienteId(id);
     }
 
     @Transactional
     public Endereco update(Long id, Endereco novoEndereco) {
         Endereco endereco = this.getById(id);
+
+        endereco.setCliente(
+                clienteService.getById(novoEndereco.getCliente().getId())
+        );
 
         endereco.setCep(novoEndereco.getCep());
         endereco.setLogradouro(novoEndereco.getLogradouro());
@@ -44,7 +56,6 @@ public class EnderecoService {
         endereco.setEstado(novoEndereco.getEstado());
         endereco.setLongitude(novoEndereco.getLongitude());
         endereco.setLatitude(novoEndereco.getLatitude());
-        endereco.setCliente(novoEndereco.getCliente());
 
         return repository.save(endereco);
     }

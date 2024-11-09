@@ -26,7 +26,7 @@ public class Pedido extends BasicEntity {
     @Column(name = "valor_desconto")
     private BigDecimal valorDesconto;
 
-    @Column(name="valor_entrega")
+    @Column(name = "valor_entrega")
     private BigDecimal valorEntrega;
 
     @Column(name = "total")
@@ -37,7 +37,8 @@ public class Pedido extends BasicEntity {
 
     @OneToMany(mappedBy = "pedido"
             , fetch = FetchType.EAGER
-            , cascade = {CascadeType.PERSIST})
+            , cascade = {CascadeType.ALL}
+            , orphanRemoval = true)
     private List<ItemPedido> itens;
 
 
