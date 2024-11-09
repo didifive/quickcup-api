@@ -50,7 +50,7 @@ public class FuncionamentoEspecialService {
     }
 
     public List<FuncionamentoEspecial> getAll() {
-        return repository.findAll();
+        return repository.findAllByOrderByDataInicioAsc();
     }
 
     public FuncionamentoEspecial getFuncionamentoEspecialAtivo() {

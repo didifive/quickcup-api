@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -16,4 +17,6 @@ public interface FuncionamentoEspecialRepository extends JpaRepository<Funcionam
             "AND fe.dataFim >= CURRENT_TIMESTAMP " +
             "ORDER BY fe.dataInicio DESC LIMIT 1")
     Optional<FuncionamentoEspecial> findFuncionamentoEspecialAtivo();
+
+    List<FuncionamentoEspecial> findAllByOrderByDataInicioAsc();
 }

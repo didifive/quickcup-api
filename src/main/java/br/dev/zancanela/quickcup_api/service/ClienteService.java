@@ -37,7 +37,7 @@ public class ClienteService {
         cliente.setEmail(novoCliente.getEmail());
         cliente.setTelefone(novoCliente.getTelefone());
 
-        return repository.save(novoCliente);
+        return repository.save(cliente);
     }
 
     public Cliente getById(Long id) {

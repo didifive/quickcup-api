@@ -7,6 +7,7 @@ import br.dev.zancanela.quickcup_api.entity.Cliente;
 import br.dev.zancanela.quickcup_api.service.ClienteService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -15,6 +16,7 @@ import static br.dev.zancanela.quickcup_api.util.BindingError.checkBindingResult
 
 @RestController
 @RequestMapping("/api/v1/cliente")
+@CrossOrigin(origins = "http://localhost:8081")
 public class ClienteRestController implements ClienteRestControllerDocs {
 
     private final ClienteService clienteService;
@@ -23,7 +25,7 @@ public class ClienteRestController implements ClienteRestControllerDocs {
         this.clienteService = clienteService;
     }
 
-    @PostMapping
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<ClienteResponse> cliente(
             @RequestBody @Valid ClienteRequest clienteRequest
@@ -36,7 +38,7 @@ public class ClienteRestController implements ClienteRestControllerDocs {
         return ResponseEntity.ok().body(ClienteResponse.fromEntity(cliente));
     }
 
-    @GetMapping("/{id}")
+    @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<ClienteResponse> getCliente(@PathVariable Long id) {
         return ResponseEntity.ok(
