@@ -8,6 +8,9 @@ import jakarta.validation.constraints.NotNull;
 
 import java.math.BigDecimal;
 
+import static br.dev.zancanela.quickcup_api.util.DateTimeUtils.stringTimeToTime;
+import static br.dev.zancanela.quickcup_api.util.DateTimeUtils.timeToStringTime;
+
 public record EmpresaRequest(
         Short id,
         @NotEmpty(message = "O nome deve ser preenchido!")
@@ -16,6 +19,10 @@ public record EmpresaRequest(
         String email,
         @NotEmpty(message = "O telefone deve ser preenchido!")
         String telefone,
+        @Min(value = 0, message = "O valor de entrega deve ser igual ou maior que 0")
+        BigDecimal valorEntrega,
+        @NotEmpty(message = "O tempo de entrega deve ser preenchido!")
+        String tempoEntrega,
         @NotEmpty(message = "O cep deve ser preenchido!")
         String cep,
         @NotEmpty(message = "O logradouro deve ser preenchido!")
@@ -42,6 +49,8 @@ public record EmpresaRequest(
         entity.setNome(nome());
         entity.setEmail(email());
         entity.setTelefone(telefone());
+        entity.setTempoEntrega(stringTimeToTime(tempoEntrega()));
+        entity.setValorEntrega(valorEntrega());
         entity.setCep(cep());
         entity.setLogradouro(logradouro());
         entity.setNumero(numero());
@@ -60,6 +69,8 @@ public record EmpresaRequest(
                 entity.getNome(),
                 entity.getEmail(),
                 entity.getTelefone(),
+                entity.getValorEntrega(),
+                timeToStringTime(entity.getTempoEntrega()),
                 entity.getCep(),
                 entity.getLogradouro(),
                 entity.getNumero(),

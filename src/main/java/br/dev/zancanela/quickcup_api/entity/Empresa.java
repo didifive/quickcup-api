@@ -3,6 +3,7 @@ package br.dev.zancanela.quickcup_api.entity;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
+import java.sql.Time;
 
 @Entity
 @Table(name = "Empresa")
@@ -19,6 +20,12 @@ public class Empresa {
 
     @Column(name = "telefone")
     private String telefone;
+
+    @Column(name = "valor_entrega")
+    private BigDecimal valorEntrega;
+
+    @Column(name = "tempo_entrega")
+    private Time tempoEntrega;
 
     @Column(name = "cep")
     private String cep;
@@ -77,6 +84,22 @@ public class Empresa {
 
     public void setTelefone(String telefone) {
         this.telefone = telefone;
+    }
+
+    public BigDecimal getValorEntrega() {
+        return valorEntrega;
+    }
+
+    public void setValorEntrega(BigDecimal valorEntrega) {
+        this.valorEntrega = valorEntrega;
+    }
+
+    public Time getTempoEntrega() {
+        return tempoEntrega;
+    }
+
+    public void setTempoEntrega(Time tempoEntrega) {
+        this.tempoEntrega = tempoEntrega;
     }
 
     public String getCep() {

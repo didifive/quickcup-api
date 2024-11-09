@@ -1,4 +1,4 @@
-package br.dev.zancanela.quickcup_api.controller;
+package br.dev.zancanela.quickcup_api.controller.admin;
 
 import br.dev.zancanela.quickcup_api.dto.admin.request.GrupoRequest;
 import br.dev.zancanela.quickcup_api.entity.Grupo;

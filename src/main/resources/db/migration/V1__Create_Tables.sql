@@ -3,6 +3,8 @@ CREATE TABLE Empresa (
     nome VARCHAR(255) NOT NULL,
     email VARCHAR(255),
     telefone VARCHAR(255) NOT NULL,
+    valor_entrega DECIMAL(10, 2) NOT NULL,
+    tempo_entrega TIME NOT NULL,
     cep VARCHAR(10) NOT NULL,
     logradouro VARCHAR(255) NOT NULL,
     numero INTEGER NOT NULL,
@@ -63,9 +65,10 @@ CREATE TABLE Pedido (
     cliente_id BIGINT,
     status VARCHAR(10) CHECK (status IN ('NOVO', 'CONFIRMADO', 'CANCELADO', 'EM_PREPARO', 'EM_ENTREGA', 'FINALIZADO')),
     valor_original DECIMAL(10, 2) NOT NULL,
-    valor_desconto DECIMAL(10, 2),
+    valor_desconto DECIMAL(10, 2) NOT NULL,
+    valor_entrega DECIMAL(10, 2) NOT NULL,
     total DECIMAL(10, 2) NOT NULL,
-    data_hora TIMESTAMP,
+    data_hora_pedido TIMESTAMP NOT NULL,
     FOREIGN KEY (cliente_id) REFERENCES Cliente(id)
 );
 
@@ -74,7 +77,7 @@ CREATE TABLE Item_Pedido (
     produto_id BIGINT,
     quantidade INTEGER NOT NULL,
     valor_unitario_original DECIMAL(10, 2) NOT NULL,
-    valor_unitario_desconto DECIMAL(10, 2),
+    valor_unitario_desconto DECIMAL(10, 2) NOT NULL,
     valor_unitario DECIMAL(10, 2) NOT NULL,
     PRIMARY KEY (pedido_id, produto_id),
     FOREIGN KEY (pedido_id) REFERENCES Pedido(id),

@@ -26,11 +26,14 @@ public class Pedido extends BasicEntity {
     @Column(name = "valor_desconto")
     private BigDecimal valorDesconto;
 
+    @Column(name="valor_entrega")
+    private BigDecimal valorEntrega;
+
     @Column(name = "total")
     private BigDecimal total;
 
-    @Column(name = "data_hora")
-    private Instant dataHora;
+    @Column(name = "data_hora_pedido")
+    private Instant dataHoraPedido;
 
     @OneToMany(mappedBy = "pedido"
             , fetch = FetchType.EAGER
@@ -70,6 +73,14 @@ public class Pedido extends BasicEntity {
         this.valorDesconto = valorDesconto;
     }
 
+    public BigDecimal getValorEntrega() {
+        return valorEntrega;
+    }
+
+    public void setValorEntrega(BigDecimal valorEntrega) {
+        this.valorEntrega = valorEntrega;
+    }
+
     public BigDecimal getTotal() {
         return total;
     }
@@ -86,11 +97,11 @@ public class Pedido extends BasicEntity {
         this.itens = itens;
     }
 
-    public Instant getDataHora() {
-        return dataHora;
+    public Instant getDataHoraPedido() {
+        return dataHoraPedido;
     }
 
-    public void setDataHora(Instant dataHora) {
-        this.dataHora = dataHora;
+    public void setDataHoraPedido(Instant dataHoraPedido) {
+        this.dataHoraPedido = dataHoraPedido;
     }
 }

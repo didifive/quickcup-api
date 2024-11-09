@@ -15,9 +15,21 @@
                     <h2 th:text="'# ' + ${empresa.nome}"></h2>
                     <p>E-mail: <span th:text="${empresa.email}"></span></p>
                     <p>Telefone: <span th:text="${empresa.telefone}"></span></p>
-                    <p class="me">Endereço:</p>
                     <div class="row" style="border-style: solid;">
-                        <div class="col text-center">
+                        <div class="col">
+                            <div class="col">
+                                <p>
+                                    Valor padrão para entrega:
+                                    <span th:text="${'R$ ' + #numbers.formatDecimal(empresa.valorEntrega,1,2)}"
+                                        class="fw-semibold"></span>
+                                </p>
+                                <p>
+                                    Tempo padrão para entrega:
+                                    <span th:text="${#dates.format(empresa.tempoEntrega, 'HH:mm')}"
+                                        class="fw-semibold"></span>
+                                </p>
+                            </div>
+                            <p class="fw-semibold">Endereço:</p>
                             <p>CEP: <span th:text="${empresa.cep}"></span></p>
                             <div class="row">
                                 <div class="col d-flex flex-row justify-content-around">

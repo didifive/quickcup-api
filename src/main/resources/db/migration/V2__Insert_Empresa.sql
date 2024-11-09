@@ -1,2 +1,2 @@
-INSERT INTO Empresa (id, nome, email, telefone, cep, logradouro, numero, complemento, bairro, cidade, estado, longitude, latitude)
-VALUES (1, 'Empresa XYZ', 'contato@empresaxyz.com', '(11) 99999-9999', '01001-000', 'Rua Exemplo', 123, 'Apartamento 1', 'Bairro Exemplo', 'Cidade Exemplo', 'Estado Exemplo', -23.558923, -46.667891);
+INSERT INTO Empresa (id, nome, email, telefone, valor_entrega, tempo_entrega, cep, logradouro, numero, complemento, bairro, cidade, estado, longitude, latitude)
+VALUES (1, 'Empresa XYZ', 'contato@empresaxyz.com', '(11) 99999-9999', 5.50, '00:15:00', '01001-000', 'Rua Exemplo', 123, 'Apartamento 1', 'Bairro Exemplo', 'Cidade Exemplo', 'Estado Exemplo', -23.558923, -46.667891);
