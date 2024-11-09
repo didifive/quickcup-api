@@ -3,10 +3,7 @@ package br.dev.zancanela.quickcup_api.util;
 import br.dev.zancanela.quickcup_api.exception.QuickCupException;
 
 import java.sql.Time;
-import java.time.Instant;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.time.ZoneId;
+import java.time.*;
 import java.time.format.DateTimeFormatter;
 
 public class DateTimeUtils {
@@ -53,5 +50,12 @@ public class DateTimeUtils {
         } catch (Exception e) {
             throw new QuickCupException("Problema ao converter string para Time: " + e.getMessage());
         }
+    }
+
+    public static ZonedDateTime instantToZonedDateTime(Instant instant) {
+        if (instant == null) {
+            return null;
+        }
+        return ZonedDateTime.ofInstant(instant, ZONE_ID);
     }
 }

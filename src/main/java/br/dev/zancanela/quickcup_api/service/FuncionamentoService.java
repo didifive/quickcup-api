@@ -78,12 +78,15 @@ public class FuncionamentoService {
         DiaSemana currentDay = DiaSemana.from(LocalDate.now().getDayOfWeek());
         Funcionamento regularHours = getById(currentDay);
         FuncionamentoEspecial specialHours = funcionamentoEspecialService.getFuncionamentoEspecialAtivo();
+        boolean isWithinRegularHours = false;
 
-        LocalTime currentTime = LocalTime.now();
-        LocalTime openTime = regularHours.getHoraInicio().toLocalTime();
-        LocalTime closeTime = regularHours.getHoraFim().toLocalTime();
+        if(regularHours.getHoraInicio() != null && regularHours.getHoraFim() != null) {
+            LocalTime currentTime = LocalTime.now();
+            LocalTime openTime = regularHours.getHoraInicio().toLocalTime();
+            LocalTime closeTime = regularHours.getHoraFim().toLocalTime();
 
-        boolean isWithinRegularHours = currentTime.isAfter(openTime) && currentTime.isBefore(closeTime);
+            isWithinRegularHours= currentTime.isAfter(openTime) && currentTime.isBefore(closeTime);
+        }
 
         return (specialHours == null || specialHours.getTipo() != FECHADO) && isWithinRegularHours
                 || specialHours != null && specialHours.getTipo() == ABERTO;
