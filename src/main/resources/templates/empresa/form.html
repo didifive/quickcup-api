@@ -33,6 +33,25 @@
                             <div class="text-danger" th:if="${#fields.hasErrors('telefone')}" th:errors="*{telefone}"></div>
                         </div>
                         <div class="form-group mb-3">
+                            <label class="form-label fw-semibold" for="valorEntrega">Valor padrão para entrega em R$*:</label>
+                            <input id="valorEntrega"
+                                   class="form-control"
+                                   step="0.01"
+                                   min="0.00"
+                                   type="number"
+                                   th:field="*{valorEntrega}" required>
+                            <div class="text-danger" th:if="${#fields.hasErrors('valorEntrega')}"
+                                 th:errors="*{valorEntrega}"></div>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label class="form-label fw-semibold" for="tempoEntrega">Tempo padrão para entrega*:</label>
+                            <input id="tempoEntrega"
+                                   class="form-control"
+                                   type="time"
+                                   th:field="*{tempoEntrega}" required>
+                            <div class="text-danger" th:if="${#fields.hasErrors('tempoEntrega')}" th:errors="*{tempoEntrega}"></div>
+                        </div>
+                        <div class="form-group mb-3">
                             <label class="form-label fw-semibold" for="cep">CEP*:</label>
                             <input
                                     id="cep"
