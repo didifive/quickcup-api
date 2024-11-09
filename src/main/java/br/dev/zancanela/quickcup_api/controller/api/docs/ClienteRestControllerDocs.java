@@ -11,7 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
 
-@Tag(name = "Clientes", description = "Operações relacionadas aos clientes")
+@Tag(name = "Cliente", description = "Operações relacionadas aos clientes")
 public interface ClienteRestControllerDocs {
 
     @Operation(summary = "Cria ou atualiza um cliente",
