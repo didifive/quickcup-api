@@ -11,8 +11,8 @@ import java.util.List;
 @Tag(name = "Produto", description = "Operações relacionadas aos produtos")
 public interface ProdutoRestControllerDocs {
 
-    @Operation(summary = "Listar Produtos",
-            description = "Listar Produtos ativos")
+    @Operation(summary = "Listar Produtos Ativos",
+            description = "Listar Produtos que estão ativos")
     @ApiResponse(responseCode = "200", description = "Retorna lista de produtos ativos")
-    ResponseEntity<List<ProdutoResponse>> listarProdutos();
+    ResponseEntity<List<ProdutoResponse>> listarProdutosAtivos();
 }

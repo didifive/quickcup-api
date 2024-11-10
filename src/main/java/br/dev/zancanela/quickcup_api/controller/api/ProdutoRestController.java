@@ -22,8 +22,8 @@ public class ProdutoRestController implements ProdutoRestControllerDocs {
         this.produtoService = produtoService;
     }
 
-    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<ProdutoResponse>> listarProdutos() {
+    @GetMapping(value = "/ativo", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<ProdutoResponse>> listarProdutosAtivos() {
         return ResponseEntity.ok(
                 produtoService.getAllEnabled().stream()
                         .map(ProdutoResponse::fromEntity)

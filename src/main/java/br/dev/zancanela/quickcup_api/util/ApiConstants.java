@@ -2,6 +2,12 @@ package br.dev.zancanela.quickcup_api.util;
 
 public class ApiConstants {
 
+    public static final int UMA_HORA_EM_SEGUNDOS = 3600;
+    public static final String API_REST_ROOT_URN = "/api/v1/**";
+    public static final String HEADER_CONTENT_TYPE = "Content-Type";
+    public static final String HEADER_AUTHORIZATION = "Authorization";
+
+
     public static final String EMPRESA = "empresa";
     public static final String FUNCIONAMENTO = "funcionamento";
     public static final String CADASTROS = "cadastros";
