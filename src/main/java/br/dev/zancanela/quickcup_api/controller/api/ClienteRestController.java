@@ -16,7 +16,6 @@ import static br.dev.zancanela.quickcup_api.util.BindingError.checkBindingResult
 
 @RestController
 @RequestMapping("/api/v1/cliente")
-@CrossOrigin(origins = "http://localhost:8081")
 public class ClienteRestController implements ClienteRestControllerDocs {
 
     private final ClienteService clienteService;
