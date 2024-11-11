@@ -62,14 +62,20 @@ CREATE TABLE Produto (
 
 CREATE TABLE Pedido (
     id BIGSERIAL PRIMARY KEY,
-    cliente_id BIGINT,
+    cliente_id BIGINT NOT NULL,
     status VARCHAR(10) CHECK (status IN ('NOVO', 'CONFIRMADO', 'CANCELADO', 'EM_PREPARO', 'EM_ENTREGA', 'FINALIZADO')),
     valor_original DECIMAL(10, 2) NOT NULL,
     valor_desconto DECIMAL(10, 2) NOT NULL,
     valor_entrega DECIMAL(10, 2) NOT NULL,
     total DECIMAL(10, 2) NOT NULL,
+    retira BOOLEAN NOT NULL DEFAULT FALSE,
+    endereco VARCHAR(255),
     data_hora_pedido TIMESTAMP NOT NULL,
-    FOREIGN KEY (cliente_id) REFERENCES Cliente(id)
+    FOREIGN KEY (cliente_id) REFERENCES Cliente(id),
+    CONSTRAINT chk_endereco_retira CHECK (
+        (retira = TRUE AND endereco IS NULL) OR
+        (retira = FALSE AND endereco IS NOT NULL)
+    )
 );
 
 CREATE TABLE Item_Pedido (

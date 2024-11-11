@@ -33,11 +33,23 @@ public class PedidoService {
 
     @Transactional
     public Pedido create(Pedido novoPedido) {
-        Cliente cliente = clienteService.getById(novoPedido.getCliente().getId());
         if (novoPedido.getId() != null) {
             throw new DataIntegrityViolationException(
                     "Não foi possível criar um novo pedido com o id informado");
         }
+
+        if (!novoPedido.isRetira() && novoPedido.getEndereco() == null) {
+            throw new DataIntegrityViolationException(
+                    "Pedido para entregar não possui endereço informado");
+        }
+
+        if (novoPedido.isRetira() && novoPedido.getValorEntrega().compareTo(BigDecimal.ZERO) > 0) {
+            throw new DataIntegrityViolationException(
+                    "Pedido para retirar não pode cobrar valor de entrega");
+        }
+
+        Cliente cliente = clienteService.getById(novoPedido.getCliente().getId());
+
         BigDecimal totalOriginalCalculado = BigDecimal.ZERO;
         BigDecimal totalDescontoCalculado = BigDecimal.ZERO;
         for (ItemPedido item : novoPedido.getItens()) {

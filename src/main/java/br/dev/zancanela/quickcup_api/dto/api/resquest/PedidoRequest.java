@@ -20,6 +20,8 @@ public record PedidoRequest(
         BigDecimal valorDesconto,
         @NotNull(message = "O valor de entrega deve ser preenchido!")
         BigDecimal valorEntrega,
+        boolean retira,
+        String endereco,
         @NotNull(message = "O valor total deve ser preenchido!")
         BigDecimal total,
         @Valid
@@ -36,6 +38,8 @@ public record PedidoRequest(
         pedido.setValorOriginal(valorOriginal());
         pedido.setValorDesconto(valorDesconto());
         pedido.setValorEntrega(valorEntrega());
+        pedido.setRetira(retira());
+        pedido.setEndereco(endereco());
         pedido.setTotal(total());
         pedido.setItens(itens);
 

@@ -32,6 +32,12 @@ public class Pedido extends BasicEntity {
     @Column(name = "total")
     private BigDecimal total;
 
+    @Column(name = "retira")
+    private boolean retira;
+
+    @Column(name = "endereco")
+    private String endereco;
+
     @Column(name = "data_hora_pedido")
     private Instant dataHoraPedido;
 
@@ -40,7 +46,6 @@ public class Pedido extends BasicEntity {
             , cascade = {CascadeType.ALL}
             , orphanRemoval = true)
     private List<ItemPedido> itens;
-
 
     public Cliente getCliente() {
         return cliente;
@@ -96,6 +101,22 @@ public class Pedido extends BasicEntity {
 
     public void setItens(List<ItemPedido> itens) {
         this.itens = itens;
+    }
+
+    public boolean isRetira() {
+        return retira;
+    }
+
+    public void setRetira(boolean retira) {
+        this.retira = retira;
+    }
+
+    public String getEndereco() {
+        return endereco;
+    }
+
+    public void setEndereco(String endereco) {
+        this.endereco = endereco;
     }
 
     public Instant getDataHoraPedido() {

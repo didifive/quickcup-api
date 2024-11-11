@@ -53,6 +53,10 @@ public class FuncionamentoEspecialService {
         return repository.findAllByOrderByDataInicioAsc();
     }
 
+    public List<FuncionamentoEspecial> getTop5Futuro() {
+        return repository.findTop5Futuro();
+    }
+
     public FuncionamentoEspecial getFuncionamentoEspecialAtivo() {
         return repository.findFuncionamentoEspecialAtivo().orElse(null);
     }

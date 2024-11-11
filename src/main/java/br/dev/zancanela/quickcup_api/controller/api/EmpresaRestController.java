@@ -41,7 +41,7 @@ public class EmpresaRestController implements EmpresaRestControllerDocs {
         listaFuncionamentoSemana.removeIf(
                 funcionamento -> funcionamento.getHoraInicio() == null || funcionamento.getHoraFim() == null
         );
-        List<FuncionamentoEspecial> listaFuncionamentoEspecial = funcionamentoEspecialService.getAll();
+        List<FuncionamentoEspecial> listaFuncionamentoEspecial = funcionamentoEspecialService.getTop5Futuro();
 
         return ResponseEntity.ok(
                 EmpresaResponse.fromEntity(
