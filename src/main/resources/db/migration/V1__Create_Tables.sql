@@ -26,7 +26,7 @@ CREATE TABLE Cliente (
 
 CREATE TABLE Endereco (
     id BIGSERIAL PRIMARY KEY,
-    cliente_id BIGINT,
+    cliente_id BIGINT NOT NULL,
     nome VARCHAR(255),
     cep VARCHAR(10) NOT NULL,
     logradouro VARCHAR(255) NOT NULL,
@@ -56,7 +56,7 @@ CREATE TABLE Produto (
     valor_original DECIMAL(10, 2) NOT NULL,
     valor_desconto DECIMAL(10, 2) NOT NULL,
     enabled BOOLEAN NOT NULL DEFAULT TRUE,
-    grupo_id BIGINT,
+    grupo_id BIGINT NOT NULL,
     FOREIGN KEY (grupo_id) REFERENCES Grupo(id)
 );
 
@@ -79,8 +79,8 @@ CREATE TABLE Pedido (
 );
 
 CREATE TABLE Item_Pedido (
-    pedido_id BIGINT,
-    produto_id BIGINT,
+    pedido_id BIGINT NOT NULL,
+    produto_id BIGINT NOT NULL,
     quantidade INTEGER NOT NULL,
     valor_unitario_original DECIMAL(10, 2) NOT NULL,
     valor_unitario_desconto DECIMAL(10, 2) NOT NULL,
@@ -92,14 +92,14 @@ CREATE TABLE Item_Pedido (
 
 CREATE TABLE Funcionamento (
     dia_semana VARCHAR(7) CHECK (dia_semana IN ('DOMINGO', 'SEGUNDA', 'TERCA', 'QUARTA', 'QUINTA', 'SEXTA', 'SABADO')) PRIMARY KEY,
-    hora_inicio TIME,
-    hora_fim TIME
+    hora_inicio TIME NOT NULL,
+    hora_fim TIME NOT NULL
 );
 
 CREATE TABLE Funcionamento_Especial (
     id BIGSERIAL PRIMARY KEY,
-    nome VARCHAR(255),
-    data_inicio TIMESTAMP,
-    data_fim TIMESTAMP,
-    tipo VARCHAR(7) CHECK (tipo IN ('ABERTO', 'FECHADO'))
+    nome VARCHAR(255) NOT NULL,
+    data_inicio TIMESTAMP NOT NULL,
+    data_fim TIMESTAMP NOT NULL,
+    tipo VARCHAR(7) CHECK (tipo IN ('ABERTO', 'FECHADO')) NOT NULL
 );
