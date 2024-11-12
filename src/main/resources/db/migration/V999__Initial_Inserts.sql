@@ -67,14 +67,14 @@ INSERT INTO Produto (codigo, nome, descricao, imagem, valor_original, valor_desc
 ('P3G3', 'Produto 3 do Grupo 3', 'Descrição do Produto 3 do Grupo 3', 'imagem11.jpg', 220.00, 198.00, FALSE, 3);
 
 
-INSERT INTO Cliente (nome, email, telefone) VALUES
-('João Silva', 'joao.silva@example.com', '11987654321'),
-('Maria Oliveira', 'maria.oliveira@example.com', '11987654322'),
-('Carlos Souza', null, '11987654323');
+INSERT INTO Cliente (nome,  telefone) VALUES
+('João Silva', '11987654321'),
+('Maria Oliveira', '11987654322'),
+('Carlos Souza', '11987654323');
 
 INSERT INTO Endereco (cliente_id, nome, cep, logradouro, numero, complemento, bairro, cidade, estado, longitude, latitude) VALUES
 (1, 'Casa', '14620-000', 'Rua 1', 100, 'Apto 101', 'Centro', 'Orlândia', 'SP', -47.8858187, -20.7175404),
-(1, 'Trabalho', '14620-000', 'Avenida 2', 200, 'Sala 202', 'Centro', 'Orlândia', 'SP', -47.88667, -20.72028);
+(1, 'Trabalho', '14620-000', 'Avenida 2', 200, null, 'Centro', 'Orlândia', 'SP', -47.88667, -20.72028);
 
 INSERT INTO Endereco (cliente_id, nome, cep, logradouro, numero, complemento, bairro, cidade, estado, longitude, latitude) VALUES
 (2, 'Casa', '14620-000', 'Rua 3', 300, 'Casa', 'Centro', 'Orlândia', 'SP', -47.8853, -20.7188);

@@ -35,7 +35,7 @@ public class PedidoService {
     public Pedido create(Pedido novoPedido) {
         if (novoPedido.getId() != null) {
             throw new DataIntegrityViolationException(
-                    "Não foi possível criar um novo pedido com o id informado");
+                    "Não é possível criar um novo pedido quando tem um id informado");
         }
 
         if (!novoPedido.isRetira() && novoPedido.getEndereco() == null) {
@@ -63,26 +63,6 @@ public class PedidoService {
             item.setPedido(novoPedido);
         }
 
-        if (!novoPedido.getValorOriginal().equals(totalOriginalCalculado)) {
-            throw new DataIntegrityViolationException(
-                    "O valor original informado para o pedido está divergente com o valor calculado");
-        }
-
-        if (!novoPedido.getValorDesconto().equals(totalDescontoCalculado)) {
-            throw new DataIntegrityViolationException(
-                    "O valor desconto informado para o pedido está divergente com o valor calculado");
-        }
-
-        BigDecimal divergenciaTotal = totalOriginalCalculado
-                .subtract(totalDescontoCalculado).abs()
-                .subtract(novoPedido.getValorEntrega())
-                .subtract(novoPedido.getTotal());
-
-        if (!divergenciaTotal.equals(BigDecimal.ZERO)) {
-            throw new DataIntegrityViolationException(
-                    "O valor total do pedido está divergente com valor original, de desconto e entrega");
-        }
-
         novoPedido.setCliente(cliente);
         novoPedido.setStatus(PedidoStatus.NOVO);
         novoPedido.setDataHoraPedido(Instant.now());
@@ -99,26 +79,19 @@ public class PedidoService {
 
         BigDecimal valorOriginalProduto = produto.getValorOriginal();
         BigDecimal valorDescontoProduto = produto.getValorDesconto();
-        BigDecimal valorUnitarioOriginal = item.getValorUnitarioOriginal();
-        BigDecimal valorUnitarioDesconto = item.getValorUnitarioDesconto();
-        BigDecimal valorUnitarioPedido = item.getValorUnitario();
+        BigDecimal valorUnitarioItem = item.getValorUnitarioOriginal();
+        BigDecimal valorDescontoItem = item.getValorUnitarioDesconto();
 
-        if (!valorOriginalProduto.equals(valorUnitarioOriginal)) {
+        if (!valorOriginalProduto.equals(valorUnitarioItem)) {
             throw new DataIntegrityViolationException(
                     "O valor unitário original do produto [" + produto.getNome() +
                             "] está divergente entre pedido e cadastro do produto");
         }
 
-        if (!valorDescontoProduto.equals(valorUnitarioDesconto)) {
+        if (!valorDescontoProduto.equals(valorDescontoItem)) {
             throw new DataIntegrityViolationException(
                     "O valor unitário de desconto do produto [" + produto.getNome() +
                             "] está divergente entre pedido e cadastro do produto");
-        }
-
-        if (!valorUnitarioOriginal.subtract(valorUnitarioDesconto).equals(valorUnitarioPedido)) {
-            throw new DataIntegrityViolationException(
-                    "O valor unitário do produto [" + produto.getNome() +
-                            "] está divergente com valor original menos o desconto");
         }
 
         item.setProduto(produto);

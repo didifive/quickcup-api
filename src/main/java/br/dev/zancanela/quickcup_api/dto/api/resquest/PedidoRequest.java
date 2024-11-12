@@ -14,16 +14,10 @@ import java.util.List;
 public record PedidoRequest(
         @NotNull(message = "O id do cliente deve ser preenchido!")
         Long clienteId,
-        @NotNull(message = "A soma dos valores originais dos produtos deve ser preenchida!")
-        BigDecimal valorOriginal,
-        @NotNull(message = "A soma dos valores de desconto dos produtos deve ser preenchida!")
-        BigDecimal valorDesconto,
         @NotNull(message = "O valor de entrega deve ser preenchido!")
         BigDecimal valorEntrega,
         boolean retira,
         String endereco,
-        @NotNull(message = "O valor total deve ser preenchido!")
-        BigDecimal total,
         @Valid
         @NotEmpty
         @Min(value = 1, message = "O pedido deve ter pelo menos um item!")
@@ -35,12 +29,9 @@ public record PedidoRequest(
         List<ItemPedido> itens = itens().stream().map(ItemPedidoRequest::toEntity).toList();
 
         pedido.setCliente(new Cliente(clienteId()));
-        pedido.setValorOriginal(valorOriginal());
-        pedido.setValorDesconto(valorDesconto());
         pedido.setValorEntrega(valorEntrega());
         pedido.setRetira(retira());
         pedido.setEndereco(endereco());
-        pedido.setTotal(total());
         pedido.setItens(itens);
 
         return pedido;

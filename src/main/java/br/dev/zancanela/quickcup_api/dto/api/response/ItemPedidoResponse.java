@@ -8,16 +8,14 @@ public record ItemPedidoResponse(
         Long produtoId,
         Integer quantidade,
         BigDecimal valorUnitarioOriginal,
-        BigDecimal valorUnitarioDesconto,
-        BigDecimal valorUnitario
+        BigDecimal valorUnitarioDesconto
 ) {
     public static ItemPedidoResponse fromEntity(ItemPedido entity) {
         return new ItemPedidoResponse(
                 entity.getProduto().getId(),
                 entity.getQuantidade(),
                 entity.getValorUnitarioOriginal(),
-                entity.getValorUnitarioDesconto(),
-                entity.getValorUnitario()
+                entity.getValorUnitarioDesconto()
         );
     }
 }

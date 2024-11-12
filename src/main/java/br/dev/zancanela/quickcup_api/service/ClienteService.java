@@ -34,7 +34,6 @@ public class ClienteService {
         }
 
         cliente.setNome(novoCliente.getNome());
-        cliente.setEmail(novoCliente.getEmail());
         cliente.setTelefone(novoCliente.getTelefone());
 
         return repository.save(cliente);
@@ -59,7 +58,6 @@ public class ClienteService {
         Cliente cliente = this.getById(id);
 
         cliente.setNome(novoCliente.getNome());
-        cliente.setEmail(novoCliente.getEmail());
         cliente.setTelefone(novoCliente.getTelefone());
 
         return repository.save(cliente);

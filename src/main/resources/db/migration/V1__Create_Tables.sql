@@ -19,7 +19,6 @@ CREATE TABLE Empresa (
 CREATE TABLE Cliente (
     id BIGSERIAL PRIMARY KEY,
     nome VARCHAR(255) NOT NULL,
-    email VARCHAR(255),
     telefone VARCHAR(15) NOT NULL,
     UNIQUE (telefone)
 );
@@ -64,10 +63,7 @@ CREATE TABLE Pedido (
     id BIGSERIAL PRIMARY KEY,
     cliente_id BIGINT NOT NULL,
     status VARCHAR(10) CHECK (status IN ('NOVO', 'CONFIRMADO', 'CANCELADO', 'EM_PREPARO', 'EM_ENTREGA', 'FINALIZADO')),
-    valor_original DECIMAL(10, 2) NOT NULL,
-    valor_desconto DECIMAL(10, 2) NOT NULL,
     valor_entrega DECIMAL(10, 2) NOT NULL,
-    total DECIMAL(10, 2) NOT NULL,
     retira BOOLEAN NOT NULL DEFAULT FALSE,
     endereco VARCHAR(255),
     data_hora_pedido TIMESTAMP NOT NULL,
@@ -84,7 +80,6 @@ CREATE TABLE Item_Pedido (
     quantidade INTEGER NOT NULL,
     valor_unitario_original DECIMAL(10, 2) NOT NULL,
     valor_unitario_desconto DECIMAL(10, 2) NOT NULL,
-    valor_unitario DECIMAL(10, 2) NOT NULL,
     PRIMARY KEY (pedido_id, produto_id),
     FOREIGN KEY (pedido_id) REFERENCES Pedido(id),
     FOREIGN KEY (produto_id) REFERENCES Produto(id)

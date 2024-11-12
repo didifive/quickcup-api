@@ -20,17 +20,8 @@ public class Pedido extends BasicEntity {
     @Column(name = "status")
     private PedidoStatus status;
 
-    @Column(name = "valor_original")
-    private BigDecimal valorOriginal;
-
-    @Column(name = "valor_desconto")
-    private BigDecimal valorDesconto;
-
     @Column(name = "valor_entrega")
     private BigDecimal valorEntrega;
-
-    @Column(name = "total")
-    private BigDecimal total;
 
     @Column(name = "retira")
     private boolean retira;
@@ -43,8 +34,7 @@ public class Pedido extends BasicEntity {
 
     @OneToMany(mappedBy = "pedido"
             , fetch = FetchType.EAGER
-            , cascade = {CascadeType.ALL}
-            , orphanRemoval = true)
+            , cascade = {CascadeType.PERSIST})
     private List<ItemPedido> itens;
 
     public Cliente getCliente() {
@@ -63,36 +53,12 @@ public class Pedido extends BasicEntity {
         this.status = status;
     }
 
-    public BigDecimal getValorOriginal() {
-        return valorOriginal;
-    }
-
-    public void setValorOriginal(BigDecimal valorOriginal) {
-        this.valorOriginal = valorOriginal;
-    }
-
-    public BigDecimal getValorDesconto() {
-        return valorDesconto;
-    }
-
-    public void setValorDesconto(BigDecimal valorDesconto) {
-        this.valorDesconto = valorDesconto;
-    }
-
     public BigDecimal getValorEntrega() {
         return valorEntrega;
     }
 
     public void setValorEntrega(BigDecimal valorEntrega) {
         this.valorEntrega = valorEntrega;
-    }
-
-    public BigDecimal getTotal() {
-        return total;
-    }
-
-    public void setTotal(BigDecimal total) {
-        this.total = total;
     }
 
     public List<ItemPedido> getItens() {
