@@ -1,6 +1,7 @@
 package br.dev.zancanela.quickcup_api.entity;
 
 import br.dev.zancanela.quickcup_api.entity.abstracts.BasicEntity;
+import br.dev.zancanela.quickcup_api.entity.enums.FormaPagamento;
 import br.dev.zancanela.quickcup_api.entity.enums.PedidoStatus;
 import jakarta.persistence.*;
 
@@ -28,6 +29,13 @@ public class Pedido extends BasicEntity {
 
     @Column(name = "endereco")
     private String endereco;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "forma_pagamento")
+    private FormaPagamento formaPagamento;
+
+    @Column(name = "observacoes")
+    private String observacoes;
 
     @Column(name = "data_hora_pedido")
     private Instant dataHoraPedido;
@@ -83,6 +91,22 @@ public class Pedido extends BasicEntity {
 
     public void setEndereco(String endereco) {
         this.endereco = endereco;
+    }
+
+    public FormaPagamento getFormaPagamento() {
+        return formaPagamento;
+    }
+
+    public void setFormaPagamento(FormaPagamento formaPagamento) {
+        this.formaPagamento = formaPagamento;
+    }
+
+    public String getObservacoes() {
+        return observacoes;
+    }
+
+    public void setObservacoes(String observacoes) {
+        this.observacoes = observacoes;
     }
 
     public Instant getDataHoraPedido() {

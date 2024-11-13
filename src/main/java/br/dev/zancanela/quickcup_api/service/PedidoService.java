@@ -48,20 +48,17 @@ public class PedidoService {
                     "Pedido para retirar não pode cobrar valor de entrega");
         }
 
+        if (novoPedido.getItens() == null || novoPedido.getItens().isEmpty()) {
+            throw new DataIntegrityViolationException(
+                    "Pedido não possui itens");
+        }
+
         Cliente cliente = clienteService.getById(novoPedido.getCliente().getId());
 
-        BigDecimal totalOriginalCalculado = BigDecimal.ZERO;
-        BigDecimal totalDescontoCalculado = BigDecimal.ZERO;
-        for (ItemPedido item : novoPedido.getItens()) {
+        novoPedido.getItens().forEach(item -> {
             this.validaProdutoEValoresItem(item);
-            BigDecimal totalOriginalItem = item.getValorUnitarioOriginal()
-                    .multiply(new BigDecimal(item.getQuantidade()));
-            BigDecimal totalDescontoItem = item.getValorUnitarioDesconto()
-                    .multiply(new BigDecimal(item.getQuantidade()));
-            totalOriginalCalculado = totalOriginalCalculado.add(totalOriginalItem);
-            totalDescontoCalculado = totalDescontoCalculado.add(totalDescontoItem);
             item.setPedido(novoPedido);
-        }
+        });
 
         novoPedido.setCliente(cliente);
         novoPedido.setStatus(PedidoStatus.NOVO);

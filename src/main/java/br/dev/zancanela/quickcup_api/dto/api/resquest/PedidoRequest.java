@@ -3,6 +3,7 @@ package br.dev.zancanela.quickcup_api.dto.api.resquest;
 import br.dev.zancanela.quickcup_api.entity.Cliente;
 import br.dev.zancanela.quickcup_api.entity.ItemPedido;
 import br.dev.zancanela.quickcup_api.entity.Pedido;
+import br.dev.zancanela.quickcup_api.entity.enums.FormaPagamento;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
@@ -18,6 +19,8 @@ public record PedidoRequest(
         BigDecimal valorEntrega,
         boolean retira,
         String endereco,
+        FormaPagamento formaPagamento,
+        String observacoes,
         @Valid
         @NotEmpty
         @Min(value = 1, message = "O pedido deve ter pelo menos um item!")
@@ -32,6 +35,8 @@ public record PedidoRequest(
         pedido.setValorEntrega(valorEntrega());
         pedido.setRetira(retira());
         pedido.setEndereco(endereco());
+        pedido.setFormaPagamento(formaPagamento());
+        pedido.setObservacoes(observacoes());
         pedido.setItens(itens);
 
         return pedido;

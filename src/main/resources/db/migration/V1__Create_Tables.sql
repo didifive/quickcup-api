@@ -62,10 +62,12 @@ CREATE TABLE Produto (
 CREATE TABLE Pedido (
     id BIGSERIAL PRIMARY KEY,
     cliente_id BIGINT NOT NULL,
-    status VARCHAR(10) CHECK (status IN ('NOVO', 'CONFIRMADO', 'CANCELADO', 'EM_PREPARO', 'EM_ENTREGA', 'FINALIZADO')),
+    status VARCHAR(10) NOT NULL CHECK (status IN ('NOVO', 'CONFIRMADO', 'CANCELADO', 'EM_PREPARO', 'EM_ENTREGA', 'FINALIZADO')),
     valor_entrega DECIMAL(10, 2) NOT NULL,
     retira BOOLEAN NOT NULL DEFAULT FALSE,
     endereco VARCHAR(255),
+    forma_pagamento VARCHAR(14) NOT NULL CHECK (forma_pagamento IN ('DINHEIRO', 'CARTAO_CREDITO', 'CARTAO_DEBITO', 'PIX')),
+    observacoes VARCHAR(255),
     data_hora_pedido TIMESTAMP NOT NULL,
     FOREIGN KEY (cliente_id) REFERENCES Cliente(id),
     CONSTRAINT chk_endereco_retira CHECK (
@@ -86,7 +88,7 @@ CREATE TABLE Item_Pedido (
 );
 
 CREATE TABLE Funcionamento (
-    dia_semana VARCHAR(7) CHECK (dia_semana IN ('DOMINGO', 'SEGUNDA', 'TERCA', 'QUARTA', 'QUINTA', 'SEXTA', 'SABADO')) PRIMARY KEY,
+    dia_semana VARCHAR(7) NOT NULL CHECK (dia_semana IN ('DOMINGO', 'SEGUNDA', 'TERCA', 'QUARTA', 'QUINTA', 'SEXTA', 'SABADO')) PRIMARY KEY,
     hora_inicio TIME NOT NULL,
     hora_fim TIME NOT NULL
 );
