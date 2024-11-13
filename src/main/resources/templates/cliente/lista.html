@@ -19,7 +19,6 @@
                                 <th>Id</th>
                                 <th>Nome</th>
                                 <th>Telefone</th>
-                                <th>Email</th>
                                 <th>Endereços</th>
                             </tr>
                             </thead>
@@ -28,14 +27,12 @@
                                 <td class="semibold" th:text="${'#' + cliente.id}"></td>
                                 <td class="semibold" th:text="${cliente.nome}"></td>
                                 <td th:text="${cliente.telefone}"></td>
-                                <td th:text="${cliente.email}"></td>
                                 <td>
                                     <div class="my-1 border border-1 p-2"
                                          th:each="endereco : ${cliente.enderecos}">
                                         <span th:text="${endereco.logradouro}"></span>,
                                         <span th:text="${endereco.numero}"></span>
-                                        <br>
-                                        <span th:text="${endereco.complemento}"></span>
+                                        <span th:text="${' - ' + endereco.complemento}"></span>
                                         <br>
                                         <span th:text="${endereco.bairro}"></span>
                                         <br>
