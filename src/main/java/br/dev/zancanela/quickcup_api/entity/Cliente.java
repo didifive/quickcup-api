@@ -15,7 +15,6 @@ public class Cliente extends BasicEntity {
     private String telefone;
 
     @OneToMany(mappedBy = "cliente",
-            fetch = FetchType.EAGER,
             cascade = {CascadeType.ALL},
             orphanRemoval = true)
     private List<Endereco> enderecos;

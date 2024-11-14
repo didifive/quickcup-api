@@ -11,7 +11,7 @@ public record EnderecoRequest(
         Long clienteId,
         String nome,
         @NotEmpty(message = "O cep deve ser preenchido!")
-        @Size(min = 10, max = 10, message = "O cep deve ter 8 dígitos")
+        @Size(min = 8, max = 10, message = "O cep deve ter entre 8 e 10 digitos")
         String cep,
         @NotEmpty(message = "O logradouro deve ser preenchido!")
         @Size(min = 3, max = 255, message = "O logradouro deve ter entre 3 e 255 caracteres")
