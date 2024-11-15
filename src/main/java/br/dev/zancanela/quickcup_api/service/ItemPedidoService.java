@@ -16,6 +16,6 @@ public class ItemPedidoService {
     }
 
     public List<ItemPedido> getAllByProdutoId(Long id) {
-        return repository.findAllByProdutoId(id);
+        return repository.findAllByIdProdutoId(id);
     }
 }

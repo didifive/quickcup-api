@@ -12,7 +12,7 @@ public record ItemPedidoResponse(
 ) {
     public static ItemPedidoResponse fromEntity(ItemPedido entity) {
         return new ItemPedidoResponse(
-                entity.getProduto().getId(),
+                entity.getId().getProduto().getId(),
                 entity.getQuantidade(),
                 entity.getValorUnitarioOriginal(),
                 entity.getValorUnitarioDesconto()

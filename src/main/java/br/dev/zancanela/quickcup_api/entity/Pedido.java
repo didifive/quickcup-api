@@ -40,9 +40,8 @@ public class Pedido extends BasicEntity {
     @Column(name = "data_hora_pedido")
     private Instant dataHoraPedido;
 
-    @OneToMany(mappedBy = "pedido"
-            , fetch = FetchType.EAGER
-            , cascade = {CascadeType.PERSIST})
+    @OneToMany(mappedBy = "id.pedido"
+            , cascade = {CascadeType.ALL})
     private List<ItemPedido> itens;
 
     public Cliente getCliente() {

@@ -1,7 +1,8 @@
 package br.dev.zancanela.quickcup_api.entity.pk;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Embeddable;
+import br.dev.zancanela.quickcup_api.entity.Pedido;
+import br.dev.zancanela.quickcup_api.entity.Produto;
+import jakarta.persistence.*;
 
 import java.io.Serializable;
 import java.util.Objects;
@@ -9,26 +10,36 @@ import java.util.Objects;
 @Embeddable
 public class ItemPedidoId implements Serializable {
 
-    @Column(name = "pedido_id")
-    private Long pedidoId;
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH})
+    @JoinColumn(name = "pedido_id")
+    private Pedido pedido;
 
-    @Column(name = "produto_id")
-    private Long produtoId;
+    @ManyToOne
+    @JoinColumn(name = "produto_id")
+    private Produto produto;
 
-    public Long getPedidoId() {
-        return pedidoId;
+    public ItemPedidoId() {
     }
 
-    public void setPedidoId(Long pedidoId) {
-        this.pedidoId = pedidoId;
+    public ItemPedidoId(Pedido pedido, Produto produto) {
+        this.pedido = pedido;
+        this.produto = produto;
     }
 
-    public Long getProdutoId() {
-        return produtoId;
+    public Pedido getPedido() {
+        return pedido;
     }
 
-    public void setProdutoId(Long produtoId) {
-        this.produtoId = produtoId;
+    public void setPedido(Pedido pedido) {
+        this.pedido = pedido;
+    }
+
+    public Produto getProduto() {
+        return produto;
+    }
+
+    public void setProduto(Produto produto) {
+        this.produto = produto;
     }
 
     @Override
@@ -36,11 +47,11 @@ public class ItemPedidoId implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         ItemPedidoId that = (ItemPedidoId) o;
-        return Objects.equals(getPedidoId(), that.getPedidoId()) && Objects.equals(getProdutoId(), that.getProdutoId());
+        return Objects.equals(getPedido(), that.getPedido()) && Objects.equals(getProduto(), that.getProduto());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getPedidoId(), getProdutoId());
+        return Objects.hash(getPedido(), getProduto());
     }
 }

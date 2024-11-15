@@ -57,7 +57,7 @@ public class PedidoService {
 
         novoPedido.getItens().forEach(item -> {
             this.validaProdutoEValoresItem(item);
-            item.setPedido(novoPedido);
+            item.getId().setPedido(novoPedido);
         });
 
         novoPedido.setCliente(cliente);
@@ -68,7 +68,7 @@ public class PedidoService {
     }
 
     private void validaProdutoEValoresItem(ItemPedido item) {
-        Produto produto = produtoService.getById(item.getProduto().getId());
+        Produto produto = produtoService.getById(item.getId().getProduto().getId());
 
         if (produto.isDisabled()) {
             throw new DataIntegrityViolationException("Produto [" + produto.getNome() + "] desativado");
@@ -79,19 +79,19 @@ public class PedidoService {
         BigDecimal valorUnitarioItem = item.getValorUnitarioOriginal();
         BigDecimal valorDescontoItem = item.getValorUnitarioDesconto();
 
-        if (!valorOriginalProduto.equals(valorUnitarioItem)) {
+        if (!valorOriginalProduto.stripTrailingZeros().equals(valorUnitarioItem.stripTrailingZeros())) {
             throw new DataIntegrityViolationException(
                     "O valor unitário original do produto [" + produto.getNome() +
                             "] está divergente entre pedido e cadastro do produto");
         }
 
-        if (!valorDescontoProduto.equals(valorDescontoItem)) {
+        if (!valorDescontoProduto.stripTrailingZeros().equals(valorDescontoItem.stripTrailingZeros())) {
             throw new DataIntegrityViolationException(
                     "O valor unitário de desconto do produto [" + produto.getNome() +
                             "] está divergente entre pedido e cadastro do produto");
         }
 
-        item.setProduto(produto);
+        item.getId().setProduto(produto);
     }
 
     public Pedido getById(Long id) {

@@ -5,7 +5,6 @@ import br.dev.zancanela.quickcup_api.entity.ItemPedido;
 import br.dev.zancanela.quickcup_api.entity.Pedido;
 import br.dev.zancanela.quickcup_api.entity.enums.FormaPagamento;
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 
@@ -23,7 +22,6 @@ public record PedidoRequest(
         String observacoes,
         @Valid
         @NotEmpty
-        @Min(value = 1, message = "O pedido deve ter pelo menos um item!")
         List<ItemPedidoRequest> itens
 ) {
     public Pedido toEntity() {

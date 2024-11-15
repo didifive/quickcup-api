@@ -9,6 +9,7 @@ import java.math.BigDecimal;
 import java.util.List;
 
 public record PedidoResponse(
+        Long id,
         Long clienteId,
         PedidoStatus status,
         BigDecimal valorEntrega,
@@ -22,6 +23,7 @@ public record PedidoResponse(
 ) {
     public static PedidoResponse fromEntity(Pedido entity) {
         return new PedidoResponse(
+                entity.getId(),
                 entity.getCliente().getId(),
                 entity.getStatus(),
                 entity.getValorEntrega(),

@@ -2,6 +2,7 @@ package br.dev.zancanela.quickcup_api.dto.api.resquest;
 
 import br.dev.zancanela.quickcup_api.entity.ItemPedido;
 import br.dev.zancanela.quickcup_api.entity.Produto;
+import br.dev.zancanela.quickcup_api.entity.pk.ItemPedidoId;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 
@@ -20,8 +21,9 @@ public record ItemPedidoRequest(
 ) {
     public ItemPedido toEntity() {
         ItemPedido itemPedido = new ItemPedido();
+        itemPedido.setId(new ItemPedidoId());
 
-        itemPedido.setProduto(new Produto(produtoId()));
+        itemPedido.getId().setProduto(new Produto(produtoId()));
         itemPedido.setQuantidade(quantidade());
         itemPedido.setValorUnitarioOriginal(valorUnitarioOriginal());
         itemPedido.setValorUnitarioDesconto(valorUnitarioDesconto());
