@@ -6,6 +6,7 @@ import br.dev.zancanela.quickcup_api.entity.enums.PedidoStatus;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 import java.math.BigDecimal;
+import java.time.Instant;
 import java.util.List;
 
 public record PedidoResponse(
@@ -19,6 +20,7 @@ public record PedidoResponse(
         FormaPagamento formaPagamento,
         @JsonInclude(JsonInclude.Include.NON_NULL)
         String observacoes,
+        Instant dataHoraPedido,
         List<ItemPedidoResponse> itens
 ) {
     public static PedidoResponse fromEntity(Pedido entity) {
@@ -31,6 +33,7 @@ public record PedidoResponse(
                 entity.getEndereco(),
                 entity.getFormaPagamento(),
                 entity.getObservacoes(),
+                entity.getDataHoraPedido(),
                 entity.getItens().stream().map(ItemPedidoResponse::fromEntity).toList()
         );
     }

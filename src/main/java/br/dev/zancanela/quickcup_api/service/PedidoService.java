@@ -42,6 +42,9 @@ public class PedidoService {
             throw new DataIntegrityViolationException(
                     "Pedido para entregar não possui endereço informado");
         }
+        if (novoPedido.isRetira()) {
+            novoPedido.setEndereco(null);
+        }
 
         if (novoPedido.isRetira() && novoPedido.getValorEntrega().compareTo(BigDecimal.ZERO) > 0) {
             throw new DataIntegrityViolationException(
