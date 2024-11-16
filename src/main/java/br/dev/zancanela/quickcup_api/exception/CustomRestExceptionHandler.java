@@ -25,6 +25,18 @@ public class CustomRestExceptionHandler  extends ResponseEntityExceptionHandler 
         return ResponseEntity.status(err.status()).body(err);
     }
 
+    @ExceptionHandler( { UnauthorizedException.class } )
+    public ResponseEntity<ApiErrorDto> handleQuickCupApiException(UnauthorizedException e, HttpServletRequest request){
+        ApiErrorDto err = new ApiErrorDto(
+                Instant.now(),
+                HttpStatus.FORBIDDEN.value(),
+                "Acesso proibido",
+                e.getMessage(),
+                request.getRequestURI()
+        );
+        return ResponseEntity.status(err.status()).body(err);
+    }
+
     @ExceptionHandler( { BadRequestBodyException.class } )
     public ResponseEntity<ApiErrorDto> handleBadRequestBodyException(BadRequestBodyException e, HttpServletRequest request){
         ApiErrorDto err = new ApiErrorDto(

@@ -24,21 +24,24 @@
                             Início
                         </a>
                     </li>
-                    <li class="nav-item">
+                    <li sec:authorize="hasRole('ADMIN') or hasRole('ATENDENTE')"
+                        class="nav-item">
                         <a class="nav-link"
                            th:classappend="${#strings.startsWith(currentPage,'empresa') ? 'active':''}"
                            th:href="@{/empresa}">
                             Empresa
                         </a>
                     </li>
-                    <li class="nav-item">
+                    <li sec:authorize="hasRole('ADMIN')"
+                        class="nav-item">
                         <a class="nav-link"
                            th:classappend="${#strings.startsWith(currentPage,'funcionamento') ? 'active':''}"
                            th:href="@{/funcionamento}">
                             Funcionamento
                         </a>
                     </li>
-                    <li class="nav-item dropdown">
+                    <li sec:authorize="hasRole('ADMIN')"
+                        class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle"
                            th:classappend="${#strings.startsWith(currentPage, 'cadastros') ? 'active':''}"
                            href="#"
@@ -100,7 +103,8 @@
                             </li>
                         </ul>
                     </li>
-                    <li class="nav-item dropdown">
+                    <li sec:authorize="hasRole('ADMIN') or hasRole('ATENDENTE')"
+                        class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle"
                            th:classappend="${#strings.startsWith(currentPage, 'pedidos') ? 'active':''}"
                            href="#"
@@ -117,6 +121,24 @@
                             <li><a class="dropdown-item" th:href="@{/pedido/atendimento}">Atendimento</a></li>
                         </ul>
                     </li>
+                    <li sec:authorize="hasRole('DEV')"
+                        class="nav-item">
+                        <a class="nav-link btn btn-success active"
+                           th:href="@{/swagger-ui.html}">
+                            Swagger
+                        </a>
+                    </li>
+                </ul>
+                <ul class="navbar-nav" th:if="${not #authorization.expression('isAuthenticated()')}">
+                    <li class="nav-item">
+                        <a class="nav-link active btn btn-primary" aria-current="page" th:href="@{/login}">Login</a>
+                    </li>
+                </ul>
+                <ul class="navbar-nav" th:if="${#authorization.expression('isAuthenticated()')}">
+                    <form th:action="@{/logout}" method="post">
+                        <button type="submit" class="nav-link btn btn-danger">Logout
+                        </button>
+                    </form>
                 </ul>
             </div>
         </div>

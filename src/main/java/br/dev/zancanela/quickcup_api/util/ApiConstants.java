@@ -61,6 +61,14 @@ public class ApiConstants {
 
     public static final String VIEW_REDIRECT_ATENDIMENTO = "redirect:/pedido/atendimento";
     public static final String VIEW_PEDIDO_ATENDIMENTO_HTML = "pedido/atendimento.html";
+    public static final String API_TITLE = "QuickCup API";
+    public static final String API_DESCRIPTION = "Api para sistema de entregas";
+    public static final String API_VERSION = "0.0.1-SNAPSHOT";
+    public static final String API_LICENSE = "MIT License";
+    public static final String API_LICENSE_URL = "https://mit-license.org/";
+    public static final String CONTACT_NAME = "Luis Zancanela";
+    public static final String CONTACT_URL = "https://zancanela.dev.br";
+    public static final String QUICKCUP_API_KEY_SECURITY_SCHEMES = "apiKey";
 
 
     private ApiConstants() {
