@@ -24,7 +24,7 @@
                             Início
                         </a>
                     </li>
-                    <li sec:authorize="hasRole('ADMIN') or hasRole('ATENDENTE')"
+                    <li sec:authorize="hasRole('ADMIN')"
                         class="nav-item">
                         <a class="nav-link"
                            th:classappend="${#strings.startsWith(currentPage,'empresa') ? 'active':''}"
@@ -124,7 +124,8 @@
                     <li sec:authorize="hasRole('DEV')"
                         class="nav-item">
                         <a class="nav-link btn btn-success active"
-                           th:href="@{/swagger-ui.html}">
+                           th:href="@{/swagger-ui.html}"
+                            target="_blank">
                             Swagger
                         </a>
                     </li>

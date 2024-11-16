@@ -11,10 +11,233 @@
         <div class="container">
             <div class="row">
                 <div class="col">
+
                     <h1>Painel de Controle</h1>
-                    <h3>Bem-vindo ao painel de controle.</h3>
-                    <p>Faça login para continuar.</p>
-                    <p>Selecione uma das opções do menu acima.</p>
+
+                    <h3 th:if="${#authorization.expression('isAuthenticated()')}">
+                        Olá, <span th:text="${#authentication.name}"></span>
+                    </h3>
+                    <h3>Seja, bem-vindo(a) ao painel de controle.</h3>
+
+                    <hr>
+                    <p>
+                        Esse sistema foi criado exclusivamente para a entrega do trabalho semestral da faculdade
+                        UNIFRAN / Cruzeiro do Sul para o segundo semestre de 2024.
+                        Todo o conteúdo é fictício.
+                        No rodapé da página tem o link para o repositório do projeto no GitHub (Repo GitHub) com mais
+                        detalhes,
+                        visite ele para mais informações.
+                    </p>
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th scope="col">QuickCup API e Admin -
+                                <a href="#QuickCupAdmin">Clique para detalhes do Admin</a></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>O QuickCup API e Admin é essa aplicação e interface desenvolvida para o acesso da loja
+                                poder cadastrar os produtos e visualizar os pedidos realizados pelo consumidor. Nessa
+                                aplicação foram criados
+                                endpoints API REST para que o QuickCup App possa interagir com o QuickCup API. <br>
+                                O QuickCup Admin foi produzido para ser responsivo, mas para uma melhor experiência é
+                                ideal acessar com notebook ou computador.
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th scope="col">Link para o aplicação do consumidor:
+                                <a th:href="${linkAplicacaoCliente}" target="_blank">QuickCup App</a></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>Este é o link da aplicação disponível ao consumidor que pode visualizar o menu,
+                                adicionar os produtos ao carrinho, realizar seu pedido e ver histórico e acompanhar
+                                status. <br>
+                                O QuickCup App foi desenvolvido com React e Bootstrap CSS para trazer experiência de
+                                responsividade para acesso por via de diversos dispositivos mobiles ou notebooks e
+                                computadores.
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th scope="col">Link para o formulário de testes:
+                                <a th:href="${linkFormularioTestes}" target="_blank">Formulário de teste</a></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>Formlário para responder as pergutas como: O que testou e funcionou, ou que não
+                                funcionou e o que não testou (que falta ser implementado).
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+
+                    <hr>
+
+                    <div th:if="${not #authorization.expression('isAuthenticated()')}">
+                        <div id="QuickCupAdmin">
+                            <h5>QuickCup Admin</h5>
+                        </div>
+                        <p>Comece fazendo login com o botão no menu acima (canto superior direito).</p>
+                        <p>Abaixo estão as credenciais de login para testes com os 3 perfis possíveis:</p>
+                        <table class="table table-striped">
+                            <thead>
+                            <tr>
+                                <th scope="col">Login</th>
+                                <th scope="col">Perfil</th>
+                                <th scope="col">Senha</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td class="align-middle">admin</td>
+                                <td class="align-middle">Usuário com perfil adminstrativo que possui acesso à todas
+                                    configurações e cadastros
+                                    e operação dos pedidos, com excessão apenas acesso ao swagger que é específico ao
+                                    perfil DEV.
+                                </td>
+                                <td th:text="${defaultPassword}" class="align-middle">defaultPassword</td>
+                            </tr>
+                            <tr>
+                                <td class="align-middle">atendente</td>
+                                <td class="align-middle">Acessa o atendimento para conseguir visualizar e movimentar os
+                                    pedidos
+                                </td>
+                                <td th:text="${defaultPassword}" class="align-middle">defaultPassword</td>
+                            </tr>
+                            <tr>
+                                <td class="align-middle">dev</td>
+                                <td class="align-middle">Acessa somente swagger para ter documentação dos endpoints e
+                                    testá-los
+                                </td>
+                                <td th:text="${defaultPassword}" class="align-middle">defaultPassword</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div th:if="${#authorization.expression('isAuthenticated()')}">
+                        <div id="QuickCupAdmin">
+                            <h5>QuickCup Admin</h5>
+                        </div>
+                        <p>
+                            Agora você está logado como usuário com perfil: <span
+                                th:text="${#authentication.principal.getAuthorities()}"></span>
+                        </p>
+                        <p>
+                            Para sair é só utilizar a opção Logout que também estão no menu (canto superior
+                            direito).</p>
+                        <p>
+                            Abaixo estão mais detalhes sobre as opções:
+                        </p>
+                        <table class="table table-striped align-middle" sec:authorize="hasRole('DEV')">
+                            <thead>
+                            <tr>
+                                <th scope="col" colspan="2">Opções de operações disponíveis para o perfil DEV.</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td class="table-secondary fw-bold align-middle">Swagger</td>
+                                <td>Essa opção de menu irá direcionar à página do Swagger / OpenAPI que possui a
+                                    documentação dos endpoints API REST
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                        <table class="table table-striped align-middle" sec:authorize="hasRole('ATENDENTE')">
+                            <thead>
+                            <tr>
+                                <th scope="col" colspan="2">Opções de operações disponíveis para o perfil ATENDENTE.
+                                </th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td class="table-secondary fw-bold align-middle">Pedidos > Atendimento</td>
+                                <td>Essa opção de menu irá mostrar todos os pedidos com status de Novo, Confirmado, Em
+                                    Preparo e Em Entrega onde é possível atualizar os status dos pedidos
+                                    conforme a progressão do atendimento.
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                        <table class="table table-striped align-middle" sec:authorize="hasRole('ADMIN')">
+                            <thead>
+                            <tr>
+                                <th scope="col" colspan="2">Opções de operações disponíveis para o perfil ADMIN.
+                                </th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td class="table-secondary fw-bold align-middle">Empresa</td>
+                                <td>Aqui é possível visualizar os dados da empresa e alterar os parâmetros de base, como
+                                    valor de entrega padrão.
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="table-secondary fw-bold align-middle">Funcionamento</td>
+                                <td>Essa opção de menu irá mostrar os horários de funcionamento da loja, que é
+                                    configurável com o dia da semana ou intervalo de dia e horário especial. Essa
+                                    configuração reflete diretamente no acesso do aplicativo do consumidor. Se loja não
+                                    está em funcionamento o consumidor não consegue visualizar ou fazer pedido.
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="table-secondary fw-bold align-middle">Cadastros > Grupos de Produtos</td>
+                                <td>
+                                    Cadastro de grupos de produtos que são utilizados para agrupar os produtos da loja.
+                                    Aqui é possível visualizar a lista e cadastrar grupos.
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="table-secondary fw-bold align-middle">Cadastros > Produtos</td>
+                                <td>
+                                    Cadastro dos produtos em si. Aqui é possível cadastrar e editar os produtos, podendo
+                                    desativar ou ativar.
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="table-secondary fw-bold align-middle">Cadastros > Clientes</td>
+                                <td>
+                                    Tela que lista os clientes atualmente cadastrados.
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="table-secondary fw-bold align-middle">Pedidos > Atendimento</td>
+                                <td>Essa opção de menu irá mostrar todos os pedidos com status de Novo, Confirmado, Em
+                                    Preparo e Em Entrega onde é possível atualizar os status dos pedidos
+                                    conforme a progressão do atendimento.
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+
+                    </div>
+
+                    <hr>
+
+                    <figure>
+                        <blockquote class="blockquote">
+                            <p>Codar pode trazer 2 emoções paradoxais: a frustação de algo não funcionar como queria e a
+                                felicidade de ter resolvido o problema.</p>
+                        </blockquote>
+                        <figcaption class="blockquote-footer">
+                            ZANCANELA L. C., 2024. <cite title="Source Title">Projeto Integrador Transdisciplinar em
+                            Sistemas de Informação II - UNIFRAN/Cruzeiro do Sul</cite>.
+                        </figcaption>
+                    </figure>
                 </div>
             </div>
         </div>
