@@ -41,7 +41,7 @@ public class Pedido extends BasicEntity {
     private Instant dataHoraPedido;
 
     @OneToMany(mappedBy = "id.pedido"
-            , cascade = {CascadeType.ALL})
+            , cascade = {CascadeType.PERSIST})
     private List<ItemPedido> itens;
 
     public Cliente getCliente() {

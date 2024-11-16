@@ -31,15 +31,12 @@ EXECUTE FUNCTION prevent_delete_pedido();
 
 CREATE OR REPLACE FUNCTION allow_update_status_only() RETURNS TRIGGER AS $$
 BEGIN
-    IF OLD.cliente_id = NEW.cliente_id AND
-       OLD.valor_entrega = NEW.valor_entrega AND
-       OLD.retira = NEW.retira AND
-       OLD.endereco = NEW.endereco AND
-       OLD.data_hora_pedido = NEW.data_hora_pedido THEN
+    IF NEW.status IS DISTINCT FROM OLD.status THEN
         RETURN NEW;
     ELSE
         RAISE EXCEPTION 'Apenas a coluna status pode ser alterada na tabela Pedido';
     END IF;
+    RETURN OLD;
 END;
 $$ LANGUAGE plpgsql;
 

@@ -10,6 +10,7 @@ public class ApiConstants {
     public static final String EMPRESA = "empresa";
     public static final String FUNCIONAMENTO = "funcionamento";
     public static final String CADASTROS = "cadastros";
+    public static final String PEDIDOS = "pedidos";
 
     public static final String MV_OBJECT_CURRENT_PAGE = "currentPage";
     public static final String MV_OBJECT_MENSAGEM_ERRO = "mensagemErro";
@@ -57,6 +58,9 @@ public class ApiConstants {
     public static final String VIEW_PRODUTO_FORM_HTML = "produto/form.html";
 
     public static final String VIEW_CLIENTE_LISTA_HTML = "cliente/lista.html";
+
+    public static final String VIEW_REDIRECT_ATENDIMENTO = "redirect:/pedido/atendimento";
+    public static final String VIEW_PEDIDO_ATENDIMENTO_HTML = "pedido/atendimento.html";
 
 
     private ApiConstants() {

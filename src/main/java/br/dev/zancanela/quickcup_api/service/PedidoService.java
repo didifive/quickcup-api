@@ -97,6 +97,10 @@ public class PedidoService {
         item.getId().setProduto(produto);
     }
 
+    public List<Pedido> getAll() {
+        return repository.findAll();
+    }
+
     public Pedido getById(Long id) {
         return repository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Pedido não encontrado"));
@@ -111,11 +115,30 @@ public class PedidoService {
     }
 
     @Transactional
-    public Pedido updateStatus(Long id, PedidoStatus status) {
+    public void updateStatus(Long id, PedidoStatus status) {
         Pedido pedido = getById(id);
-        pedido.setStatus(status);
 
-        return repository.save(pedido);
+        if (status.equals(PedidoStatus.FINALIZADO)
+                && !pedido.getStatus().equals(PedidoStatus.EM_ENTREGA)) {
+            throw new DataIntegrityViolationException("Pedido precisa estar em entrega para ser finalizado");
+        }
+
+        if (status.equals(PedidoStatus.EM_ENTREGA)
+                && !pedido.getStatus().equals(PedidoStatus.EM_PREPARO)) {
+            throw new DataIntegrityViolationException("Pedido precisa estar em preparo para ser entregue");
+        }
+
+        if (status.equals(PedidoStatus.EM_PREPARO)
+                && !pedido.getStatus().equals(PedidoStatus.CONFIRMADO)) {
+            throw new DataIntegrityViolationException("Pedido precisa estar confirmado para ser preparado");
+        }
+
+        if (status.equals(PedidoStatus.CONFIRMADO)
+                && !pedido.getStatus().equals(PedidoStatus.NOVO)) {
+            throw new DataIntegrityViolationException("Pedido precisa estar novo para ser confirmado");
+        }
+
+        repository.updateStatus(id, status.name());
     }
 
 

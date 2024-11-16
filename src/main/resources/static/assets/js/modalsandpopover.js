@@ -11,7 +11,7 @@ modalExcluir.addEventListener('show.bs.modal', function (event) {
 	let modalObject = button.getAttribute('data-modal-object');
 	let modalName = button.getAttribute('data-modal-name');
 	let modalLink = button.getAttribute('data-modal-link');
-
+loca
 	let modalTitle = modalExcluir.querySelector('.modal-title')
 	let modalBody = modalExcluir.querySelector('.modal-body')
 	let modalActionButton = modalExcluir.querySelector('.btn-secondary')
@@ -19,6 +19,25 @@ modalExcluir.addEventListener('show.bs.modal', function (event) {
 	modalTitle.textContent = 'Excluir ' + modalObject + ' ' + modalName
 	modalBody.textContent = 'Deseja realmente excluir ' + modalObject + ' ' + modalName + '?';
 	modalActionButton.href = modalLink;	 
+})
+
+/**
+ * Modal Cancelar
+ */
+let modalCancelar = document.getElementById('modalCancelar')
+modalCancelar.addEventListener('show.bs.modal', function (event) {
+	let button = event.relatedTarget;
+	let modalObject = button.getAttribute('data-modal-object');
+	let modalName = button.getAttribute('data-modal-name');
+	let modalLink = button.getAttribute('data-modal-link');
+
+	let modalTitle = modalCancelar.querySelector('.modal-title')
+	let modalBody = modalCancelar.querySelector('.modal-body')
+	let modalActionButton = modalCancelar.querySelector('.btn-danger')
+
+	modalTitle.textContent = 'Cancelar ' + modalObject + ' ' + modalName
+	modalBody.textContent = 'Deseja realmente cancelar ' + modalObject + ' ' + modalName + '?';
+	modalActionButton.href = modalLink;
 })
 
 /**

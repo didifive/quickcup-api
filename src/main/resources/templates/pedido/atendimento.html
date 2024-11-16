@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout.html}"
+      lang="pt-BR">
+
+<meta charset="UTF-8">
+
+<div layout:fragment="content">
+    <meta http-equiv="refresh" content="30"/>
+    <main>
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    <h1>Atendimento de Pedidos</h1>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12 pb-2" style="background-color: #87CEEB;">
+                    <h2 class="mt-2">Pedidos novos</h2>
+                    <div th:if="${pedidosNovos.isEmpty()}">
+                        <p class="text-muted">Nenhum pedido novo no momento.</p>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 d-flex direction-row flex-wrap">
+                            <div th:each="pedido : ${pedidosNovos}"
+                                 class="col-12 col-md-6 col-lg-3 px-1 py-1">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <div class="col-12 d-flex direction-column align-items-center flex-wrap">
+                                            <div class="col-12 d-flex direction-row">
+                                                <h5 class="text-muted my-0" th:text="${'#' + pedido.id}"></h5>
+                                                <span class="badge bg-primary ms-2">Novo</span>
+                                            </div>
+                                            <h4>
+                                                <span
+                                                        th:text="${#strings.length(pedido.cliente.telefone) == 11
+                                                        ? '(' + #strings.substring(pedido.cliente.telefone, 0, 2) + ') ' + #strings.substring(pedido.cliente.telefone, 2, 7) + '-' + #strings.substring(pedido.cliente.telefone, 7, 11)
+                                                        : '(' + #strings.substring(pedido.cliente.telefone, 0, 2) + ') ' + #strings.substring(pedido.cliente.telefone, 2, 6) + '-' + #strings.substring(pedido.cliente.telefone, 6, 10)}"
+                                                ></span>
+                                                - <span th:text="${pedido.cliente.nome}"></span>
+                                            </h4>
+                                        </div>
+
+                                        <p class="mb-1 text-muted"
+                                           th:text="${#temporals.format(pedido.dataHoraPedido, 'dd/MM/yyyy HH:mm:ss')}">
+                                            Data e hora do pedido</p>
+                                        <div>
+                                            <p class="mb-1 text-muted" th:if="${pedido.isRetira}">Para retirar</p>
+                                            <p class="mb-1" th:if="${!pedido.isRetira}">Endereço: <span
+                                                    th:text="${pedido.endereco}"></span></p>
+                                            <p class="mb-1 text-muted" th:if="${!pedido.isRetira}"
+                                               th:text="${'Valor entrega R$ ' + #numbers.formatDecimal(pedido.valorEntrega,1,2)}">
+                                                Valor Entrega</p>
+                                        </div>
+                                    </div>
+                                    <div class="card-body py-0 px-0">
+                                        <table class="table table-striped mx-0 my-0">
+                                            <tbody>
+                                            <tr th:each="item : ${pedido.itens}"
+                                                class="align-middle">
+                                                <td th:text="${item.quantidade} + 'x ' + ${item.id.produto.nome}">
+                                                </td>
+                                                <td class="text-end">
+                                                    <span th:text="${#numbers.formatDecimal(item.valorTotal,1,2)}"></span>
+                                                </td>
+                                            </tr>
+                                            </tbody>
+                                            <tfoot>
+                                            <tr>
+                                                <td class="text-end" th:text="${'Total:'}"></td>
+                                                <td class="text-end"
+                                                    th:text="${#numbers.formatDecimal(pedido.valorTotalItens,1,2)}"></td>
+                                            </tr>
+                                            </tfoot>
+                                        </table>
+                                    </div>
+                                    <div class="card-footer">
+                                        <p th:text="${'Valor total: R$ ' + #numbers.formatDecimal(pedido.valorTotalItens +pedido.valorEntrega,1,2)}">
+                                            Valor total</p>
+                                        <div class="d-flex  justify-content-between">
+                                            <a class="btn btn-success btn-sm"
+                                               th:href="@{/pedido/confirmar(id=${pedido.id})}">
+                                                Confirmar
+                                            </a>
+                                            <a type="button"
+                                               class="btn btn-danger btn-sm ms-2"
+                                               data-bs-toggle="modal"
+                                               data-bs-target="#modalCancelar"
+                                               data-modal-object="Pedido"
+                                               th:data-modal-name="${pedido.id}"
+                                               th:data-modal-link="@{/pedido/cancelar(id=${pedido.id})}"
+                                            > Cancelar</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12 pb-2" style="background-color: #90EE90;">
+                    <h2 class="mt-2">Pedidos confirmados</h2>
+                    <div th:if="${pedidosConfirmados.isEmpty()}">
+                        <p class="text-muted">Nenhum pedido confirmado no momento.</p>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 d-flex direction-row flex-wrap">
+                            <div th:each="pedido : ${pedidosConfirmados}"
+                                 class="col-12 col-md-6 col-lg-3 px-1 py-1">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <div class="col-12 d-flex direction-column align-items-center flex-wrap">
+                                            <div class="col-12 d-flex direction-row">
+                                                <h5 class="text-muted my-0" th:text="${'#' + pedido.id}"></h5>
+                                                <span class="badge bg-success ms-2">Confirmado</span>
+                                            </div>
+                                            <h4>
+                                                <span
+                                                        th:text="${#strings.length(pedido.cliente.telefone) == 11
+                                                        ? '(' + #strings.substring(pedido.cliente.telefone, 0, 2) + ') ' + #strings.substring(pedido.cliente.telefone, 2, 7) + '-' + #strings.substring(pedido.cliente.telefone, 7, 11)
+                                                        : '(' + #strings.substring(pedido.cliente.telefone, 0, 2) + ') ' + #strings.substring(pedido.cliente.telefone, 2, 6) + '-' + #strings.substring(pedido.cliente.telefone, 6, 10)}"
+                                                ></span>
+                                                - <span th:text="${pedido.cliente.nome}"></span>
+                                            </h4>
+                                        </div>
+
+                                        <p class="mb-1 text-muted"
+                                           th:text="${#temporals.format(pedido.dataHoraPedido, 'dd/MM/yyyy HH:mm:ss')}">
+                                            Data e hora do pedido</p>
+                                        <div>
+                                            <p class="mb-1 text-muted" th:if="${pedido.isRetira}">Para retirar</p>
+                                            <p class="mb-1" th:if="${!pedido.isRetira}">Endereço: <span
+                                                    th:text="${pedido.endereco}"></span></p>
+                                            <p class="mb-1 text-muted" th:if="${!pedido.isRetira}"
+                                               th:text="${'Valor entrega R$ ' + #numbers.formatDecimal(pedido.valorEntrega,1,2)}">
+                                                Valor Entrega</p>
+                                        </div>
+                                    </div>
+                                    <div class="card-body py-0 px-0">
+                                        <table class="table table-striped mx-0 my-0">
+                                            <tbody>
+                                            <tr th:each="item : ${pedido.itens}"
+                                                class="align-middle">
+                                                <td th:text="${item.quantidade} + 'x ' + ${item.id.produto.nome}">
+                                                </td>
+                                                <td class="text-end">
+                                                    <span th:text="${#numbers.formatDecimal(item.valorTotal,1,2)}"></span>
+                                                </td>
+                                            </tr>
+                                            </tbody>
+                                            <tfoot>
+                                            <tr>
+                                                <td class="text-end" th:text="${'Total:'}"></td>
+                                                <td class="text-end"
+                                                    th:text="${#numbers.formatDecimal(pedido.valorTotalItens,1,2)}"></td>
+                                            </tr>
+                                            </tfoot>
+                                        </table>
+                                    </div>
+                                    <div class="card-footer">
+                                        <p th:text="${'Valor total: R$ ' + #numbers.formatDecimal(pedido.valorTotalItens +pedido.valorEntrega,1,2)}">
+                                            Valor total</p>
+                                        <div class="d-flex  justify-content-between">
+                                            <a class="btn btn-warning btn-sm"
+                                               th:href="@{/pedido/preparar(id=${pedido.id})}">
+                                                Em preparo
+                                            </a>
+                                            <a type="button"
+                                               class="btn btn-danger btn-sm ms-2"
+                                               data-bs-toggle="modal"
+                                               data-bs-target="#modalCancelar"
+                                               data-modal-object="Pedido"
+                                               th:data-modal-name="${pedido.id}"
+                                               th:data-modal-link="@{/pedido/cancelar(id=${pedido.id})}"
+                                            > Cancelar</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12 pb-2" style="background-color: #FFFFE0;">
+                    <h2 class="mt-2">Pedidos em preparo</h2>
+                    <div th:if="${pedidosEmPreparo.isEmpty()}">
+                        <p class="text-muted">Nenhum pedido em preparo no momento.</p>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 d-flex direction-row flex-wrap">
+                            <div th:each="pedido : ${pedidosEmPreparo}"
+                                 class="col-12 col-md-6 col-lg-3 px-1 py-1">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <div class="col-12 d-flex direction-column align-items-center flex-wrap">
+                                            <div class="col-12 d-flex direction-row">
+                                                <h5 class="text-muted my-0" th:text="${'#' + pedido.id}"></h5>
+                                                <span class="badge bg-warning ms-2">Em Preparo</span>
+                                            </div>
+                                            <h4>
+                                                <span
+                                                        th:text="${#strings.length(pedido.cliente.telefone) == 11
+                                                        ? '(' + #strings.substring(pedido.cliente.telefone, 0, 2) + ') ' + #strings.substring(pedido.cliente.telefone, 2, 7) + '-' + #strings.substring(pedido.cliente.telefone, 7, 11)
+                                                        : '(' + #strings.substring(pedido.cliente.telefone, 0, 2) + ') ' + #strings.substring(pedido.cliente.telefone, 2, 6) + '-' + #strings.substring(pedido.cliente.telefone, 6, 10)}"
+                                                ></span>
+                                                - <span th:text="${pedido.cliente.nome}"></span>
+                                            </h4>
+                                        </div>
+
+                                        <p class="mb-1 text-muted"
+                                           th:text="${#temporals.format(pedido.dataHoraPedido, 'dd/MM/yyyy HH:mm:ss')}">
+                                            Data e hora do pedido</p>
+                                        <div>
+                                            <p class="mb-1 text-muted" th:if="${pedido.isRetira}">Para retirar</p>
+                                            <p class="mb-1" th:if="${!pedido.isRetira}">Endereço: <span
+                                                    th:text="${pedido.endereco}"></span></p>
+                                            <p class="mb-1 text-muted" th:if="${!pedido.isRetira}"
+                                               th:text="${'Valor entrega R$ ' + #numbers.formatDecimal(pedido.valorEntrega,1,2)}">
+                                                Valor Entrega</p>
+                                        </div>
+                                    </div>
+                                    <div class="card-body py-0 px-0">
+                                        <table class="table table-striped mx-0 my-0">
+                                            <tbody>
+                                            <tr th:each="item : ${pedido.itens}"
+                                                class="align-middle">
+                                                <td th:text="${item.quantidade} + 'x ' + ${item.id.produto.nome}">
+                                                </td>
+                                                <td class="text-end">
+                                                    <span th:text="${#numbers.formatDecimal(item.valorTotal,1,2)}"></span>
+                                                </td>
+                                            </tr>
+                                            </tbody>
+                                            <tfoot>
+                                            <tr>
+                                                <td class="text-end" th:text="${'Total:'}"></td>
+                                                <td class="text-end"
+                                                    th:text="${#numbers.formatDecimal(pedido.valorTotalItens,1,2)}"></td>
+                                            </tr>
+                                            </tfoot>
+                                        </table>
+                                    </div>
+                                    <div class="card-footer">
+                                        <p th:text="${'Valor total: R$ ' + #numbers.formatDecimal(pedido.valorTotalItens +pedido.valorEntrega,1,2)}">
+                                            Valor total</p>
+                                        <div class="d-flex  justify-content-between">
+                                            <a class="btn btn-info btn-sm"
+                                               th:href="@{/pedido/entregar(id=${pedido.id})}">
+                                                Em Entrega
+                                            </a>
+                                            <a type="button"
+                                               class="btn btn-danger btn-sm ms-2"
+                                               data-bs-toggle="modal"
+                                               data-bs-target="#modalCancelar"
+                                               data-modal-object="Pedido"
+                                               th:data-modal-name="${pedido.id}"
+                                               th:data-modal-link="@{/pedido/cancelar(id=${pedido.id})}"
+                                            > Cancelar</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12 pb-2" style="background-color: #FFDAB9;">
+                    <h2 class="mt-2">Pedidos em entrega ou retirada</h2>
+                    <div th:if="${pedidosEmEntrega.isEmpty()}">
+                        <p class="text-muted">Nenhum pedido em entrega ou retirada no momento.</p>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 d-flex direction-row flex-wrap">
+                            <div th:each="pedido : ${pedidosEmEntrega}"
+                                 class="col-12 col-md-6 col-lg-3 px-1 py-1">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <div class="col-12 d-flex direction-column align-items-center flex-wrap">
+                                            <div class="col-12 d-flex direction-row">
+                                                <h5 class="text-muted my-0" th:text="${'#' + pedido.id}"></h5>
+                                                <span class="badge bg-info ms-2">Em Entrega</span>
+                                            </div>
+                                            <h4>
+                                                <span
+                                                        th:text="${#strings.length(pedido.cliente.telefone) == 11
+                                                        ? '(' + #strings.substring(pedido.cliente.telefone, 0, 2) + ') ' + #strings.substring(pedido.cliente.telefone, 2, 7) + '-' + #strings.substring(pedido.cliente.telefone, 7, 11)
+                                                        : '(' + #strings.substring(pedido.cliente.telefone, 0, 2) + ') ' + #strings.substring(pedido.cliente.telefone, 2, 6) + '-' + #strings.substring(pedido.cliente.telefone, 6, 10)}"
+                                                ></span>
+                                                - <span th:text="${pedido.cliente.nome}"></span>
+                                            </h4>
+                                        </div>
+                                        <p class="mb-1 text-muted"
+                                           th:text="${#temporals.format(pedido.dataHoraPedido, 'dd/MM/yyyy HH:mm:ss')}">
+                                            Data e hora do pedido</p>
+                                        <div>
+                                            <p class="mb-1 text-muted" th:if="${pedido.isRetira}">Para
+                                                retirar</p>
+                                            <p class="mb-1" th:if="${!pedido.isRetira}">Endereço: <span
+                                                    th:text="${pedido.endereco}"></span></p>
+                                            <p class="mb-1 text-muted" th:if="${!pedido.isRetira}"
+                                               th:text="${'Valor entrega R$ ' + #numbers.formatDecimal(pedido.valorEntrega,1,2)}">
+                                                Valor Entrega</p>
+                                        </div>
+                                    </div>
+                                    <div class="card-body py-0 px-0">
+                                        <table class="table table-striped mx-0 my-0">
+                                            <tbody>
+                                            <tr th:each="item : ${pedido.itens}"
+                                                class="align-middle">
+                                                <td th:text="${item.quantidade} + 'x ' + ${item.id.produto.nome}">
+                                                </td>
+                                                <td class="text-end">
+                                                    <span th:text="${#numbers.formatDecimal(item.valorTotal,1,2)}"></span>
+                                                </td>
+                                            </tr>
+                                            </tbody>
+                                            <tfoot>
+                                            <tr>
+                                                <td class="text-end" th:text="${'Total:'}"></td>
+                                                <td class="text-end"
+                                                    th:text="${#numbers.formatDecimal(pedido.valorTotalItens,1,2)}"></td>
+                                            </tr>
+                                            </tfoot>
+                                        </table>
+                                    </div>
+                                    <div class="card-footer">
+                                        <p th:text="${'Valor total: R$ ' + #numbers.formatDecimal(pedido.valorTotalItens +pedido.valorEntrega,1,2)}">
+                                            Valor total</p>
+                                        <div class="d-flex  justify-content-between">
+                                            <a class="btn btn-secondary btn-sm"
+                                               th:href="@{/pedido/finalizar(id=${pedido.id})}">
+                                                Finalizar!
+                                            </a>
+                                            <a type="button"
+                                               class="btn btn-danger btn-sm ms-2"
+                                               data-bs-toggle="modal"
+                                               data-bs-target="#modalCancelar"
+                                               data-modal-object="Pedido"
+                                               th:data-modal-name="${pedido.id}"
+                                               th:data-modal-link="@{/pedido/cancelar(id=${pedido.id})}"
+                                            > Cancelar</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+
+</html>
