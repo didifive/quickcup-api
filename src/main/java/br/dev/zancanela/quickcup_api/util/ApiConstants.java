@@ -38,7 +38,7 @@ public class ApiConstants {
     public static final String MV_OBJECT_PEDIDOS_EM_PREPARO = "pedidosEmPreparo";
     public static final String MV_OBJECT_PEDIDOS_EM_ENTREGA = "pedidosEmEntrega";
 
-    public static final String VIEW_INDEX = "/index.html";
+    public static final String VIEW_INDEX = "index.html";
 
     public static final String VIEW_REDIRECT_EMPRESA = "redirect:/empresa";
     public static final String VIEW_EMPRESA_DETALHE_HTML = "empresa/detalhe.html";
