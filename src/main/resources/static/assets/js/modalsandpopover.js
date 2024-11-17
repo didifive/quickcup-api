@@ -11,7 +11,7 @@ modalExcluir.addEventListener('show.bs.modal', function (event) {
 	let modalObject = button.getAttribute('data-modal-object');
 	let modalName = button.getAttribute('data-modal-name');
 	let modalLink = button.getAttribute('data-modal-link');
-loca
+
 	let modalTitle = modalExcluir.querySelector('.modal-title')
 	let modalBody = modalExcluir.querySelector('.modal-body')
 	let modalActionButton = modalExcluir.querySelector('.btn-secondary')
