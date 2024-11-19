@@ -12,6 +12,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import java.sql.Time;
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -129,9 +130,9 @@ class FuncionamentoServiceTest {
     @Test
     void testIsOpenRegularHours() {
         Funcionamento funcionamento = new Funcionamento();
-        funcionamento.setDiaSemana(DiaSemana.SEGUNDA);
-        funcionamento.setHoraInicio(Time.valueOf(LocalTime.now().minusHours(1)));
-        funcionamento.setHoraFim(Time.valueOf(LocalTime.now().plusHours(1)));
+        funcionamento.setDiaSemana(DiaSemana.from(LocalDate.now().getDayOfWeek()));
+        funcionamento.setHoraInicio(Time.valueOf(LocalTime.now().minusMinutes(1)));
+        funcionamento.setHoraFim(Time.valueOf(LocalTime.now().plusMinutes(1)));
 
         when(funcionamentoRepository.findById(any())).thenReturn(Optional.of(funcionamento));
         when(funcionamentoEspecialService.getFuncionamentoEspecialAtivo()).thenReturn(null);
