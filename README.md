@@ -358,6 +358,9 @@ erDiagram
 
 ## 📷 Prints do Projeto
 
+### Spring banner personalizado
+![Spring banner personalizado](docs/Spring-Banner-Personalizado.png)
+
 ### Tela Inicial do QuickCup Admin
 ![Tela Inicial do QuickCup Admin](docs/QuickCup-Admin.png)
 
