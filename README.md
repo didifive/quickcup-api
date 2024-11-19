@@ -358,6 +358,19 @@ erDiagram
 
 ## 📷 Prints do Projeto
 
+### Tela Inicial do QuickCup Admin
+![Tela Inicial do QuickCup Admin](docs/QuickCup-Admin.png)
+
+### Tela Atendimento Pedidos
+![Tela Atendimento Pedidos](docs/Atendimento-Pedidos.png)
+
+### Swagger QuickCup API
+![Swagger QuickCup API](docs/Swagger-QuickCup-API.png)  
+![Swagger QuickCup API Authorization With ApiKey](docs/Swagger-QuickCup-API-Authorization-ApiKey.png)
+
+### JaCoCo Coverage
+![JaCoCo Coverage](docs/JaCoCo-Coverage.png)
+
 -----
 
 ## ✔️ Testes
@@ -367,7 +380,9 @@ Para executar os testes pode executar sua IDE ou
 
 Utilizando o terminal (PowerShell, Bash ou similiar), basta executar na pasta do projeto o comando abaixo:
 
+```
 ./mvnw clean verify -Dspring.profiles.active=test
+```
 
 -----
 
