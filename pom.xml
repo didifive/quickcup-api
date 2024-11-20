@@ -10,7 +10,7 @@
     </parent>
     <groupId>br.dev.zancanela</groupId>
     <artifactId>quickcup-api</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.0.1</version>
     <name>QuickCup API</name>
     <description>Backend API for QuickCup Coffee Shop</description>
     <developers>
