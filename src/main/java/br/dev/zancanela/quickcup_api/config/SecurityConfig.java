@@ -26,6 +26,7 @@ public class SecurityConfig {
     public static final String ADMIN_USERNAME = "admin";
     public static final String DEV_USERNAME = "dev";
     public static final String DEV_ROLE = "DEV";
+    public static final String ERROR_PATH = "/error";
     private final String usersDefaultPassword;
     private final ApiKeyAuthorizationManager apiKeyAuthorizationManager;
     private final CorsConfigurationSource corsConfigurationSource;
@@ -65,7 +66,7 @@ public class SecurityConfig {
                 .cors(cors -> cors.configurationSource(corsConfigurationSource))
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/").permitAll()
-                        .requestMatchers("/error").permitAll()
+                        .requestMatchers(ERROR_PATH).permitAll()
                         //Aqui devem ser incluídas todas as pastas e arquivos de assets publicas do projeto
                         //para carregamento do conteúdo estático corretamente
                         .requestMatchers("/assets/bootstrap/css/bootstrap.min.css").permitAll()
@@ -101,8 +102,9 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.ignoringRequestMatchers("/api/v1/**"))
                 .exceptionHandling(exception -> exception
                         .authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED))
-                        .accessDeniedHandler((request, response, accessDeniedException) ->
-                            response.sendRedirect("/error"))
+                        .accessDeniedHandler((request, response, accessDeniedException) -> response.sendRedirect(ERROR_PATH))
+                        .authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.FORBIDDEN))
+                        .accessDeniedHandler((request, response, accessDeniedException) -> response.sendRedirect(ERROR_PATH))
                 );
         return httpSecurity.build();
     }

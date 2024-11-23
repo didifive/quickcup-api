@@ -84,12 +84,13 @@
 
                     <hr>
 
+                    <div id="QuickCupAdmin">
+                        <h5>QuickCup Admin</h5>
+                    </div>
+
                     <div th:if="${not #authorization.expression('isAuthenticated()')}">
-                        <div id="QuickCupAdmin">
-                            <h5>QuickCup Admin</h5>
-                        </div>
-                        <p>Comece fazendo login com o botão no menu acima (canto superior direito).</p>
-                        <p>Abaixo estão as credenciais de login para testes com os 3 perfis possíveis:</p>
+                        <p>Após ler as instruções abaixo, faça login através do botão no menu acima (canto superior direito).</p>
+                        <p>Abaixo estão as credenciais de login para testes com os 3 perfis disponíveis:</p>
                         <table class="table table-striped">
                             <thead>
                             <tr>
@@ -101,25 +102,17 @@
                             <tbody>
                             <tr>
                                 <td class="align-middle">admin</td>
-                                <td class="align-middle">Usuário com perfil adminstrativo que possui acesso à todas
-                                    configurações e cadastros
-                                    e operação dos pedidos, com excessão apenas acesso ao swagger que é específico ao
-                                    perfil DEV.
-                                </td>
+                                <td class="align-middle">Usuário com perfil administrativo que possui acesso a todas as configurações, cadastros e operações dos pedidos, exceto acesso ao Swagger, que é específico ao perfil DEV.</td>
                                 <td th:text="${defaultPassword}" class="align-middle">defaultPassword</td>
                             </tr>
                             <tr>
                                 <td class="align-middle">atendente</td>
-                                <td class="align-middle">Acessa o atendimento para conseguir visualizar e movimentar os
-                                    pedidos
-                                </td>
+                                <td class="align-middle">Acessa o atendimento para visualizar e movimentar os pedidos.</td>
                                 <td th:text="${defaultPassword}" class="align-middle">defaultPassword</td>
                             </tr>
                             <tr>
                                 <td class="align-middle">dev</td>
-                                <td class="align-middle">Acessa somente swagger para ter documentação dos endpoints e
-                                    testá-los
-                                </td>
+                                <td class="align-middle">Acessa somente o Swagger para obter documentação dos endpoints e testá-los.</td>
                                 <td th:text="${defaultPassword}" class="align-middle">defaultPassword</td>
                             </tr>
                             </tbody>
@@ -127,9 +120,6 @@
                     </div>
 
                     <div th:if="${#authorization.expression('isAuthenticated()')}">
-                        <div id="QuickCupAdmin">
-                            <h5>QuickCup Admin</h5>
-                        </div>
                         <p>
                             Agora você está logado como usuário com perfil: <span
                                 th:text="${#authentication.principal.getAuthorities()}"></span>
