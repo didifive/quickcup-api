@@ -1,8 +1,10 @@
 package br.dev.zancanela.quickcup_api.config;
 
+import jakarta.servlet.RequestDispatcher;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.userdetails.User;
@@ -98,10 +100,15 @@ public class SecurityConfig {
                         .invalidateHttpSession(true)
                         .deleteCookies("JSESSIONID"))
                 .csrf(csrf -> csrf.ignoringRequestMatchers("/api/v1/**"))
-                .exceptionHandling(exception -> exception
-                        .authenticationEntryPoint((request, response, authException) -> response.sendRedirect(ERROR_PATH))
-                        .accessDeniedHandler((request, response, accessDeniedException) -> response.sendRedirect(ERROR_PATH))
-                );
+                .exceptionHandling(exception -> exception.authenticationEntryPoint((request, response, authException) -> {
+                    request.setAttribute(RequestDispatcher.ERROR_STATUS_CODE, HttpStatus.UNAUTHORIZED.value());
+                    request.setAttribute(RequestDispatcher.ERROR_MESSAGE, HttpStatus.UNAUTHORIZED);
+                    response.sendRedirect(ERROR_PATH);
+                }).accessDeniedHandler((request, response, accessDeniedException) -> {
+                    request.setAttribute(RequestDispatcher.ERROR_STATUS_CODE, HttpStatus.FORBIDDEN.value());
+                    request.setAttribute(RequestDispatcher.ERROR_MESSAGE, HttpStatus.FORBIDDEN);
+                    response.sendRedirect(ERROR_PATH);
+                }));
         return httpSecurity.build();
     }
 
