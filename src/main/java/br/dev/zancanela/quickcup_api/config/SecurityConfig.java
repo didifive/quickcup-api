@@ -65,6 +65,7 @@ public class SecurityConfig {
                 .cors(cors -> cors.configurationSource(corsConfigurationSource))
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/").permitAll()
+                        .requestMatchers("/error").permitAll()
                         //Aqui devem ser incluídas todas as pastas e arquivos de assets publicas do projeto
                         //para carregamento do conteúdo estático corretamente
                         .requestMatchers("/assets/bootstrap/css/bootstrap.min.css").permitAll()
@@ -100,7 +101,8 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.ignoringRequestMatchers("/api/v1/**"))
                 .exceptionHandling(exception -> exception
                         .authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED))
-                        .accessDeniedPage("/error")
+                        .accessDeniedHandler((request, response, accessDeniedException) ->
+                            response.sendRedirect("/error"))
                 );
         return httpSecurity.build();
     }
