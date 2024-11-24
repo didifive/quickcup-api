@@ -367,12 +367,35 @@ erDiagram
 ### Tela Atendimento Pedidos
 ![Tela Atendimento Pedidos](docs/Atendimento-Pedidos.png)
 
+### Menu e Instruções conforme nível de acesso
+
+#### Menu sem logar
+![Menu sem Logar](docs/Menu-sem-Logar.png)
+
+#### Tela de Login
+![Tela de Login](docs/Tela-Login.png)
+
+#### Perfil Admin
+![Perfil Admin - Menu](docs/Perfil-Admin-Menu.png)
+![Perfil Admin - Instruções](docs/Perfil-Admin-Instrucoes.png)
+
+#### Perfil Atendente
+![Perfil Atendente - Menu](docs/Perfil-Atendente-Menu.png)
+![Perfil Atendente - Instruções](docs/Perfil-Atendente-Instrucoes.png)
+
+#### Perfil Dev
+![Perfil Dev - Menu](docs/Perfil-Dev-Menu.png)
+![Perfil Dev - Instruções](docs/Perfil-Dev-Instrucoes.png)
+
 ### Swagger QuickCup API
 ![Swagger QuickCup API](docs/Swagger-QuickCup-API.png)  
 ![Swagger QuickCup API Authorization With ApiKey](docs/Swagger-QuickCup-API-Authorization-ApiKey.png)
 
 ### JaCoCo Coverage
 ![JaCoCo Coverage](docs/JaCoCo-Coverage.png)
+
+### Variáveis de Ambiente configuradas no Railway:
+![Railway Environments Variables](docs/Railway-Environments-Variables.png)
 
 -----
 
@@ -412,6 +435,13 @@ Antes de executar é preciso ter atenção e configurar as variáveis de ambient
 
 Para facilitar eu deixei o arquivo `.env.sample` com as variáveis de ambiente. Basta renomear para `.env` para que a aplicação
 carregue as informações das variáveis de ambiente.
+
+#### 🌍 Variáveis de Ambiente no Railway
+
+Para a aplicação hospedada no Railway, além de definir as variáveis de ambiente mínimas para a aplicação
+é necessário definir a variável de ambiente abaixo:
+
+- `NIXPACKS_JDK_VERSION`: Variável de ambiente para definir a versão do JDK, no caso desse projeto é `21`.
 
 ### 🐘 Postgres Docker Compose
 
