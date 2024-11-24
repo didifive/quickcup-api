@@ -31,8 +31,11 @@
                     <table class="table table-striped">
                         <thead>
                         <tr>
-                            <th scope="col">QuickCup API e Admin -
-                                <a href="#QuickCupAdmin">Clique para detalhes do Admin</a></th>
+                            <th scope="col">
+                                QuickCup API e Admin -
+                                <a href="#QuickCupAdmin">Clique para ver mais sobre o QuickCup Admin</a>
+                                abaixo.
+                            </th>
                         </tr>
                         </thead>
                         <tbody>
@@ -89,7 +92,11 @@
                     </div>
 
                     <div th:if="${not #authorization.expression('isAuthenticated()')}">
-                        <p>Após ler as instruções abaixo, faça login através do botão no menu acima (canto superior direito).</p>
+                        <p>
+                            <strong>
+                                Após ler as instruções abaixo, faça login através do botão no menu acima (canto superior direito).
+                            </strong>
+                        </p>
                         <p>Abaixo estão as credenciais de login para testes com os 3 perfis disponíveis:</p>
                         <table class="table table-striped">
                             <thead>
