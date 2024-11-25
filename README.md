@@ -358,6 +358,9 @@ erDiagram
 
 ## 📷 Prints do Projeto
 
+### 🎥 Demonstração de Telas e Funcionamento
+![Demonstração de Telas e Funcionamento](docs/QuickCup-Demo.gif)
+
 ### Spring banner personalizado
 ![Spring banner personalizado](docs/Spring-Banner-Personalizado.png)
 
